@@ -12,9 +12,9 @@ public class Node extends CommonEntity {
 
     private String name;
     private String description;
-    private List<Experiment> experimentList;
+    private List<Node2Node> node2NodeList;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     public String getName() {
         return name;
     }
@@ -32,12 +32,12 @@ public class Node extends CommonEntity {
         this.description = description;
     }
 
-    @ManyToMany(mappedBy = "nodeList", fetch = FetchType.LAZY)
-    public List<Experiment> getExperimentList() {
-        return experimentList;
+    @OneToMany(mappedBy = "firstNode")
+    public List<Node2Node> getNode2NodeList() {
+        return node2NodeList;
     }
 
-    public void setExperimentList(List<Experiment> experimentList) {
-        this.experimentList = experimentList;
+    public void setNode2NodeList(List<Node2Node> node2NodeList) {
+        this.node2NodeList = node2NodeList;
     }
 }

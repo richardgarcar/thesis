@@ -1,6 +1,7 @@
 package cz.muni.fi.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,9 +13,11 @@ public class Experiment extends CommonEntity {
 
     private String name;
     private String description;
-    private List<Node> nodeList;
+    private Date start;
+    private Date end;
+    private List<Experiment2Node> experiment2NodeList;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     public String getName() {
         return name;
     }
@@ -32,15 +35,30 @@ public class Experiment extends CommonEntity {
         this.description = description;
     }
 
-    @ManyToMany
-    @JoinTable(name = "EXPERIMENT_2_NODE", joinColumns = {
-            @JoinColumn(name = "EXPERIMENT_ID", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "NODE_ID", nullable = false, updatable = false)})
-    public List<Node> getNodeList() {
-        return nodeList;
+    @Column(name = "START_TIME")
+    public Date getStart() {
+        return start;
     }
 
-    public void setNodeList(List<Node> nodeList) {
-        this.nodeList = nodeList;
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    @Column(name = "END_TIME")
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    @OneToMany(mappedBy = "experiment")
+    public List<Experiment2Node> getExperiment2NodeList() {
+        return experiment2NodeList;
+    }
+
+    public void setExperiment2NodeList(List<Experiment2Node> experiment2NodeList) {
+        this.experiment2NodeList = experiment2NodeList;
     }
 }
