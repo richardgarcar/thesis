@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="visualiserApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>CEP Visualiser</title>
+    <script type="text/javascript" src="third-party.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+<h2>CEP Visualiser main page</h2>
+
+<div ng-controller="mainController">
+    <div>
+        <span>Experiments list</span>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Start time</th>
+                <th>End time</th>
+            </tr>
+            <tr ng-repeat="experiment in experiments">
+                <td>{{experiment.name}}</td>
+                <td>{{experiment.description}}</td>
+                <td>{{experiment.start | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                <td>{{experiment.end | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                <td>
+                    <button type="button" ng-click="getNodesData(experiment)">Show Nodes</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    </br>
+    <div ng-show="showNodesTable">
+        <span>Experiment's nodes list</span>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Addition time</th>
+                <th>Removal time</th>
+            </tr>
+            <tr ng-repeat="experiment2Node in experiment2Nodes">
+                <td>{{experiment2Node.node.name}}</td>
+                <td>{{experiment2Node.node.description}}</td>
+                <td>{{experiment2Node.additionTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                <td>{{experiment2Node.removalTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

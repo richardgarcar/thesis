@@ -16,6 +16,9 @@ import java.util.List;
 @RepositoryRestResource
 public interface QueryRepository extends CrudRepository<Query, Long> {
 
+    @RestResource(rel = "byExperiment", path = "byExperiment")
+    List<Query> findByExperiment(@Param("experiment") Experiment experiment);
+
     @RestResource(rel = "byExperimentAndNode", path = "byExperimentAndNode")
     List<Query> findByExperimentAndNode(@Param("experiment") Experiment experiment, @Param("node") Node node);
 }

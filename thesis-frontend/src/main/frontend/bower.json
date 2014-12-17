@@ -1,0 +1,15 @@
+{
+  "name": "thesis",
+  "version": "0.0.0",
+  "authors": [
+    "xgarcar <256783@mail.muni.cz>"
+  ],
+  "description": "thesis devstack",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.3.5",
+    "angular-hal": "~0.1.5"
+  }
+}

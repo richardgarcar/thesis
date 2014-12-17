@@ -44,6 +44,28 @@ CREATE TABLE node_2_node
   FOREIGN KEY (second_node_id) REFERENCES node(id)
 );
 
+CREATE TABLE query
+(
+  id bigint PRIMARY KEY auto_increment,
+  version int,
+  experiment_id bigint,
+  node_id bigint,
+  add_date TIMESTAMP,
+  content VARCHAR(255),
+  FOREIGN KEY (experiment_id) REFERENCES experiment(id),
+  FOREIGN KEY (node_id) REFERENCES node(id)
+);
+
+CREATE TABLE query_attribute
+(
+  id bigint PRIMARY KEY auto_increment,
+  version INT,
+  query_id BIGINT,
+  key varchar(255),
+  value varchar(255),
+  FOREIGN KEY (query_id) REFERENCES query(id)
+);
+
 insert into experiment (id, version, name, description, start_time, end_time) values (1 , 0, 'Test experiment 1', 'Test description 1', '2014-10-10 08:00:00', '2014-10-10 08:20:00');
 insert into experiment (id, version, name, description, start_time, end_time) values (2 , 0, 'Test experiment 2', 'Test description 2', '2014-10-10 14:20:00', '2014-10-10 14:23:14');
 

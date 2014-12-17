@@ -4,7 +4,6 @@ package cz.muni.fi.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 
 /**

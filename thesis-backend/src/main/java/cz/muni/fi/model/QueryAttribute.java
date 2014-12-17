@@ -1,6 +1,8 @@
 package cz.muni.fi.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @author xgarcar

@@ -1,1 +1,5 @@
-target/
+**/target
+**/bower_components
+**/build
+**/node
+**/node_modules
