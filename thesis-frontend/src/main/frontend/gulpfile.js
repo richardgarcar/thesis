@@ -2,13 +2,6 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var filter = require('gulp-filter');
 var mainBowerFiles = require('main-bower-files');
-var del = require('del');
-
-var filterByExtension = function (extension) {
-    return filter(function (file) {
-        return file.path.match(new RegExp('.' + extension + '$'));
-    });
-};
 
 gulp.task('build-third-party-resources', function () {
     var mainFiles = mainBowerFiles();
@@ -18,11 +11,20 @@ gulp.task('build-third-party-resources', function () {
         return;
     }
 
-    var jsFilter = filterByExtension('js');
+    var jsFilter = filter('**/*.js');
+    var cssFilter = filter('**/*.css');
+    var otherFilesFilter = filter('**/*.{ttf,woff,eot,svg}');
 
-    return gulp.src(mainFiles)
+    gulp.src(mainFiles)
         .pipe(jsFilter)
         .pipe(concat('third-party.js'))
+        .pipe(gulp.dest('./build'))
+        .pipe(jsFilter.restore())
+        .pipe(cssFilter)
+        .pipe(concat('third-party.css'))
+        .pipe(cssFilter.restore())
+        .pipe(otherFilesFilter)
+        .pipe(otherFilesFilter.restore())
         .pipe(gulp.dest('./build'));
 });
 
@@ -32,12 +34,18 @@ gulp.task('build-app-js', function(){
         .pipe(gulp.dest('./build'));
 });
 
-gulp.task('build-index', function() {
-    gulp.src('./src/index.html')
+gulp.task('build-app-css', function(){
+    gulp.src('./src/css/*.css')
+        .pipe(concat('main.css'))
         .pipe(gulp.dest('./build'));
 });
 
-gulp.task('build-app-resources', ['build-app-js', 'build-index'], function () {
+gulp.task('build-templates', function() {
+    gulp.src('./src/*.html')
+        .pipe(gulp.dest('./build'));
+});
+
+gulp.task('build-app-resources', ['build-app-js','build-app-css','build-templates'], function () {
 });
 
 gulp.task('build', ['build-app-resources', 'build-third-party-resources'], function () {

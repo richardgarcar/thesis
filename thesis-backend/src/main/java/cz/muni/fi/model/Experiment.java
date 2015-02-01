@@ -1,5 +1,6 @@
 package cz.muni.fi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "EXPERIMENT")
+@JsonIgnoreProperties("experiment2NodeList ")
 public class Experiment extends CommonEntity {
 
     private String name;
@@ -21,7 +23,6 @@ public class Experiment extends CommonEntity {
     private Date start;
     private Date end;
     private List<Experiment2Node> experiment2NodeList;
-    private List<Node2Node> node2NodeList;
 
     @Column(name = "NAME", nullable = false)
     public String getName() {
@@ -67,15 +68,5 @@ public class Experiment extends CommonEntity {
 
     public void setExperiment2NodeList(List<Experiment2Node> experiment2NodeList) {
         this.experiment2NodeList = experiment2NodeList;
-    }
-
-    @RestResource(path = "node2NodeList{?projection}")
-    @OneToMany(mappedBy = "firstNode")
-    public List<Node2Node> getNode2NodeList() {
-        return node2NodeList;
-    }
-
-    public void setNode2NodeList(List<Node2Node> node2NodeList) {
-        this.node2NodeList = node2NodeList;
     }
 }

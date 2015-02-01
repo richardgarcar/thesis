@@ -1,5 +1,6 @@
 package cz.muni.fi;
 
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -15,8 +16,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 /**
- * @author xgarcar
- */
+* @author xgarcar
+*/
 @Configuration
 @EnableJpaRepositories
 @EnableTransactionManagement
@@ -32,10 +33,12 @@ public class ApplicationConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setShowSql(true);
         vendorAdapter.setDatabase(Database.H2);
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPersistenceProvider(new HibernatePersistenceProvider());
         factory.setPackagesToScan(getClass().getPackage().getName());
         factory.setDataSource(dataSource());
 

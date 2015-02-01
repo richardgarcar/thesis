@@ -4,8 +4,8 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguratio
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
- * @author xgarcar
- */
+* @author xgarcar
+*/
 public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
@@ -15,7 +15,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {RepositoryRestMvcConfiguration.class};
+        return new Class<?>[] {WebConfig.class, RepositoryRestMvcConfiguration.class};
     }
 
     @Override

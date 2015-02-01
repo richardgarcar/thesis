@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * @author xgarcar
  */
-@Projection(name = "embedded", types = Node2Node.class)
+@Projection(name = "with_nodes_data", types = Node2Node.class)
 public interface Node2NodeProjection {
 
     Node getFirstNode();

@@ -1,27 +1,24 @@
-var thesisModule = angular.module('visualiserApp', ['visualiserServices']);
+'use strict';
 
-thesisModule.controller('mainController', function ($scope, RestApiService) {
-    $scope.showNodesTable = false;
+var app = angular.module('visualiserApp', ['visualiserServices', 'ui.router', 'ui.grid', 'ui.grid.paging', 'ui.grid.expandable', 'ui.grid.selection']);
 
-    RestApiService.load()
-        .then(function (resource) {
-            return resource.$get('experiments', {'page': 0, 'size': 10, 'sort': null});
+app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state('home', {
+            url: '/',
+            controller: 'ExperimentController',
+            templateUrl: 'experiments.html'
         })
-        .then(function (resource) {
-            return resource.$get('experiments');
-        })
-        .then(function (experiments) {
-            $scope.experiments = experiments;
+        .state('nodes', {
+            controller: 'NodeController',
+            templateUrl: 'nodes.html'
+        }).state('queries', {
+            controller: 'QueryController',
+            templateUrl: 'queries.html'
+        }).state('about', {
+            url: '/about',
+            templateUrl: 'about.html'
         });
 
-    $scope.getNodesData = function (experiment) {
-        experiment.$get('experiment2NodeList', {'projection': 'embedded'})
-            .then(function (resource) {
-                return resource.$get('experiment2Nodes');
-            })
-            .then(function (experiment2Nodes) {
-                $scope.experiment2Nodes = experiment2Nodes;
-                $scope.showNodesTable = true;
-            });
-    };
-});
+    $urlRouterProvider.otherwise('/');
+}]);

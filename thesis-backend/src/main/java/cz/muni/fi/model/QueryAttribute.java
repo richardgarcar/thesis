@@ -1,8 +1,6 @@
 package cz.muni.fi.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author xgarcar
@@ -13,6 +11,7 @@ public class QueryAttribute extends CommonEntity {
 
     private String key;
     private String value;
+    private Query query;
 
     @Column(name = "KEY", nullable = false)
     public String getKey() {
@@ -30,5 +29,15 @@ public class QueryAttribute extends CommonEntity {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "QUERY_ID")
+    public Query getQuery() {
+        return query;
+    }
+
+    public void setQuery(Query query) {
+        this.query = query;
     }
 }

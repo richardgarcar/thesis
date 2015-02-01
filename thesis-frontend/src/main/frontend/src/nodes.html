@@ -1,0 +1,17 @@
+<div class="well">
+    <h1>Experiment</h1>
+    <dl class="dl-horizontal">
+        <dt>Name</dt>
+        <dd>{{parentExperiment.name}}</dd>
+        <dt>Description</dt>
+        <dd>{{parentExperiment.description}}</dd>
+        <dt>Start time</dt>
+        <dd>{{parentExperiment.start | date:'dd.MM.yyyy HH:mm:ss'}}</dd>
+        <dt>End time</dt>
+        <dd>{{parentExperiment.end | date:'dd.MM.yyyy HH:mm:ss'}}</dd>
+    </dl>
+</div>
+<h2>Nodes of experiment</h2>
+<div ui-grid="nodeGridOptions" external-scopes="myViewModel" ui-grid-paging class="grid"></div>
+<h2>Connections between nodes of experiment</h2>
+<div ui-grid="nodesConnectionGridOptions" ui-grid-paging class="grid"></div>

@@ -13,12 +13,11 @@ public class Query extends CommonEntity {
 
     private Experiment experiment;
     private Node node;
-    private Date addDate;
+    private Date executionDate;
     private String content;
-    private List<QueryAttribute> queryAttributeList;
+    private List<QueryAttribute> queryAttributes;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "EXPERIMENT_ID")
+    @Transient
     public Experiment getExperiment() {
         return experiment;
     }
@@ -37,13 +36,13 @@ public class Query extends CommonEntity {
         this.node = node;
     }
 
-    @Column(name = "ADD_DATE")
-    public Date getAddDate() {
-        return addDate;
+    @Column(name = "EXECUTION_DATE")
+    public Date getExecutionDate() {
+        return executionDate;
     }
 
-    public void setAddDate(Date addDate) {
-        this.addDate = addDate;
+    public void setExecutionDate(Date executionDate) {
+        this.executionDate = executionDate;
     }
 
     @Column(name = "CONTENT", nullable = false)
@@ -55,13 +54,12 @@ public class Query extends CommonEntity {
         this.content = content;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "QUERY_ID")
-    public List<QueryAttribute> getQueryAttributeList() {
-        return queryAttributeList;
+    @OneToMany(mappedBy = "query")
+    public List<QueryAttribute> getQueryAttributes() {
+        return queryAttributes;
     }
 
-    public void setQueryAttributeList(List<QueryAttribute> queryAttributeList) {
-        this.queryAttributeList = queryAttributeList;
+    public void setQueryAttributes(List<QueryAttribute> queryAttributes) {
+        this.queryAttributes = queryAttributes;
     }
 }

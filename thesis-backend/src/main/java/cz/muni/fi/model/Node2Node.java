@@ -14,6 +14,7 @@ public class Node2Node extends CommonEntity {
     private Node secondNode;
     private Date connectionTime;
     private Date disconnectionTime;
+    private Experiment experiment;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "FIRST_NODE_ID")
@@ -51,5 +52,14 @@ public class Node2Node extends CommonEntity {
 
     public void setDisconnectionTime(Date disconnectionTime) {
         this.disconnectionTime = disconnectionTime;
+    }
+
+    @Transient
+    public Experiment getExperiment() {
+        return experiment;
+    }
+
+    public void setExperiment(Experiment experiment) {
+        this.experiment = experiment;
     }
 }
