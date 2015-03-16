@@ -1,0 +1,23 @@
+{
+  "name": "cepv",
+  "version": "1.0.0",
+  "authors": [
+    "xgarcar <256783@mail.muni.cz>"
+  ],
+  "description": "cepv devstack",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.3.7",
+    "angular-ui-router": "~0.2.13",
+    "angular-hal": "~0.1.5",
+    "angular-bootstrap": "~0.12.0",
+    "bootstrap-css-only": "~3.0.1",
+    "angular-ui-grid": "3.0.0-RC.18",
+    "d3": "~3.5.5"
+  },
+  "resolutions":{
+    "angular": "1.3.*"
+  }
+}

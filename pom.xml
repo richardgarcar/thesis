@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cz.muni.fi.thesis</groupId>
-    <artifactId>thesis</artifactId>
+    <groupId>cz.muni.fi</groupId>
+    <artifactId>cepv</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>thesis-frontend</module>
-        <module>thesis-backend</module>
+        <module>cepv-frontend</module>
+        <module>cepv-backend</module>
     </modules>
 
 </project>
