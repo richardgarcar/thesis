@@ -38,7 +38,7 @@ public class QueryExecution extends CommonEntity{
     }
 
     @Column(name = "EXECUTION_TIME", nullable = false, updatable = false)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=CommonEntity.JSON_FORMAT_DATE_PATTERN, timezone = "CET")
     public Date getExecutionTime() {
         return executionTime;
     }

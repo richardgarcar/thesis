@@ -50,7 +50,7 @@ public class Experiment extends CommonEntity {
     }
 
     @Column(name = "START_TIME", nullable = false)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=CommonEntity.JSON_FORMAT_DATE_PATTERN, timezone = "CET")
     public Date getStart() {
         return start;
     }
@@ -60,7 +60,7 @@ public class Experiment extends CommonEntity {
     }
 
     @Column(name = "END_TIME")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=CommonEntity.JSON_FORMAT_DATE_PATTERN, timezone = "CET")
     public Date getEnd() {
         return end;
     }

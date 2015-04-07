@@ -67,7 +67,7 @@ public class Node2Node extends CommonEntity {
     }
 
     @Column(name = "CONNECTION_TIME", nullable = false)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=CommonEntity.JSON_FORMAT_DATE_PATTERN, timezone = "CET")
     public Date getConnectionTime() {
         return connectionTime;
     }
@@ -77,7 +77,7 @@ public class Node2Node extends CommonEntity {
     }
 
     @Column(name = "DISCONNECTION_TIME")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=CommonEntity.JSON_FORMAT_DATE_PATTERN, timezone = "CET")
     public Date getDisconnectionTime() {
         return disconnectionTime;
     }

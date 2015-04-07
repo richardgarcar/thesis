@@ -14,7 +14,7 @@ public class QueryExecutionTO implements Serializable{
 
     private Date executionTime;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "CET")
     public Date getExecutionTime() {
         return executionTime;
     }

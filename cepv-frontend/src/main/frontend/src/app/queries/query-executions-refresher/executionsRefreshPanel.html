@@ -1,0 +1,16 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a href="#" ng-click="onClick()">Executions</a>
+        </h4>
+    </div>
+    <div collapse="isCollapsed">
+        <div class="panel-body">
+            <ol>
+                <li ng-repeat="execution in executions">
+                    {{execution.executionTime | date:'dd/MM/yyyy HH:mm:ss.sss'}}
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>

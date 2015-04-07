@@ -43,7 +43,7 @@ public class Node2NodeTO implements Serializable {
         this.secondNode = secondNode;
     }
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "CET")
     public Date getConnectionTime() {
         return connectionTime;
     }
@@ -53,7 +53,7 @@ public class Node2NodeTO implements Serializable {
         updatedFields.add(Node2NodeUpdatableField.connectionTime);
     }
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "CET")
     public Date getDisconnectionTime() {
         return disconnectionTime;
     }

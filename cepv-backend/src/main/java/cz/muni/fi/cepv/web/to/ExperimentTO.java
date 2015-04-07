@@ -38,7 +38,7 @@ public class ExperimentTO implements Serializable {
         updatedFields.add(ExperimentUpdatableField.description);
     }
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "CET")
     public Date getStart() {
         return start;
     }
@@ -48,7 +48,7 @@ public class ExperimentTO implements Serializable {
         updatedFields.add(ExperimentUpdatableField.start);
     }
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "CET")
     public Date getEnd() {
         return end;
     }

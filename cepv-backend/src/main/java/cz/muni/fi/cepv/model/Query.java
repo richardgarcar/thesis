@@ -17,10 +17,21 @@ import java.util.List;
 public class Query extends CommonEntity {
 
     private Node node;
+    private Experiment experiment;
     private Date deploymentTime;
     private String content;
     private List<QueryAttribute> queryAttributes;
     private List<QueryExecution> queryExecutions;
+
+    public Query() {
+    }
+
+    public Query(Node node, Experiment experiment, Date deploymentTime, String content) {
+        this.node = node;
+        this.experiment = experiment;
+        this.deploymentTime = deploymentTime;
+        this.content = content;
+    }
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "NODE_ID")
@@ -33,8 +44,19 @@ public class Query extends CommonEntity {
         this.node = node;
     }
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "EXPERIMENT_ID")
+    @JsonIgnore
+    public Experiment getExperiment() {
+        return experiment;
+    }
+
+    public void setExperiment(Experiment experiment) {
+        this.experiment = experiment;
+    }
+
     @Column(name = "DEPLOYMENT_TIME", nullable = false)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=CommonEntity.JSON_FORMAT_DATE_PATTERN, timezone = "CET")
     public Date getDeploymentTime() {
         return deploymentTime;
     }

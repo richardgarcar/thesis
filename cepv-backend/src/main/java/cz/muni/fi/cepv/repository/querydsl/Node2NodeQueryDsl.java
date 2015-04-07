@@ -14,8 +14,9 @@ public class Node2NodeQueryDsl {
         return  QNode2Node.node2Node.experiment.id.eq(experimentId);
     }
     
-    public static BooleanExpression filter(final Long experimentId, final String firstNodeName, final String secondNodeName,
-                                           final String firstNodeDescription, final String secondNodeDescription,
+    public static BooleanExpression filter(final Long experimentId,
+                                           final String firstNodeExternalId, final String secondNodeExternalId,
+                                           final String firstNodeName, final String secondNodeName,
                                            final Date gtConnectionTime, final Date ltConnectionTime,
                                            final Date gtDisconnectionTime, final Date ltDisconnectionTime) {
 
@@ -27,11 +28,11 @@ public class Node2NodeQueryDsl {
         if (isSecondNodeNameLike(secondNodeName) != null) {
             filter = isSecondNodeNameLike(secondNodeName).and(filter);
         }
-        if (isFirstNodeDescriptionLike(firstNodeDescription) != null){
-            filter = isFirstNodeDescriptionLike(firstNodeDescription).and(filter);
+        if (isFirstNodeExternalIdLike(firstNodeExternalId) != null){
+            filter = isFirstNodeExternalIdLike(firstNodeExternalId).and(filter);
         }
-        if (isSecondNodeDescriptionLike(secondNodeDescription) != null){
-            filter = isSecondNodeDescriptionLike(secondNodeDescription).and(filter);
+        if (isSecondNodeExternalIdLike(secondNodeExternalId) != null){
+            filter = isSecondNodeExternalIdLike(secondNodeExternalId).and(filter);
         }
         if (isConnectionTimeInInterval(gtConnectionTime, ltConnectionTime) != null){
             filter = isConnectionTimeInInterval(gtConnectionTime, ltConnectionTime).and(filter);
@@ -51,12 +52,12 @@ public class Node2NodeQueryDsl {
         return name != null ? QNode2Node.node2Node.secondNode.name.containsIgnoreCase(name) : null;
     }
 
-    private static BooleanExpression isFirstNodeDescriptionLike(final String description) {
-        return description != null ? QNode2Node.node2Node.firstNode.description.containsIgnoreCase(description) : null;
+    private static BooleanExpression isFirstNodeExternalIdLike(final String externalId) {
+        return externalId != null ? QNode2Node.node2Node.firstNode.externalId.containsIgnoreCase(externalId) : null;
     }
 
-    private static BooleanExpression isSecondNodeDescriptionLike(final String description) {
-        return description != null ? QNode2Node.node2Node.secondNode.description.containsIgnoreCase(description) : null;
+    private static BooleanExpression isSecondNodeExternalIdLike(final String externalId) {
+        return externalId != null ? QNode2Node.node2Node.secondNode.externalId.containsIgnoreCase(externalId) : null;
     }
 
     private static BooleanExpression isConnectionTimeInInterval(final Date gtConnectionTime, final Date ltConnectionTime) {
@@ -66,8 +67,8 @@ public class Node2NodeQueryDsl {
     }
 
     private static BooleanExpression isDisconnectionTimeInInterval(final Date gtDisconnectionTime, final Date ltDisconnectionTime) {
-        BooleanExpression afterCondition = gtDisconnectionTime != null ? QNode2Node.node2Node.disconnectionTime.after(gtDisconnectionTime) : null;
-        BooleanExpression beforeCondition = ltDisconnectionTime != null ? QNode2Node.node2Node.disconnectionTime.before(ltDisconnectionTime) : null;
+        BooleanExpression afterCondition = gtDisconnectionTime != null ? (QNode2Node.node2Node.disconnectionTime.after(gtDisconnectionTime)).or(QNode2Node.node2Node.disconnectionTime.isNull()) : null;
+        BooleanExpression beforeCondition = ltDisconnectionTime != null ? (QNode2Node.node2Node.disconnectionTime.before(ltDisconnectionTime)).or(QNode2Node.node2Node.disconnectionTime.isNull()) : null;
         return afterCondition != null ? afterCondition.and(beforeCondition) : beforeCondition;
     }
 }

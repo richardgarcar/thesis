@@ -5,6 +5,7 @@ import cz.muni.fi.cepv.web.LinkUtil;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceAssembler;
+import org.springframework.hateoas.UriTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,11 +19,14 @@ public class QueryResourceAssembler implements ResourceAssembler<Query, Resource
         Resource<Query> queryResource = new Resource<>(entity);
 
         final Link selfLink = new Link(LinkUtil.getQueryResourceLink(entity.getId())).withSelfRel();
-        final Link queryExecutionsLink = new Link(LinkUtil.getQueryResourceQueryExecutionsLink(entity.getId())).withRel("queryExecutions");
+        final Link queryExecutionsLink = new Link(new UriTemplate(LinkUtil.getQueryResourceQueryExecutionsLink(entity.getId()),
+                        LinkUtil.getPageTemplateVariables()), "queryExecutions");
+        final Link experimentLink = new Link(LinkUtil.getExperimentResourceLink(entity.getExperiment().getId())).withRel("experiment");
         final Link nodeLink = new Link(LinkUtil.getNodeResourceLink(entity.getNode().getExternalId())).withRel("node");
 
         queryResource.add(selfLink);
         queryResource.add(queryExecutionsLink);
+        queryResource.add(experimentLink);
         queryResource.add(nodeLink);
 
         return queryResource;

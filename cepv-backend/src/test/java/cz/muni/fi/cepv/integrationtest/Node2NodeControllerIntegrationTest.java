@@ -29,7 +29,7 @@ public class Node2NodeControllerIntegrationTest extends BaseIntegrationTest {
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.size", is(20)))
-                .andExpect(jsonPath("$.page.totalElements", is(23)))
+                .andExpect(jsonPath("$.page.totalElements", is(25)))
                 .andExpect(jsonPath("$.page.totalPages", is(2)))
                 .andExpect(jsonPath("$.page.number", is(0)));
     }
@@ -45,7 +45,7 @@ public class Node2NodeControllerIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.embeddedFirstNode.description", is("Node description 2")))
                 .andExpect(jsonPath("$.embeddedSecondNode.name", is("N003")))
                 .andExpect(jsonPath("$.embeddedSecondNode.description", is("Node description 3")))
-                .andExpect(jsonPath("$.connectionTime", is("2014-10-10 08:00:13.123")))
+                .andExpect(jsonPath("$.connectionTime", is("2014-10-10T08:00:13.123")))
                 .andExpect(jsonPath("$.disconnectionTime", isEmptyOrNullString()));
     }
 
@@ -102,7 +102,7 @@ public class Node2NodeControllerIntegrationTest extends BaseIntegrationTest {
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", is(LinkUtil.getNode2NodeResourceLink(24L))));
+                .andExpect(header().string("Location", is(LinkUtil.getNode2NodeResourceLink(26L))));
     }
 
     @Test

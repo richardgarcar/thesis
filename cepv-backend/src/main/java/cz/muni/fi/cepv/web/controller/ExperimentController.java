@@ -97,7 +97,7 @@ public class ExperimentController {
     }
 
     @RequestMapping(value = LinkUtil.EXPERIMENT, method = RequestMethod.PUT)
-    public HttpEntity<Void> fullUpdateExperiment(@PathVariable("experimentId") final Long experimentId, @RequestBody final ExperimentTO experimentTO) {
+    public HttpEntity<Void> fullUpdateExperiment(@PathVariable final Long experimentId, @RequestBody final ExperimentTO experimentTO) {
 
         final Experiment originalExperiment = experimentRepository.findOne(experimentId);
         originalExperiment.setName(experimentTO.getName());
@@ -115,7 +115,7 @@ public class ExperimentController {
     }
 
     @RequestMapping(value = LinkUtil.EXPERIMENT, method = RequestMethod.PATCH)
-    public HttpEntity<Void> partialUpdateExperiment(@PathVariable("experimentId") final Long experimentId, @RequestBody final ExperimentTO experimentTO) {
+    public HttpEntity<Void> partialUpdateExperiment(@PathVariable final Long experimentId, @RequestBody final ExperimentTO experimentTO) {
 
         final Experiment originalExperiment = experimentRepository.findOne(experimentId);
 

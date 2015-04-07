@@ -31,7 +31,8 @@ public class ExperimentResourceAssembler implements ResourceAssembler<Experiment
                LinkUtil.getFilteredNodeConnectionsTemplateVariables().concat(
                        LinkUtil.getPageTemplateVariables())), "filteredNodeConnections"));
 
-        experimentResource.add(new Link(LinkUtil.getExperimentResourceQueriesLink(entity.getId())).withRel("queries"));
+        experimentResource.add(new Link(new UriTemplate(LinkUtil.getExperimentResourceQueriesLink(entity.getId()),
+                LinkUtil.getPageTemplateVariables()), "queries"));
 
         return experimentResource;
     }

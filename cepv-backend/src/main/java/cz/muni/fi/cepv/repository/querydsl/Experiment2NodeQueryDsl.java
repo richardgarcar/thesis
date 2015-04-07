@@ -16,12 +16,16 @@ public class Experiment2NodeQueryDsl {
         return  experiment2Node.experiment.id.eq(experimentId);
     }
 
-    public static BooleanExpression filter(final Long experimentId, final String nodeName, final String nodeDescription,
-                                           final Date gtAdditionTime, final Date ltAdditionTime, final Date gtRemovalTime,
+    public static BooleanExpression filter(final Long experimentId, String nodeExternalId, final String nodeName,
+                                           final String nodeDescription, final Date gtAdditionTime,
+                                           final Date ltAdditionTime, final Date gtRemovalTime,
                                            final Date ltRemovalTime) {
 
         BooleanExpression filter = isRelatedToExperiment(experimentId);
 
+        if (isExternalIdLike(nodeExternalId) != null) {
+            filter = isExternalIdLike(nodeExternalId).and(filter);
+        }
         if (isNameLike(nodeName) != null) {
             filter = isNameLike(nodeName).and(filter);
         }
@@ -36,6 +40,10 @@ public class Experiment2NodeQueryDsl {
         }
 
         return filter;
+    }
+
+    private static BooleanExpression isExternalIdLike(final String externalId) {
+        return externalId != null ? experiment2Node.node.externalId.containsIgnoreCase(externalId) : null;
     }
 
     private static BooleanExpression isNameLike(final String name) {
@@ -53,8 +61,8 @@ public class Experiment2NodeQueryDsl {
     }
 
     private static BooleanExpression isRemovalTimeInInterval(final Date gtRemovalTime, final Date ltRemovalTime) {
-        BooleanExpression afterCondition = gtRemovalTime != null ? experiment2Node.removalTime.after(gtRemovalTime) : null;
-        BooleanExpression beforeCondition = ltRemovalTime != null ? experiment2Node.removalTime.before(ltRemovalTime) : null;
+        BooleanExpression afterCondition = gtRemovalTime != null ? experiment2Node.removalTime.after(gtRemovalTime).or(experiment2Node.removalTime.isNull()) : null;
+        BooleanExpression beforeCondition = ltRemovalTime != null ? experiment2Node.removalTime.before(ltRemovalTime).or(experiment2Node.removalTime.isNull()) : null;
         return afterCondition != null ? afterCondition.and(beforeCondition) : beforeCondition;
     }
 }

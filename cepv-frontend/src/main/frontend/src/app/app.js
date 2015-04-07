@@ -1,10 +1,9 @@
 'use strict';
-
-var app = angular.module('visualiserApp', ['visualiserServices', 'ui.bootstrap', 'ui.router', 'ui.grid', 'ui.grid.paging', 'ui.grid.expandable', 'ui.grid.selection']);
+var app = angular.module('cepVisualiser', ['visualiserServices', 'ui.bootstrap', 'ui.router', 'ngResource', 'spring-data-rest']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     $stateProvider
-        .state('home', {
+        .state('experiments', {
             url: '/',
             controller: 'ExperimentController',
             templateUrl: 'app/experiments/experiments.html'
@@ -19,9 +18,14 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             controller: 'QueryController',
             templateUrl: 'app/queries/queries.html'
         })
+        .state('queryDetail', {
+            url:'/queryDetail',
+            controller: 'QueryDetailController',
+            templateUrl: 'app/queries/queryDetail.html'
+        })
         .state('about', {
             url: '/about',
-            templateUrl: 'app/about.html'
+            templateUrl: 'app/about/about.html'
         });
     $urlRouterProvider.otherwise('/');
 }]);

@@ -65,8 +65,8 @@ public class ExperimentControllerIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Test experiment 1")))
                 .andExpect(jsonPath("$.description", is("Test experiment description 1")))
-                .andExpect(jsonPath("$.start", is("2015-10-10 08:00:00.070")))
-                .andExpect(jsonPath("$.end", is("2015-10-10 08:20:00.123")));
+                .andExpect(jsonPath("$.start", is("2015-10-10T08:00:00.070")))
+                .andExpect(jsonPath("$.end", is("2015-10-10T08:20:00.123")));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class ExperimentControllerIntegrationTest extends BaseIntegrationTest {
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password")))
                 .content("{\"name\": \"Experiment from test\", \"description\": \"Description from test\"," +
-                        "\"start\": 1444456800070, \"end\": \"2015-10-10 08:12:12.078\"}"))
+                        "\"start\": 1444456800070, \"end\": \"2015-10-10T08:12:12.078\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", is(LinkUtil.getExperimentResourceLink(31L))));
     }
@@ -109,7 +109,7 @@ public class ExperimentControllerIntegrationTest extends BaseIntegrationTest {
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password") + "1"))
                 .content("{\"name\": \"Experiment from test\", \"description\": \"Description from test\"," +
-                        "\"start\": 1444456800070, \"end\": \"2015-10-10 08:12:12.078\"}"))
+                        "\"start\": 1444456800070, \"end\": \"2015-10-10T08:12:12.078\"}"))
                 .andExpect(status().isUnauthorized());
     }
 }

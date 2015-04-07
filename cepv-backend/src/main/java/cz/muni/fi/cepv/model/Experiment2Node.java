@@ -54,7 +54,7 @@ public class Experiment2Node extends CommonEntity {
     }
 
     @Column(name = "ADDITION_TIME", nullable = false)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=CommonEntity.JSON_FORMAT_DATE_PATTERN, timezone = "CET")
     public Date getAdditionTime() {
         return additionTime;
     }
@@ -64,7 +64,7 @@ public class Experiment2Node extends CommonEntity {
     }
 
     @Column(name = "REMOVAL_TIME")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=CommonEntity.JSON_FORMAT_DATE_PATTERN, timezone = "CET")
     public Date getRemovalTime() {
         return removalTime;
     }

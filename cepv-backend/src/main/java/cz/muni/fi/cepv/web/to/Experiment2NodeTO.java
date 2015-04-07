@@ -35,7 +35,7 @@ public class Experiment2NodeTO implements Serializable {
         this.node = node;
     }
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "CET")
     public Date getAdditionTime() {
         return additionTime;
     }
@@ -44,7 +44,7 @@ public class Experiment2NodeTO implements Serializable {
         this.additionTime = additionTime;
     }
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS", timezone = "CET")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "CET")
     public Date getRemovalTime() {
         return removalTime;
     }

@@ -1,23 +1,42 @@
-app.controller('QueryController', ['$scope', 'RestApiService', 'DataService',
-    function ($scope, RestApiService, DataService) {
+app.controller('QueryController', ['$scope', 'DataService', 'Queries', 'SpringDataRestAdapter',
+    function ($scope, DataService, Queries, SpringDataRestAdapter) {
+
+        $scope.searchFilter = {
+            gtDeployment: null,
+            ltDeployment: null
+        };
+
+        $scope.pagination = {
+            currentPage: 1,
+            pageSize: 5,
+            totalItems: 0
+        };
 
         $scope.isAttrPanelCollapsed = true;
         $scope.isExecPanelCollapsed = true;
+
+        $scope.parentExperiment = DataService.getParentExperiment();
         $scope.parentNode = DataService.getParentNode();
 
-        var getQueriesData = function (parentNode) {
-            parentNode.$get('node')
-                .then(function (node) {
-                    return node.$get('queries');
-                })
-                .then(function (resource) {
-                    return resource.$get('queries');
-                })
-                .then(function (queries) {
-                    $scope.queries = queries;
-                });
+        $scope.$watchCollection('searchFilter', function (newValue, oldValue) {
+            $scope.getFilteredQueries();
+        });
+
+        $scope.getFilteredQueries = function () {
+
+            var promise = Queries.getFilteredQueries($scope.parentExperiment.id, $scope.parentNode.embeddedNode.externalId,
+                $scope.searchFilter, $scope.pagination);
+
+            SpringDataRestAdapter.process(promise).then(function (result) {
+                $scope.pagination.totalItems = result.page.totalElements;
+                $scope.pagination.currentPage = result.page.number + 1;
+                $scope.queries = result._embeddedItems;
+            })
         };
 
-        getQueriesData($scope.parentNode);
+        $scope.setParentQuery = function (query) {
+            DataService.setParentQuery(query);
+        };
 
+        $scope.getFilteredQueries();
     }]);

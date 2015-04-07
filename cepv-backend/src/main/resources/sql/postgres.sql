@@ -101,13 +101,23 @@ CREATE TABLE cepv.query
 (
   id bigint NOT NULL,
   version integer NOT NULL DEFAULT 0,
+  experiment_id bigint,
   node_id bigint,
   deployment_time timestamp without time zone NOT NULL,
   content text NOT NULL,
   CONSTRAINT pk_query PRIMARY KEY (id),
+  CONSTRAINT fk_experiment FOREIGN KEY (experiment_id)
+      REFERENCES cepv.experiment (id),
   CONSTRAINT fk_query FOREIGN KEY (node_id)
       REFERENCES cepv.node (id)
 );
+
+-- Index: fki_experiment
+
+CREATE INDEX fki_experiment
+  ON cepv.query
+  USING btree
+  (experiment_id);
 
 -- Index: fki_query
 

@@ -1,28 +1,33 @@
 package cz.muni.fi.cepv.web.controller;
 
 import cz.muni.fi.cepv.model.*;
-import cz.muni.fi.cepv.repository.QueryAttributeRepository;
-import cz.muni.fi.cepv.repository.QueryExecutionRepository;
-import cz.muni.fi.cepv.repository.QueryRepository;
+import cz.muni.fi.cepv.repository.*;
+import cz.muni.fi.cepv.repository.querydsl.QueryQueryDsl;
 import cz.muni.fi.cepv.web.LinkUtil;
 import cz.muni.fi.cepv.web.resoureceassambler.QueryAttributeResourceAssembler;
 import cz.muni.fi.cepv.web.resoureceassambler.QueryExecutionResourceAssembler;
 import cz.muni.fi.cepv.web.resoureceassambler.QueryResourceAssembler;
 import cz.muni.fi.cepv.web.to.QueryAttributeTO;
 import cz.muni.fi.cepv.web.to.QueryExecutionTO;
+import cz.muni.fi.cepv.web.to.QueryTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.*;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.UriTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -35,8 +40,21 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping(produces = "application/hal+json")
 public class QueryController {
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
+
     @Autowired
     private QueryRepository queryRepository;
+
+    @Autowired
+    private ExperimentRepository experimentRepository;
+
+    @Autowired
+    private NodeRepository nodeRepository;
 
     @Autowired
     private QueryAttributeRepository queryAttributeRepository;
@@ -68,6 +86,93 @@ public class QueryController {
         return new ResponseEntity<>(queryResourceAssembler.toResource(query), HttpStatus.OK);
     }
 
+    @RequestMapping(value = LinkUtil.EXPERIMENT_QUERIES, method = RequestMethod.GET)
+    public HttpEntity<PagedResources<Resource<Query>>> getQueriesOfExperiment(
+            @PathVariable final Long experimentId, final Pageable pageable, final PagedResourcesAssembler<Query> assembler) {
+
+        final Page<Query> queryPageResources = queryRepository.findAll(QQuery.query.experiment.id.eq(experimentId), pageable);
+
+        final PagedResources<Resource<Query>> pagedQueryResources = assembler.toResource(queryPageResources, queryResourceAssembler);
+        return new ResponseEntity<>(pagedQueryResources, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = LinkUtil.NODE_QUERIES, method = RequestMethod.GET)
+    public HttpEntity<PagedResources<Resource<Query>>> getQueriesOfNode(
+            @PathVariable final String externalNodeId, final Pageable pageable, final PagedResourcesAssembler<Query> assembler) {
+
+        final Page<Query> queryPageResources = queryRepository.findAll(QQuery.query.node.externalId.eq(externalNodeId), pageable);
+
+        final PagedResources<Resource<Query>> pagedQueryResources = assembler.toResource(queryPageResources, queryResourceAssembler);
+        return new ResponseEntity<>(pagedQueryResources, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = LinkUtil.EXPERIMENT_NODE_QUERIES, method = RequestMethod.GET)
+    public HttpEntity<PagedResources<Resource<Query>>> getQueriesByExperimentAndNode(
+            @PathVariable final Long experimentId, @PathVariable final String externalNodeId, final Pageable pageable, final PagedResourcesAssembler<Query> assembler) {
+
+        final Page<Query> queryPageResources = queryRepository.findAll(
+                QueryQueryDsl.isRelatedToExperimentAndNode(experimentId, externalNodeId), pageable);
+
+        final PagedResources<Resource<Query>> pagedQueryResources = assembler.toResource(queryPageResources, queryResourceAssembler);
+        return new ResponseEntity<>(pagedQueryResources, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = LinkUtil.EXPERIMENT_NODE_QUERIES_FILTER, method = RequestMethod.GET)
+    public HttpEntity<PagedResources<Resource<Query>>> getFilteredQueriesByExperimentAndNode(
+            @PathVariable final Long experimentId, @PathVariable final String externalNodeId,
+            @RequestParam(required = false) final Date gtDeploymentTime, @RequestParam(required = false) final Date ltDeploymentTime,
+            final Pageable pageable, final PagedResourcesAssembler<Query> assembler) {
+
+        final Page<Query> queryPageResources = queryRepository.findAll(
+                QueryQueryDsl.filter(experimentId, externalNodeId, gtDeploymentTime, ltDeploymentTime), pageable);
+
+        final Link link = new Link(new UriTemplate(linkTo(methodOn(QueryController.class).
+                getFilteredQueriesByExperimentAndNode(experimentId, externalNodeId, gtDeploymentTime, ltDeploymentTime, pageable, assembler)).
+                toUriComponentsBuilder().build().toUriString(), LinkUtil.getFilteredQueriesTemplateVariables()), "self");
+
+        final PagedResources<Resource<Query>> pagedQueryResources = assembler.toResource(queryPageResources, queryResourceAssembler, link);
+        return new ResponseEntity<>(pagedQueryResources, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = LinkUtil.EXPERIMENT_NODE_QUERIES, method = RequestMethod.POST)
+    public HttpEntity<Void>  createQuery(@PathVariable final Long experimentId,
+                                         @PathVariable final String externalNodeId, @RequestBody final QueryTO queryTO) {
+
+        final Experiment experiment = experimentRepository.findOne(experimentId);
+        final Node node = nodeRepository.findByExternalId(externalNodeId);
+
+        final Query queryExecution = new Query(node, experiment, queryTO.getDeploymentTime(), queryTO.getContent());
+        final Query query = queryRepository.save(queryExecution);
+
+        Resource<Query> resource = queryResourceAssembler.toResource(query);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(URI.create(resource.getLink("self").getHref()));
+
+        return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = LinkUtil.QUERY, method = RequestMethod.PATCH)
+    public HttpEntity<Void> partialUpdateQuery(@PathVariable final Long queryId, @RequestBody final QueryTO queryTO) {
+
+        final Query originalQuery = queryRepository.findOne(queryId);
+
+        if (queryTO.getUpdatedFields().contains(QueryTO.QueryUpdatableField.deploymentTime)) {
+            originalQuery.setDeploymentTime(queryTO.getDeploymentTime());
+        }
+        if (queryTO.getUpdatedFields().contains(QueryTO.QueryUpdatableField.content)) {
+            originalQuery.setContent(queryTO.getContent());
+        }
+
+        final Query query =  queryRepository.save(originalQuery);
+
+        Resource<Query> resource = queryResourceAssembler.toResource(query);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(URI.create(resource.getLink("self").getHref()));
+
+        return new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT);
+    }
+
     @RequestMapping(value = LinkUtil.QUERY_ATTRIBUTE, method = RequestMethod.GET)
     public HttpEntity<Resource<QueryAttribute>> getQueryAttribute(@PathVariable final Long queryAttributeId) {
 
@@ -91,7 +196,7 @@ public class QueryController {
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = LinkUtil.QUERY_QUERY_ATTRIBUTE, method = RequestMethod.PUT)
+    @RequestMapping(value = LinkUtil.QUERY_ATTRIBUTE, method = RequestMethod.PUT)
     public HttpEntity<Void> fullUpdateQueryAttribute(@PathVariable final Long queryAttributeId,
                                            @RequestBody final QueryAttributeTO queryAttributeTO) {
 
@@ -108,7 +213,7 @@ public class QueryController {
         return new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = LinkUtil.QUERY_QUERY_ATTRIBUTE, method = RequestMethod.PATCH)
+    @RequestMapping(value = LinkUtil.QUERY_ATTRIBUTE, method = RequestMethod.PATCH)
     public HttpEntity<Void> partialUpdateQueryAttribute(@PathVariable final Long queryAttributeId,
                                                         @RequestBody final QueryAttributeTO queryAttributeTO) {
 
@@ -162,25 +267,5 @@ public class QueryController {
         httpHeaders.setLocation(URI.create(resource.getLink("self").getHref()));
 
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = LinkUtil.EXPERIMENT_QUERIES, method = RequestMethod.GET)
-    public HttpEntity<PagedResources<Resource<Query>>> getQueriesOfExperiment(
-            @PathVariable final Long experimentId, final Pageable pageable, final PagedResourcesAssembler<Query> assembler) {
-
-        final Page<Query> queryPageResources = queryRepository.findAll(QQuery.query.node.experiment2NodeList.any().experiment.id.eq(experimentId), pageable);
-
-        final PagedResources<Resource<Query>> pagedQueryResources = assembler.toResource(queryPageResources, queryResourceAssembler);
-        return new ResponseEntity<>(pagedQueryResources, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = LinkUtil.NODE_QUERIES, method = RequestMethod.GET)
-    public HttpEntity<PagedResources<Resource<Query>>> getQueriesOfNode(
-            @PathVariable final String externalNodeId, final Pageable pageable, final PagedResourcesAssembler<Query> assembler) {
-
-        final Page<Query> queryPageResources = queryRepository.findAll(QQuery.query.node.externalId.eq(externalNodeId), pageable);
-
-        final PagedResources<Resource<Query>> pagedQueryResources = assembler.toResource(queryPageResources, queryResourceAssembler);
-        return new ResponseEntity<>(pagedQueryResources, HttpStatus.OK);
     }
 }

@@ -60,22 +60,6 @@ public class NodeController {
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = LinkUtil.NODE, method = RequestMethod.PUT)
-    public HttpEntity<Void> fullUpdateNode(@PathVariable("externalNodeId") final String externalNodeId, @RequestBody final NodeTO nodeTO) {
-
-        final Node originalNode = nodeRepository.findByExternalId(externalNodeId);
-        originalNode.setName(nodeTO.getName());
-        originalNode.setDescription(nodeTO.getDescription());
-
-        final Node updatedNode =  nodeRepository.save(originalNode);
-
-        Resource<Node> resource = nodeResourceAssembler.toResource(updatedNode);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(URI.create(resource.getLink("self").getHref()));
-
-        return new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT);
-    }
-
     @RequestMapping(value = LinkUtil.NODE, method = RequestMethod.PATCH)
     public HttpEntity<Void> partialUpdateNode(@PathVariable("externalNodeId") final String externalNodeId, @RequestBody final NodeTO nodeTO) {
 

@@ -29,7 +29,7 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.size", is(20)))
-                .andExpect(jsonPath("$.page.totalElements", is(5)))
+                .andExpect(jsonPath("$.page.totalElements", is(12)))
                 .andExpect(jsonPath("$.page.totalPages", is(1)))
                 .andExpect(jsonPath("$.page.number", is(0)));
     }
@@ -42,20 +42,20 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.size", is(20)))
-                .andExpect(jsonPath("$.page.totalElements", is(5)))
+                .andExpect(jsonPath("$.page.totalElements", is(12)))
                 .andExpect(jsonPath("$.page.totalPages", is(1)))
                 .andExpect(jsonPath("$.page.number", is(0)));
     }
 
     @Test
-    public void test03_findQueryResourcesByQuery() throws Exception {
-        mockMvc.perform(get(LinkUtil.NODE_QUERIES, "PC001")
+    public void test03_findQueryResourcesByNode() throws Exception {
+        mockMvc.perform(get(LinkUtil.NODE_QUERIES, "PC002")
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.size", is(20)))
-                .andExpect(jsonPath("$.page.totalElements", is(5)))
+                .andExpect(jsonPath("$.page.totalElements", is(4)))
                 .andExpect(jsonPath("$.page.totalPages", is(1)))
                 .andExpect(jsonPath("$.page.number", is(0)));
     }
@@ -67,11 +67,60 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.deploymentTime", is("2014-10-10 08:00:01.070")));
+                .andExpect(jsonPath("$.deploymentTime", is("2014-10-10T08:00:10.070")));
     }
 
     @Test
-    public void test05_findOneQueryAttributeResource() throws Exception {
+    public void test05_findQueryResourcesByExperimentAndNode() throws Exception {
+        mockMvc.perform(get(LinkUtil.EXPERIMENT_NODE_QUERIES, 1L, "PC001")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.page.size", is(20)))
+                .andExpect(jsonPath("$.page.totalElements", is(8)))
+                .andExpect(jsonPath("$.page.totalPages", is(1)))
+                .andExpect(jsonPath("$.page.number", is(0)));
+    }
+
+    @Test
+    public void test06_findFilteredQueryResourcesByExperimentAndNode() throws Exception {
+        mockMvc.perform(get(LinkUtil.EXPERIMENT_NODE_QUERIES_FILTER, 1L, "PC001")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password")))
+                .param("gtDeploymentTime", "20141010080010069")
+                .param("ltDeploymentTime", "20141010080010071"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.page.size", is(20)))
+                .andExpect(jsonPath("$.page.totalElements", is(1)))
+                .andExpect(jsonPath("$.page.totalPages", is(1)))
+                .andExpect(jsonPath("$.page.number", is(0)));
+    }
+
+    @Test
+    public void test07_createQuery() throws Exception {
+        mockMvc.perform(post(LinkUtil.EXPERIMENT_NODE_QUERIES, 1L, "PC001")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"deploymentTime\": \"2014-10-10T08:04:38.178\", \"content\": \"Content from test\"}")
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", is(LinkUtil.getQueryResourceLink(13L))));
+    }
+
+    @Test
+    public void test08_updateQueryWithPatch() throws Exception {
+        mockMvc.perform(patch(LinkUtil.QUERY, 5L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"content\": \"Modified content from test\"}")
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void test09_findOneQueryAttributeResource() throws Exception {
         mockMvc.perform(get(LinkUtil.QUERY_ATTRIBUTE, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(httpBasic(environment.getProperty("spring.security.user"),
@@ -82,10 +131,10 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void test06_createQueryAttribute() throws Exception {
+    public void test10_createQueryAttribute() throws Exception {
         mockMvc.perform(post(LinkUtil.QUERY_QUERY_ATTRIBUTES, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"key\": \"Query attribute from test\", \"value\": \"Value from test\"}")
+                .content("{\"key\": \"Query attribute key from test\", \"value\": \"Value from test\"}")
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isCreated())
@@ -93,18 +142,18 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void test07_updateQueryAttributeWithPut() throws Exception {
-        mockMvc.perform(put(LinkUtil.QUERY_QUERY_ATTRIBUTE, 1L, 12L)
+    public void test11_updateQueryAttributeWithPut() throws Exception {
+        mockMvc.perform(put(LinkUtil.QUERY_ATTRIBUTE, 1L, 12L)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"key\": \"Modified query attribute from test\", \"value\": \"Value from test\"}")
+                .content("{\"key\": \"Modified query attribute key from test\", \"value\": \"Value from test\"}")
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isNoContent());
     }
 
     @Test
-    public void test08_updateQueryAttributeWithPatch() throws Exception {
-        mockMvc.perform(patch(LinkUtil.QUERY_QUERY_ATTRIBUTE, 1L, 12L)
+    public void test12_updateQueryAttributeWithPatch() throws Exception {
+        mockMvc.perform(patch(LinkUtil.QUERY_ATTRIBUTE, 1L, 12L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"value\": \"Modified value from test\"}")
                 .with(httpBasic(environment.getProperty("spring.security.user"),
@@ -113,34 +162,34 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void test09_findQueryExecutionResourcesByQuery() throws Exception {
+    public void test13_findQueryExecutionResourcesByQuery() throws Exception {
         mockMvc.perform(get(LinkUtil.QUERY_QUERY_EXECUTIONS, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.size", is(20)))
-                .andExpect(jsonPath("$.page.totalElements", is(5)))
-                .andExpect(jsonPath("$.page.totalPages", is(1)))
+                .andExpect(jsonPath("$.page.totalElements", is(35)))
+                .andExpect(jsonPath("$.page.totalPages", is(2)))
                 .andExpect(jsonPath("$.page.number", is(0)));
     }
 
     @Test
-    public void test10_createQueryExecution() throws Exception {
+    public void test14_createQueryExecution() throws Exception {
         mockMvc.perform(post(LinkUtil.QUERY_QUERY_EXECUTIONS, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"executionTime\": \"2014-10-10 08:04:38.178\"}")
+                .content("{\"executionTime\": \"2014-10-10T08:04:38.178\"}")
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", is(LinkUtil.getQueryExecutionResourceLink(21L))));
+                .andExpect(header().string("Location", is(LinkUtil.getQueryExecutionResourceLink(51L))));
     }
 
     @Test
-    public void test11_createQueryExecutionWithInvalidCredentials() throws Exception {
+    public void test15_createQueryExecutionWithInvalidCredentials() throws Exception {
         mockMvc.perform(post(LinkUtil.QUERY_QUERY_EXECUTIONS, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"executionTime\": \"2014-10-10 08:04:38.178\"}")
+                .content("{\"executionTime\": \"2014-10-10T08:04:38.178\"}")
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password") + "1")))
                 .andExpect(status().isUnauthorized());

@@ -46,7 +46,7 @@ public class Experiment2NodeControllerIntegrationTest extends BaseIntegrationTes
                 .andExpect(jsonPath("$.embeddedNode.externalId", is("PC001")))
                 .andExpect(jsonPath("$.embeddedNode.name", is("N001")))
                 .andExpect(jsonPath("$.embeddedNode.description", is("Node description 1")))
-                .andExpect(jsonPath("$.additionTime", is("2014-10-10 08:00:01.070")))
+                .andExpect(jsonPath("$.additionTime", is("2014-10-10T08:00:01.070")))
                 .andExpect(jsonPath("$.removalTime", is(nullValue())));
     }
 
@@ -80,12 +80,13 @@ public class Experiment2NodeControllerIntegrationTest extends BaseIntegrationTes
     public void test05_findFilteredExperiment2NodeResourcesByExperiment() throws Exception {
         mockMvc.perform(get(LinkUtil.EXPERIMENT_EXPERIMENT2NODES_FILTER, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("nodeName", "N001")
-                .param("nodeDescription", "Node description 1")
-//                .param("gtAdditionTime", "20141010080014069")
-//                .param("ltAdditionTime", "20141010080014071")
-//                .param("gtRemovalTime", "20141010080200069")
-//                .param("ltRemovalTime", "20141010080200071")
+                .param("nodeExternalId", "PC002")
+                .param("nodeName", "N002")
+                .param("nodeDescription", "Node description 2")
+                .param("gtAdditionTime", "20141010080014069")
+                .param("ltAdditionTime", "20141010080014071")
+                .param("gtRemovalTime", "20141010080200069")
+                .param("ltRemovalTime", "20141010080200071")
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isOk())
@@ -100,7 +101,7 @@ public class Experiment2NodeControllerIntegrationTest extends BaseIntegrationTes
         mockMvc.perform(post(LinkUtil.EXPERIMENT_EXPERIMENT2NODES, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"node\": \"PC002\"," +
-                        "\"additionTime\": \"2014-10-10 09:02:00.070\", \"removalTime\": null}")
+                        "\"additionTime\": \"2014-10-10T09:02:00.070\", \"removalTime\": null}")
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isCreated())
@@ -111,7 +112,7 @@ public class Experiment2NodeControllerIntegrationTest extends BaseIntegrationTes
     public void test07_updateExperiment2Node() throws Exception {
         mockMvc.perform(patch(LinkUtil.EXPERIMENT_EXPERIMENT2NODE, 1L, 16L)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"removalTime\": \"2014-10-10 09:24:00.070\"}")
+                .content("{\"removalTime\": \"2014-10-10T09:24:00.070\"}")
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isNoContent());
@@ -122,7 +123,7 @@ public class Experiment2NodeControllerIntegrationTest extends BaseIntegrationTes
         mockMvc.perform(post(LinkUtil.EXPERIMENT_EXPERIMENT2NODES, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"node\": \"PC002\"," +
-                        "\"additionTime\": \"2014-10-10 09:02:00.070\", \"removalTime\": null}")
+                        "\"additionTime\": \"2014-10-10T09:02:00.070\", \"removalTime\": null}")
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password") + "1")))
                 .andExpect(status().isUnauthorized());

@@ -1,0 +1,21 @@
+<div ng-form="dateTimeForm">
+    <label class="col-md-4 control-label">{{title}}</label>
+    <div class="col-md-4" ng-class='{"has-error":dateTimeForm.date.$invalid}'>
+        <p class="input-group">
+            <input name="date" class="form-control" type="text" datepicker-popup="dd/MM/yyyy" ng-model="dateTime.date"
+                   datepicker-options is-open="opened"
+                   cepv-datepicker-pattern="^(0[1-9]|[12]\d|3[01])\/(0?[1-9]|1[012])\/((19|20)\d{2})$"
+                   placeholder="dd/MM/yyyy" ng-change="mergeValidInputs(dateTimeForm)"/>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)">
+                    <i class="fa fa-calendar"></i>
+                </button>
+            </span>
+        </p>
+    </div>
+    <div class="col-md-4" ng-class='{"has-error":dateTimeForm.time.$invalid}'>
+        <input name="time" class="form-control" type="text" ng-model="dateTime.time"
+               ng-disabled="dateTime.date == null" ng-pattern="cepvDateTimePatterns.time"
+               maxlength="12" placeholder="HH:mm:ss.sss" ng-change="mergeValidInputs(dateTimeForm)"/>
+    </div>
+</div>

@@ -84,17 +84,17 @@ public class Experiment2NodeController {
 
     @RequestMapping(value = LinkUtil.EXPERIMENT_EXPERIMENT2NODES_FILTER, method = RequestMethod.GET)
     public HttpEntity<PagedResources<Resource<Experiment2Node>>> getFilteredExperiment2NodeRelations(
-            @PathVariable final Long experimentId,
+            @PathVariable final Long experimentId, @RequestParam(required = false) final String nodeExternalId,
             @RequestParam(required = false) final String nodeName, @RequestParam(required = false) final String nodeDescription,
             @RequestParam(required = false) final Date gtAdditionTime, @RequestParam(required = false) final Date ltAdditionTime,
             @RequestParam(required = false) final Date gtRemovalTime, @RequestParam(required = false) final Date ltRemovalTime,
             final Pageable pageable, final PagedResourcesAssembler<Experiment2Node> assembler) {
 
         final Page<Experiment2Node> experiment2NodePageResources =  experiment2NodeRepository.
-                findAll(Experiment2NodeQueryDsl.filter(experimentId, nodeName, nodeDescription, gtAdditionTime, ltAdditionTime, gtRemovalTime, ltRemovalTime), pageable);
+                findAll(Experiment2NodeQueryDsl.filter(experimentId, nodeExternalId, nodeName, nodeDescription, gtAdditionTime, ltAdditionTime, gtRemovalTime, ltRemovalTime), pageable);
 
         final Link link = new Link(new UriTemplate(linkTo(methodOn(Experiment2NodeController.class).
-                getFilteredExperiment2NodeRelations(experimentId, nodeName, nodeDescription, gtAdditionTime, ltAdditionTime, gtRemovalTime, ltRemovalTime, pageable, assembler)).
+                getFilteredExperiment2NodeRelations(experimentId, nodeExternalId, nodeName, nodeDescription, gtAdditionTime, ltAdditionTime, gtRemovalTime, ltRemovalTime, pageable, assembler)).
                 toUriComponentsBuilder().build().toUriString(), LinkUtil.getFilteredExperiment2NodeRelationsTemplateVariables()), "self");
 
         final PagedResources<Resource<Experiment2Node>> pagedExperimentResources = assembler.toResource(experiment2NodePageResources, experiment2NodeResourceAssembler, link);

@@ -59,17 +59,7 @@ public class NodeControllerIntegrationTest extends BaseIntegrationTest{
     }
 
     @Test
-    public void test05_updateNodeWithPut() throws Exception {
-        mockMvc.perform(put(LinkUtil.NODE, "PC100")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\": \"Updated node from test\", \"description\": \"Node from test description\"}")
-                .with(httpBasic(environment.getProperty("spring.security.user"),
-                        environment.getProperty("spring.security.password"))))
-                .andExpect(status().isNoContent());
-    }
-
-    @Test
-    public void test06_updateNodeWithPatch() throws Exception {
+    public void test05_updateNodeWithPatch() throws Exception {
         mockMvc.perform(patch(LinkUtil.NODE, "PC100")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"description\": \"Updated node from test description\"}")
@@ -79,7 +69,7 @@ public class NodeControllerIntegrationTest extends BaseIntegrationTest{
     }
 
     @Test
-    public void test07_createNodeWithInvalidCredentials() throws Exception {
+    public void test06_createNodeWithInvalidCredentials() throws Exception {
         mockMvc.perform(post(LinkUtil.NODES)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"externalId\": \"PC100\", \"name\": \"Node from test\"," +

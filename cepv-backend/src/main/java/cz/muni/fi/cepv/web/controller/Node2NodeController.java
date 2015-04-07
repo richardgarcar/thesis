@@ -86,18 +86,18 @@ public class Node2NodeController {
     @RequestMapping(value = LinkUtil.EXPERIMENT_NODE_CONNECTIONS_FILTER, method = RequestMethod.GET)
     public HttpEntity<PagedResources<Resource<Node2Node>>> getFilteredNodeConnections(
             @PathVariable final Long experimentId,
+            @RequestParam(required = false) final String firstNodeExternalId, @RequestParam(required = false) final String secondNodeExternalId,
             @RequestParam(required = false) final String firstNodeName, @RequestParam(required = false) final String secondNodeName,
-            @RequestParam(required = false) final String firstNodeDescription, @RequestParam(required = false) final String secondNodeDescription,
             @RequestParam(required = false) final Date gtConnectionTime, @RequestParam(required = false) final Date ltConnectionTime,
             @RequestParam(required = false) final Date gtDisconnectionTime, @RequestParam(required = false) final Date ltDisconnectionTime,
             final Pageable pageable, final PagedResourcesAssembler<Node2Node> assembler) {
 
         final Page<Node2Node> node2NodePageResources = node2NodeRepository.
-                findAll(Node2NodeQueryDsl.filter(experimentId, firstNodeName, secondNodeName, firstNodeDescription, secondNodeDescription,
+                findAll(Node2NodeQueryDsl.filter(experimentId, firstNodeExternalId, secondNodeExternalId, firstNodeName, secondNodeName,
                         gtConnectionTime, ltConnectionTime, gtDisconnectionTime, ltDisconnectionTime), pageable);
 
         final Link link = new Link(new UriTemplate(linkTo(methodOn(Node2NodeController.class).
-                getFilteredNodeConnections(experimentId, firstNodeName, secondNodeName, firstNodeDescription, secondNodeDescription,
+                getFilteredNodeConnections(experimentId, firstNodeExternalId, secondNodeExternalId, firstNodeName, secondNodeName,
                         gtConnectionTime, ltConnectionTime, gtDisconnectionTime, ltDisconnectionTime, pageable, assembler)).
                 toUriComponentsBuilder().build().toUriString(), LinkUtil.getFilteredNodeConnectionsTemplateVariables()), "self");
 

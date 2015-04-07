@@ -11,34 +11,35 @@ public class LinkUtil {
 
     public static final String BASE = BasicLinkBuilder.linkToCurrentMapping().toString();
 
+    public static final String FILTER = "/searchByFilter";
     public static final String EXPERIMENTS = "/experiments";
     public static final String EXPERIMENT = EXPERIMENTS + "/{experimentId}";
-    public static final String EXPERIMENTS_FILTER = EXPERIMENTS + "/searchByFilter";
+    public static final String EXPERIMENTS_FILTER = EXPERIMENTS + FILTER;
 
     public static final String EXPERIMENT_EXPERIMENT2NODES = EXPERIMENT + "/experiment2NodeRelations";
     public static final String EXPERIMENT_EXPERIMENT2NODE = EXPERIMENT_EXPERIMENT2NODES + "/{experiment2NodeId}";
-    public static final String EXPERIMENT_EXPERIMENT2NODES_FILTER = EXPERIMENT_EXPERIMENT2NODES + "/searchByFilter";
+    public static final String EXPERIMENT_EXPERIMENT2NODES_FILTER = EXPERIMENT_EXPERIMENT2NODES + FILTER;
 
     public static final String EXPERIMENT2NODES = "/experiment2NodeRelations";
     public static final String EXPERIMENT2NODE = EXPERIMENT2NODES + "/{experiment2NodeId}";
 
-
     public static final String NODES = "/nodes";
     public static final String NODE = NODES + "/{externalNodeId}";
-    public static final String NODE_QUERIES = NODE + "/queries";
 
     public static final String NODE_CONNECTIONS = "/nodeConnections";
     public static final String NODE_CONNECTION = NODE_CONNECTIONS + "/{node2NodeId}";
-    public static final String EXPERIMENT_NODE_CONNECTIONS = EXPERIMENT + "/nodeConnections";
-    public static final String EXPERIMENT_NODE_CONNECTIONS_FILTER = EXPERIMENT + "/nodeConnections/searchByFilter";
-    public static final String EXPERIMENT_NODE_CONNECTION = EXPERIMENT + "/nodeConnections/{node2NodeId}";
+    public static final String EXPERIMENT_NODE_CONNECTIONS = EXPERIMENT + NODE_CONNECTIONS;
+    public static final String EXPERIMENT_NODE_CONNECTIONS_FILTER = EXPERIMENT + NODE_CONNECTIONS + FILTER;
+    public static final String EXPERIMENT_NODE_CONNECTION = EXPERIMENT + NODE_CONNECTION;
 
     public static final String QUERIES = "/queries";
     public static final String QUERY = QUERIES + "/{queryId}";
-    public static final String EXPERIMENT_QUERIES = EXPERIMENT + "/queries";
+    public static final String EXPERIMENT_QUERIES = EXPERIMENT + QUERIES;
+    public static final String NODE_QUERIES = NODE + QUERIES;
+    public static final String EXPERIMENT_NODE_QUERIES = EXPERIMENT + NODE + QUERIES;
+    public static final String EXPERIMENT_NODE_QUERIES_FILTER = EXPERIMENT + NODE + QUERIES + FILTER;
     public static final String QUERY_ATTRIBUTE = "/queryAttributes/{queryAttributeId}";
     public static final String QUERY_QUERY_ATTRIBUTES = QUERY + "/queryAttributes";
-    public static final String QUERY_QUERY_ATTRIBUTE = QUERY + "/queryAttributes/{queryAttributeId}";
     public static final String QUERY_QUERY_EXECUTIONS = QUERY + "/queryExecutions";
     public static final String QUERY_EXECUTION = "/queryExecutions/{queryExecutionId}";
 
@@ -105,6 +106,7 @@ public class LinkUtil {
 
     public static TemplateVariables getFilteredExperiment2NodeRelationsTemplateVariables() {
         return new TemplateVariables(
+                new TemplateVariable("nodeExternalId", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("nodeName", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("nodeDescription", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("gtAdditionTime", TemplateVariable.VariableType.REQUEST_PARAM),
@@ -117,10 +119,10 @@ public class LinkUtil {
 
     public static TemplateVariables getFilteredNodeConnectionsTemplateVariables() {
         return new TemplateVariables(
+                new TemplateVariable("firstNodeExternalId", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("secondNodeExternalId", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("firstNodeName", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("secondNodeName", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("firstNodeDescription", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("secondNodeDescription", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("gtConnectionTime", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("ltConnectionTime", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("gtDisconnectionTime", TemplateVariable.VariableType.REQUEST_PARAM),
@@ -136,6 +138,12 @@ public class LinkUtil {
                 new TemplateVariable("ltStart", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("gtEnd", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("ltEnd", TemplateVariable.VariableType.REQUEST_PARAM));
+    }
+
+    public static TemplateVariables getFilteredQueriesTemplateVariables() {
+        return new TemplateVariables(
+                new TemplateVariable("gtDeploymentTime", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("ltDeploymentTime", TemplateVariable.VariableType.REQUEST_PARAM));
     }
 
     public static TemplateVariables getPageTemplateVariables() {

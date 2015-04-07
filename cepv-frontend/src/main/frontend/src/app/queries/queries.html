@@ -1,94 +1,90 @@
-<div class="well" ng-controller="QueryController">
-    <h1>Node</h1>
-    <dl class="dl-horizontal">
-        <dt>#</dt>
-        <dd>{{parentNode.externalId}}</dd>
-        <dt>Name</dt>
-        <dd>{{parentNode.name}}</dd>
-        <dt>Description</dt>
-        <dd>{{parentNode.description}}</dd>
-    </dl>
+<div class="row well">
+    <div class="col-md-6">
+        <h1>Experiment</h1>
+        <dl class="dl-horizontal">
+            <dt>Name</dt>
+            <dd>{{parentExperiment.name}}</dd>
+            <dt>Description</dt>
+            <dd>{{parentExperiment.description}}</dd>
+            <dt>Start time</dt>
+            <dd>{{parentExperiment.start | date:'dd/MM/yyyy HH:mm:ss.sss'}}</dd>
+            <dt>End time</dt>
+            <dd>{{parentExperiment.end | date:'dd/MM/yyyy HH:mm:ss.sss'}}</dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <h1>Node</h1>
+        <dl class="dl-horizontal">
+            <dt>External ID</dt>
+            <dd>{{parentNode.embeddedNode.externalId}}</dd>
+            <dt>Name</dt>
+            <dd>{{parentNode.embeddedNode.name}}</dd>
+            <dt>Description</dt>
+            <dd>{{parentNode.embeddedNode.description}}</dd>
+        </dl>
+    </div>
 </div>
 
-<h1>Queries</h1>
-<form>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="input-group">
-                <label for="content" class="control-label">Content</label>
-                <input id="content" type="text" class="form-control" placeholder="Search for content ...">
-            </div>
+<h3>Queries</h3>
+<div class="panel panel-default">
+    <form novalidate class="panel-body" class="form-horizontal" role="form">
+        <div class="col-md-6 form-group">
+            <cepv-date-time-form title="Deployment time min" search-filter-field="searchFilter.gtDeployment"></cepv-date-time-form>
         </div>
-        <div class="col-md-4">
-            <div class="input-group">
-                <label for="gtDT" class="control-label">Deployment time minimum</label>
-                <input id="gtDT" type="text" class="form-control" placeholder="Greater than ...">
-            </div>
+        <div class="col-md-6 form-group">
+            <cepv-date-time-form title="Deployment time max" search-filter-field="searchFilter.ltDeployment"></cepv-date-time-form>
         </div>
-        <div class="col-md-4">
-            <div class="input-group">
-                <label for="ltDT" class="control-label">Deployment time maximum</label>
-                <input id="ltDT" type="text" class="form-control" placeholder="Less than ...">
-            </div>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
 
 <hr/>
 
-<div class="list-group">
+<div class="list-group list">
     <div ng-repeat="query in queries" class="list-group-item">
         <dl class="dl-horizontal">
-            <dt>Deployment time</dt>
-            <dd>{{query.deploymentTime | date:'dd.MM.yyyy HH:mm:ss:sss'}}</dd>
             <dt>Content</dt>
             <dd>
                 <pre>{{query.content}}</pre>
             </dd>
+            <dt>Deployment time</dt>
+            <dd>{{query.deploymentTime | date:'dd/MM/yyyy HH:mm:ss.sss'}}</dd>
         </dl>
         <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a ng-click="isAttrPanelCollapsed = !isAttrPanelCollapsed">Query Attributes</a>
+                            <a href="#" ng-click="isAttrPanelCollapsed = !isAttrPanelCollapsed">Query Attributes</a>
                         </h4>
                     </div>
-                    <div class="panel-body" collapse="isAttrPanelCollapsed">
-                        <dl class="dl-horizontal">
-                            <div ng-repeat="queryAttribute in query.queryAttributes">
-                                <dt>{{queryAttribute.key}}</dt>
-                                <dd>{{queryAttribute.value}}</dd>
-                            </div>
-                        </dl>
+                    <div collapse="isAttrPanelCollapsed">
+                        <div class="panel-body">
+                            <dl class="dl-horizontal">
+                                <div ng-repeat="queryAttribute in query.queryAttributes">
+                                    <dt>{{queryAttribute.key}}</dt>
+                                    <dd>{{queryAttribute.value}}</dd>
+                                </div>
+                            </dl>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a ng-click="isExecPanelCollapsed = !isExecPanelCollapsed">Executions</a>
-                        </h4>
-                    </div>
-                    <div class="panel-body" collapse="isExecPanelCollapsed">
-                        <ol>
-                            <li ng-repeat="queryExecution in query.queryExecutions">
-                                {{queryExecution.executionTime | date:'dd.MM.yyyy HH:mm:ss:sss'}}
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-
+                <cepv-executions-refresh-panel query="query"></cepv-executions-refresh-panel>
             </div>
         </div>
+        <a ui-sref="queryDetail">
+            <button type="button" class="btn btn-default" aria-label="true" ng-click="setParentQuery(query)">
+                <i class="fa fa-search"></i> Detail
+            </button>
+        </a>
     </div>
 </div>
-<nav>
-    <ul class="pager">
-        <li><a href="#">Previous</a></li>
-        <li><a href="#">Next</a></li>
-    </ul>
-</nav>
+
+<div class="text-center" ng-show="pagination.totalItems > pagination.pageSize">
+    <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
+                items-per-page="pagination.pageSize" max-size="10" ng-change="getFilteredQueries()">
+    </pagination>
+</div>
 
 
