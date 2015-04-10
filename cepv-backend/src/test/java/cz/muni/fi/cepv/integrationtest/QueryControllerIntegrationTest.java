@@ -110,7 +110,26 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void test08_updateQueryWithPatch() throws Exception {
+    public void test08_createQueryWithNullRequiredFields() throws Exception {
+        mockMvc.perform(post(LinkUtil.EXPERIMENT_NODE_QUERIES, 1L, "PC001")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"content\": \"Content from test\"}")
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void test09_findNonExistingQueryResource() throws Exception {
+        mockMvc.perform(get(LinkUtil.QUERY, 1000L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void test10_updateQueryWithPatch() throws Exception {
         mockMvc.perform(patch(LinkUtil.QUERY, 5L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"content\": \"Modified content from test\"}")
@@ -120,7 +139,7 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void test09_findOneQueryAttributeResource() throws Exception {
+    public void test11_findOneQueryAttributeResource() throws Exception {
         mockMvc.perform(get(LinkUtil.QUERY_ATTRIBUTE, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(httpBasic(environment.getProperty("spring.security.user"),
@@ -131,7 +150,7 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void test10_createQueryAttribute() throws Exception {
+    public void test12_createQueryAttribute() throws Exception {
         mockMvc.perform(post(LinkUtil.QUERY_QUERY_ATTRIBUTES, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"key\": \"Query attribute key from test\", \"value\": \"Value from test\"}")
@@ -142,7 +161,17 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void test11_updateQueryAttributeWithPut() throws Exception {
+    public void test13_createQueryAttributeWithNullRequiredFields() throws Exception {
+        mockMvc.perform(post(LinkUtil.QUERY_QUERY_ATTRIBUTES, 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"value\": \"Value from test\"}")
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void test14_updateQueryAttributeWithPut() throws Exception {
         mockMvc.perform(put(LinkUtil.QUERY_ATTRIBUTE, 1L, 12L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"key\": \"Modified query attribute key from test\", \"value\": \"Value from test\"}")
@@ -152,7 +181,7 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void test12_updateQueryAttributeWithPatch() throws Exception {
+    public void test15_updateQueryAttributeWithPatch() throws Exception {
         mockMvc.perform(patch(LinkUtil.QUERY_ATTRIBUTE, 1L, 12L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"value\": \"Modified value from test\"}")
@@ -162,7 +191,7 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void test13_findQueryExecutionResourcesByQuery() throws Exception {
+    public void test16_findQueryExecutionResourcesByQuery() throws Exception {
         mockMvc.perform(get(LinkUtil.QUERY_QUERY_EXECUTIONS, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(httpBasic(environment.getProperty("spring.security.user"),
@@ -175,7 +204,7 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void test14_createQueryExecution() throws Exception {
+    public void test17_createQueryExecution() throws Exception {
         mockMvc.perform(post(LinkUtil.QUERY_QUERY_EXECUTIONS, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"executionTime\": \"2014-10-10T08:04:38.178\"}")
@@ -186,7 +215,7 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void test15_createQueryExecutionWithInvalidCredentials() throws Exception {
+    public void test18_createQueryExecutionWithInvalidCredentials() throws Exception {
         mockMvc.perform(post(LinkUtil.QUERY_QUERY_EXECUTIONS, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"executionTime\": \"2014-10-10T08:04:38.178\"}")

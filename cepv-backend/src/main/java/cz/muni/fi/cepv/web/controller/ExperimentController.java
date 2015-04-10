@@ -4,8 +4,10 @@ import cz.muni.fi.cepv.model.Experiment;
 import cz.muni.fi.cepv.repository.ExperimentRepository;
 import cz.muni.fi.cepv.repository.querydsl.ExperimentQueryDsl;
 import cz.muni.fi.cepv.web.LinkUtil;
+import cz.muni.fi.cepv.web.exception.ResourceNotFoundException;
 import cz.muni.fi.cepv.web.resoureceassambler.ExperimentResourceAssembler;
 import cz.muni.fi.cepv.web.to.ExperimentTO;
+import cz.muni.fi.cepv.web.to.NewExperimentTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,13 +38,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RestController
 @RequestMapping(produces = "application/hal+json")
 public class ExperimentController {
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-    }
 
     @Autowired
     private ExperimentRepository experimentRepository;
@@ -62,6 +58,10 @@ public class ExperimentController {
     public HttpEntity<Resource<Experiment>> getExperiment(@PathVariable final Long experimentId) {
 
         final Experiment experiment =  experimentRepository.findOne(experimentId);
+        if (experiment == null) {
+            throw new ResourceNotFoundException("Experiment with provided id '" + experimentId + "' does not exist.");
+        }
+
         return new ResponseEntity<>(experimentResourceAssembler.toResource(experiment), HttpStatus.OK);
     }
 
@@ -84,7 +84,7 @@ public class ExperimentController {
     }
 
     @RequestMapping(value = LinkUtil.EXPERIMENTS, method = RequestMethod.POST)
-    public HttpEntity<Void> createExperiment(@RequestBody final ExperimentTO experimentTO) {
+    public HttpEntity<Void> createExperiment(@Valid @RequestBody final NewExperimentTO experimentTO) {
 
         final Experiment experiment = new Experiment(experimentTO.getName(), experimentTO.getDescription(), experimentTO.getStart(), experimentTO.getEnd());
         final Experiment savedExperiment =  experimentRepository.save(experiment);
@@ -97,9 +97,13 @@ public class ExperimentController {
     }
 
     @RequestMapping(value = LinkUtil.EXPERIMENT, method = RequestMethod.PUT)
-    public HttpEntity<Void> fullUpdateExperiment(@PathVariable final Long experimentId, @RequestBody final ExperimentTO experimentTO) {
+    public HttpEntity<Void> fullUpdateExperiment(@PathVariable final Long experimentId,
+                                                 @Valid @RequestBody final ExperimentTO experimentTO) {
 
         final Experiment originalExperiment = experimentRepository.findOne(experimentId);
+        if (originalExperiment == null) {
+            throw new ResourceNotFoundException("Experiment with provided id '" + experimentId + "' does not exist.");
+        }
         originalExperiment.setName(experimentTO.getName());
         originalExperiment.setDescription(experimentTO.getDescription());
         originalExperiment.setStart(experimentTO.getStart());
@@ -115,10 +119,13 @@ public class ExperimentController {
     }
 
     @RequestMapping(value = LinkUtil.EXPERIMENT, method = RequestMethod.PATCH)
-    public HttpEntity<Void> partialUpdateExperiment(@PathVariable final Long experimentId, @RequestBody final ExperimentTO experimentTO) {
+    public HttpEntity<Void> partialUpdateExperiment(@PathVariable final Long experimentId,
+                                                    @Valid  @RequestBody final ExperimentTO experimentTO) {
 
         final Experiment originalExperiment = experimentRepository.findOne(experimentId);
-
+        if (originalExperiment == null) {
+            throw new ResourceNotFoundException("Experiment with provided id '" + experimentId + "' does not exist.");
+        }
         if (experimentTO.getUpdatedFields().contains(ExperimentTO.ExperimentUpdatableField.name)) {
             originalExperiment.setName(experimentTO.getName());
         }

@@ -78,4 +78,24 @@ public class NodeControllerIntegrationTest extends BaseIntegrationTest{
                         environment.getProperty("spring.security.password") + "1")))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    public void test07_createNodeWithNullRequiredFields() throws Exception {
+        mockMvc.perform(post(LinkUtil.NODES)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\": \"Node from test\"," +
+                        "\"description\": \"Node from test description\"}")
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void test03_findNonExistingNodeResource() throws Exception {
+        mockMvc.perform(get(LinkUtil.NODE, "PC1000")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isNotFound());
+    }
 }

@@ -3,7 +3,9 @@ package cz.muni.fi.cepv.web.controller;
 import cz.muni.fi.cepv.model.Node;
 import cz.muni.fi.cepv.repository.NodeRepository;
 import cz.muni.fi.cepv.web.LinkUtil;
+import cz.muni.fi.cepv.web.exception.ResourceNotFoundException;
 import cz.muni.fi.cepv.web.resoureceassambler.NodeResourceAssembler;
+import cz.muni.fi.cepv.web.to.NewNodeTO;
 import cz.muni.fi.cepv.web.to.NodeTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 /**
@@ -33,7 +36,8 @@ public class NodeController {
     private NodeResourceAssembler nodeResourceAssembler;
 
     @RequestMapping(value = LinkUtil.NODES, method = RequestMethod.GET)
-    public HttpEntity<PagedResources<Resource<Node>>> getNodes(final Pageable pageable, final PagedResourcesAssembler<Node> assembler) {
+    public HttpEntity<PagedResources<Resource<Node>>> getNodes(final Pageable pageable,
+                                                               final PagedResourcesAssembler<Node> assembler) {
 
         final Page<Node> nodePageResources =  nodeRepository.findAll(pageable);
 
@@ -43,12 +47,18 @@ public class NodeController {
     @RequestMapping(value = LinkUtil.NODE, method = RequestMethod.GET)
     public HttpEntity<Resource<Node>> getNode(@PathVariable String externalNodeId) {
 
-        final Node node =  nodeRepository.findByExternalId(externalNodeId);
+        final Node node = nodeRepository.findByExternalId(externalNodeId);
+
+        if (node == null) {
+            throw new ResourceNotFoundException("Node with provided external id '" + externalNodeId
+                    + "' does not exist.");
+        }
+
         return new ResponseEntity<>(nodeResourceAssembler.toResource(node), HttpStatus.OK);
     }
 
     @RequestMapping(value = LinkUtil.NODES, method = RequestMethod.POST)
-    public HttpEntity<Void> createNode(@RequestBody final NodeTO nodeTO) {
+    public HttpEntity<Void> createNode(@Valid @RequestBody final NewNodeTO nodeTO) {
 
         final Node node = new Node(nodeTO.getExternalId(), nodeTO.getName(), nodeTO.getDescription());
         final Node savedNode =  nodeRepository.save(node);
@@ -61,10 +71,15 @@ public class NodeController {
     }
 
     @RequestMapping(value = LinkUtil.NODE, method = RequestMethod.PATCH)
-    public HttpEntity<Void> partialUpdateNode(@PathVariable("externalNodeId") final String externalNodeId, @RequestBody final NodeTO nodeTO) {
+    public HttpEntity<Void> partialUpdateNode(@PathVariable("externalNodeId") final String externalNodeId,
+                                              @Valid @RequestBody final NodeTO nodeTO) {
 
         final Node originalNode = nodeRepository.findByExternalId(externalNodeId);
 
+        if (originalNode == null) {
+            throw new ResourceNotFoundException("Node with provided external id '" + externalNodeId
+                    + "' does not exist.");
+        }
         if (nodeTO.getUpdatedFields().contains(NodeTO.NodeUpdatableField.name)) {
             originalNode.setName(nodeTO.getName());
         }

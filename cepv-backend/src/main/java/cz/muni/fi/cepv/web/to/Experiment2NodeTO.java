@@ -12,20 +12,10 @@ public class Experiment2NodeTO implements Serializable {
 
     private static final long serialVersionUID = 7076645314111276791L;
 
-    // id of existing Experiment entity
-    private Long experiment;
     // external id of existing Node entity
     private String node;
     private Date additionTime;
     private Date removalTime;
-
-    public Long getExperiment() {
-        return experiment;
-    }
-
-    public void setExperiment(Long experiment) {
-        this.experiment = experiment;
-    }
 
     public String getNode() {
         return node;

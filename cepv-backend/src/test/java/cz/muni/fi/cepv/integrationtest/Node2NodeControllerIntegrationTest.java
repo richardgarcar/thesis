@@ -124,4 +124,23 @@ public class Node2NodeControllerIntegrationTest extends BaseIntegrationTest {
                         environment.getProperty("spring.security.password") + "1")))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    public void test10_createNode2NodeConnectionWithNullRequiredFields() throws Exception {
+        mockMvc.perform(post(LinkUtil.EXPERIMENT_NODE_CONNECTIONS, 2L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"secondNode\": \"PC014\",\"connectionTime\": 1412920801123, \"disconnectionTime\": null}")
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void test11_findNonExistingNode2NodeResource() throws Exception {
+        mockMvc.perform(get(LinkUtil.NODE_CONNECTION, 1000L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isNotFound());
+    }
 }

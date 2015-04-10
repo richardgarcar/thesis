@@ -35,8 +35,6 @@ public class ExperimentControllerIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.page.number", is(0)));
     }
 
-
-
     @Test
     public void test02_findFilteredExperimentResources() throws Exception {
         mockMvc.perform(get(LinkUtil.EXPERIMENTS_FILTER)
@@ -111,5 +109,25 @@ public class ExperimentControllerIntegrationTest extends BaseIntegrationTest {
                 .content("{\"name\": \"Experiment from test\", \"description\": \"Description from test\"," +
                         "\"start\": 1444456800070, \"end\": \"2015-10-10T08:12:12.078\"}"))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void test08_createExperimentWithNullRequiredFields() throws Exception {
+        mockMvc.perform(post(LinkUtil.EXPERIMENTS)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password")))
+                .content("{\"description\": \"Description from test\"," +
+                        "\"start\": 1444456800070, \"end\": \"2015-10-10T08:12:12.078\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void test09_findNonExistingExperimentResource() throws Exception {
+        mockMvc.perform(get(LinkUtil.EXPERIMENT, 1000L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isNotFound());
     }
 }

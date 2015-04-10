@@ -4,12 +4,11 @@ import cz.muni.fi.cepv.model.*;
 import cz.muni.fi.cepv.repository.*;
 import cz.muni.fi.cepv.repository.querydsl.QueryQueryDsl;
 import cz.muni.fi.cepv.web.LinkUtil;
+import cz.muni.fi.cepv.web.exception.ResourceNotFoundException;
 import cz.muni.fi.cepv.web.resoureceassambler.QueryAttributeResourceAssembler;
 import cz.muni.fi.cepv.web.resoureceassambler.QueryExecutionResourceAssembler;
 import cz.muni.fi.cepv.web.resoureceassambler.QueryResourceAssembler;
-import cz.muni.fi.cepv.web.to.QueryAttributeTO;
-import cz.muni.fi.cepv.web.to.QueryExecutionTO;
-import cz.muni.fi.cepv.web.to.QueryTO;
+import cz.muni.fi.cepv.web.to.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Page;
@@ -26,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,13 +39,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RestController
 @RequestMapping(produces = "application/hal+json")
 public class QueryController {
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-    }
 
     @Autowired
     private QueryRepository queryRepository;
@@ -83,6 +76,11 @@ public class QueryController {
     public HttpEntity<Resource<Query>> getQuery(@PathVariable Long queryId) {
 
         final Query query =  queryRepository.findOne(queryId);
+        if (query == null) {
+            throw new ResourceNotFoundException("Query with provided id '" + queryId
+                    + "' does not exist.");
+        }
+
         return new ResponseEntity<>(queryResourceAssembler.toResource(query), HttpStatus.OK);
     }
 
@@ -134,13 +132,21 @@ public class QueryController {
         return new ResponseEntity<>(pagedQueryResources, HttpStatus.OK);
     }
 
-
     @RequestMapping(value = LinkUtil.EXPERIMENT_NODE_QUERIES, method = RequestMethod.POST)
     public HttpEntity<Void>  createQuery(@PathVariable final Long experimentId,
-                                         @PathVariable final String externalNodeId, @RequestBody final QueryTO queryTO) {
+                                         @PathVariable final String externalNodeId,
+                                         @Valid @RequestBody final NewQueryTO queryTO) {
 
         final Experiment experiment = experimentRepository.findOne(experimentId);
+        if (experiment == null) {
+            throw new ResourceNotFoundException("Experiment with provided id '" + experimentId
+                    + "' does not exist.");
+        }
         final Node node = nodeRepository.findByExternalId(externalNodeId);
+        if (node == null) {
+            throw new ResourceNotFoundException("Node with provided external id '" + externalNodeId
+                    + "' does not exist.");
+        }
 
         final Query queryExecution = new Query(node, experiment, queryTO.getDeploymentTime(), queryTO.getContent());
         final Query query = queryRepository.save(queryExecution);
@@ -153,9 +159,14 @@ public class QueryController {
     }
 
     @RequestMapping(value = LinkUtil.QUERY, method = RequestMethod.PATCH)
-    public HttpEntity<Void> partialUpdateQuery(@PathVariable final Long queryId, @RequestBody final QueryTO queryTO) {
+    public HttpEntity<Void> partialUpdateQuery(@PathVariable final Long queryId,
+                                               @Valid @RequestBody final QueryTO queryTO) {
 
         final Query originalQuery = queryRepository.findOne(queryId);
+        if (originalQuery == null) {
+            throw new ResourceNotFoundException("Query with provided external id '" + queryId
+                    + "' does not exist.");
+        }
 
         if (queryTO.getUpdatedFields().contains(QueryTO.QueryUpdatableField.deploymentTime)) {
             originalQuery.setDeploymentTime(queryTO.getDeploymentTime());
@@ -177,12 +188,17 @@ public class QueryController {
     public HttpEntity<Resource<QueryAttribute>> getQueryAttribute(@PathVariable final Long queryAttributeId) {
 
         final QueryAttribute queryAttribute =  queryAttributeRepository.findOne(queryAttributeId);
+        if (queryAttribute == null) {
+            throw new ResourceNotFoundException("Query Attribute with provided external id '" + queryAttributeId
+                    + "' does not exist.");
+        }
 
         return new ResponseEntity<>(queryAttributeResourceAssembler.toResource(queryAttribute), HttpStatus.OK);
     }
 
     @RequestMapping(value = LinkUtil.QUERY_QUERY_ATTRIBUTES, method = RequestMethod.POST)
-    public HttpEntity<Void>  createQueryAttribute(@PathVariable Long queryId, @RequestBody final QueryAttributeTO queryAttributeTO) {
+    public HttpEntity<Void>  createQueryAttribute(@PathVariable Long queryId,
+                                                  @Valid @RequestBody final NewQueryAttributeTO queryAttributeTO) {
 
         final Query query = queryRepository.findOne(queryId);
         final QueryAttribute queryAttribute = new QueryAttribute(query, queryAttributeTO.getKey(), queryAttributeTO.getValue());
@@ -198,9 +214,14 @@ public class QueryController {
 
     @RequestMapping(value = LinkUtil.QUERY_ATTRIBUTE, method = RequestMethod.PUT)
     public HttpEntity<Void> fullUpdateQueryAttribute(@PathVariable final Long queryAttributeId,
-                                           @RequestBody final QueryAttributeTO queryAttributeTO) {
+                                           @Valid @RequestBody final QueryAttributeTO queryAttributeTO) {
 
         final QueryAttribute originalQueryAttribute = queryAttributeRepository.findOne(queryAttributeId);
+        if (originalQueryAttribute == null) {
+            throw new ResourceNotFoundException("Query Attribute with provided external id '" + queryAttributeId
+                    + "' does not exist.");
+        }
+
         originalQueryAttribute.setKey(queryAttributeTO.getKey());
         originalQueryAttribute.setValue(queryAttributeTO.getValue());
 
@@ -215,10 +236,13 @@ public class QueryController {
 
     @RequestMapping(value = LinkUtil.QUERY_ATTRIBUTE, method = RequestMethod.PATCH)
     public HttpEntity<Void> partialUpdateQueryAttribute(@PathVariable final Long queryAttributeId,
-                                                        @RequestBody final QueryAttributeTO queryAttributeTO) {
+                                                        @Valid @RequestBody final QueryAttributeTO queryAttributeTO) {
 
         final QueryAttribute originalQueryAttribute = queryAttributeRepository.findOne(queryAttributeId);
-
+        if (originalQueryAttribute == null) {
+            throw new ResourceNotFoundException("Query Attribute with provided external id '" + queryAttributeId
+                    + "' does not exist.");
+        }
         if (queryAttributeTO.getUpdatedFields().contains(QueryAttributeTO.QueryAttributeUpdatableField.key)) {
             originalQueryAttribute.setKey(queryAttributeTO.getKey());
         }
@@ -250,14 +274,23 @@ public class QueryController {
     public HttpEntity<Resource<QueryExecution>> getQueryExecution(@PathVariable final Long queryExecutionId) {
 
         final QueryExecution queryExecution =  queryExecutionRepository.findOne(queryExecutionId);
+        if (queryExecution == null) {
+            throw new ResourceNotFoundException("Query Execution with provided external id '" + queryExecutionId
+                    + "' does not exist.");
+        }
 
         return new ResponseEntity<>(queryExecutionResourceAssembler.toResource(queryExecution), HttpStatus.OK);
     }
 
     @RequestMapping(value = LinkUtil.QUERY_QUERY_EXECUTIONS, method = RequestMethod.POST)
-    public HttpEntity<Void>  createQueryExecution(@PathVariable Long queryId, @RequestBody final QueryExecutionTO queryExecutionTO) {
+    public HttpEntity<Void>  createQueryExecution(@PathVariable Long queryId,
+                                                  @Valid @RequestBody final QueryExecutionTO queryExecutionTO) {
 
         final Query query = queryRepository.findOne(queryId);
+        if (query == null) {
+            throw new ResourceNotFoundException("Query with provided external id '" + queryId
+                    + "' does not exist.");
+        }
 
         final QueryExecution queryExecution = new QueryExecution(query, queryExecutionTO.getExecutionTime());
         final QueryExecution savedQueryExecution = queryExecutionRepository.save(queryExecution);

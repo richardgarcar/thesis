@@ -8,8 +8,10 @@ import cz.muni.fi.cepv.repository.ExperimentRepository;
 import cz.muni.fi.cepv.repository.NodeRepository;
 import cz.muni.fi.cepv.repository.querydsl.Experiment2NodeQueryDsl;
 import cz.muni.fi.cepv.web.LinkUtil;
+import cz.muni.fi.cepv.web.exception.ResourceNotFoundException;
 import cz.muni.fi.cepv.web.resoureceassambler.Experiment2NodeResourceAssembler;
 import cz.muni.fi.cepv.web.to.Experiment2NodeTO;
+import cz.muni.fi.cepv.web.to.NewExperiment2NodeTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,13 +39,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RestController
 @RequestMapping(produces = "application/hal+json")
 public class Experiment2NodeController {
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-    }
 
     @Autowired
     private ExperimentRepository experimentRepository;
@@ -69,6 +65,11 @@ public class Experiment2NodeController {
     public HttpEntity<Resource<Experiment2Node>> getExperiment2NodeRelation(@PathVariable Long experiment2NodeId) {
 
         final Experiment2Node experiment2Node =  experiment2NodeRepository.findOne(experiment2NodeId);
+        if (experiment2Node == null) {
+            throw new ResourceNotFoundException("Experiment2Node with provided id '" + experiment2NodeId
+                    + "' does not exist.");
+        }
+
         return new ResponseEntity<>(experiment2NodeResourceAssembler.toResource(experiment2Node), HttpStatus.OK);
     }
 
@@ -102,9 +103,14 @@ public class Experiment2NodeController {
     }
 
     @RequestMapping(value = LinkUtil.EXPERIMENT_EXPERIMENT2NODES, method = RequestMethod.POST)
-    public HttpEntity<Void> createExperiment2NodeRelation(@PathVariable final Long experimentId, @RequestBody final Experiment2NodeTO experiment2NodeTO) {
+    public HttpEntity<Void> createExperiment2NodeRelation(@PathVariable final Long experimentId,
+                                                          @Valid @RequestBody final NewExperiment2NodeTO experiment2NodeTO) {
 
         final Experiment experiment = experimentRepository.findOne(experimentId);
+        if (experiment == null) {
+            throw new ResourceNotFoundException("Experiment with provided id '" + experimentId
+                    + "' does not exist.");
+        }
         final Node node = nodeRepository.findByExternalId(experiment2NodeTO.getNode());
         final Experiment2Node experiment2Node = new Experiment2Node(experiment, node, experiment2NodeTO.getAdditionTime(), experiment2NodeTO.getRemovalTime());
 
@@ -118,9 +124,14 @@ public class Experiment2NodeController {
     }
 
     @RequestMapping(value = LinkUtil.EXPERIMENT_EXPERIMENT2NODE, method = RequestMethod.PATCH)
-    public HttpEntity<Void> updateExperiment2NodeRelation(@PathVariable final Long experiment2NodeId, @RequestBody final Experiment2NodeTO experiment2NodeTO) {
+    public HttpEntity<Void> updateExperiment2NodeRelation(@PathVariable final Long experiment2NodeId,
+                                                          @Valid @RequestBody final Experiment2NodeTO experiment2NodeTO) {
 
         final Experiment2Node originalExperiment2Node = experiment2NodeRepository.findOne(experiment2NodeId);
+        if (originalExperiment2Node == null) {
+            throw new ResourceNotFoundException("Experiment2Node with provided id '" + experiment2NodeId
+                    + "' does not exist.");
+        }
         if (experiment2NodeTO.getAdditionTime() != null) {
             originalExperiment2Node.setAdditionTime(experiment2NodeTO.getAdditionTime());
         }

@@ -8,7 +8,9 @@ import cz.muni.fi.cepv.repository.Node2NodeRepository;
 import cz.muni.fi.cepv.repository.NodeRepository;
 import cz.muni.fi.cepv.repository.querydsl.Node2NodeQueryDsl;
 import cz.muni.fi.cepv.web.LinkUtil;
+import cz.muni.fi.cepv.web.exception.ResourceNotFoundException;
 import cz.muni.fi.cepv.web.resoureceassambler.Node2NodeResourceAssembler;
+import cz.muni.fi.cepv.web.to.NewNode2NodeTO;
 import cz.muni.fi.cepv.web.to.Node2NodeTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -23,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,13 +39,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RestController
 @RequestMapping(produces = "application/hal+json")
 public class Node2NodeController {
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-    }
 
     @Autowired
     private ExperimentRepository experimentRepository;
@@ -69,6 +65,11 @@ public class Node2NodeController {
     public HttpEntity<Resource<Node2Node>> getExperiment2NodeRelation(@PathVariable Long node2NodeId) {
 
         final Node2Node node2Node =  node2NodeRepository.findOne(node2NodeId);
+        if (node2Node == null) {
+            throw new ResourceNotFoundException("Node2Node with provided id '" + node2NodeId
+                    + "' does not exist.");
+        }
+
         return new ResponseEntity<>(node2NodeResourceAssembler.toResource(node2Node), HttpStatus.OK);
     }
 
@@ -107,9 +108,14 @@ public class Node2NodeController {
     }
 
     @RequestMapping(value = LinkUtil.EXPERIMENT_NODE_CONNECTIONS, method = RequestMethod.POST)
-    public HttpEntity<Void> createNode2NodeConnection(@PathVariable final Long experimentId, @RequestBody final Node2NodeTO node2NodeTO) {
+    public HttpEntity<Void> createNode2NodeConnection(@PathVariable final Long experimentId,
+                                                      @Valid @RequestBody final NewNode2NodeTO node2NodeTO) {
 
         final Experiment experiment = experimentRepository.findOne(experimentId);
+        if (experiment == null) {
+            throw new ResourceNotFoundException("Experiment with provided id '" + experimentId
+                    + "' does not exist.");
+        }
         final Node firstNode = nodeRepository.findByExternalId(node2NodeTO.getFirstNode());
         final Node secondNode = nodeRepository.findByExternalId(node2NodeTO.getSecondNode());
 
@@ -126,9 +132,14 @@ public class Node2NodeController {
     }
 
     @RequestMapping(value = LinkUtil.EXPERIMENT_NODE_CONNECTION, method = RequestMethod.PATCH)
-    public HttpEntity<Void> updateNode2NodeConnection(@PathVariable final Long node2NodeId, @RequestBody final Node2NodeTO node2NodeTO) {
+    public HttpEntity<Void> updateNode2NodeConnection(@PathVariable final Long node2NodeId,
+                                                      @Valid @RequestBody final Node2NodeTO node2NodeTO) {
 
         final Node2Node originalNode2Node = node2NodeRepository.findOne(node2NodeId);
+        if (originalNode2Node == null) {
+            throw new ResourceNotFoundException("Node2Node with provided id '" + node2NodeId
+                    + "' does not exist.");
+        }
         if (node2NodeTO.getUpdatedFields().contains(Node2NodeTO.Node2NodeUpdatableField.connectionTime)) {
             originalNode2Node.setConnectionTime(node2NodeTO.getConnectionTime());
         }

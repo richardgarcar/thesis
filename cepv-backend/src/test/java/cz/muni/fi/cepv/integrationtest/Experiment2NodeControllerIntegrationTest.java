@@ -128,4 +128,23 @@ public class Experiment2NodeControllerIntegrationTest extends BaseIntegrationTes
                         environment.getProperty("spring.security.password") + "1")))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    public void test09_createExperiment2NodeWithNullRequiredFields() throws Exception {
+        mockMvc.perform(post(LinkUtil.EXPERIMENT_EXPERIMENT2NODES, 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"additionTime\": \"2014-10-10T09:02:00.070\", \"removalTime\": null}")
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void test10_findNonExistingExperiment2NodeResource() throws Exception {
+        mockMvc.perform(get(LinkUtil.EXPERIMENT2NODE, 1000L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password"))))
+                .andExpect(status().isNotFound());
+    }
 }
