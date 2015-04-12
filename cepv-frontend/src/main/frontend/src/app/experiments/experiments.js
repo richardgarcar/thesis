@@ -1,7 +1,9 @@
 'use strict';
 
-app.controller('ExperimentController', ['$scope', 'DataService', 'Experiments', 'SpringDataRestAdapter',
-    function ($scope, DataService, Experiments, SpringDataRestAdapter) {
+app.controller('ExperimentController', ['$scope', 'DataService', 'Experiments', 'SpringDataRestAdapter', 'DATE_FORMAT',
+    function ($scope, DataService, Experiments, SpringDataRestAdapter, DATE_FORMAT) {
+
+        $scope.dateFormat = DATE_FORMAT;
 
         $scope.searchFilter = {
             name : null,
@@ -15,7 +17,7 @@ app.controller('ExperimentController', ['$scope', 'DataService', 'Experiments', 
         $scope.pagination = {
             currentPage: 1,
             pageSize: 20,
-            totalItems : 0
+            totalItems: 0
         };
 
         $scope.sorting = {

@@ -1,13 +1,13 @@
 <div class="well">
-    <h1>Query</h1>
+    <h1 translate="QUERY">Query</h1>
     <dl class="dl-horizontal">
-        <dt>Content</dt>
+        <dt translate="CONTENT">Content</dt>
         <dd>
             <pre>{{query.content}}</pre>
         </dd>
-        <dt>Deployment time</dt>
-        <dd>{{query.deploymentTime | date:'dd/MM/yyyy HH:mm:ss.sss'}}</dd>
-        <dt>Attributes</dt>
+        <dt translate="DEPLOYMENT_TIME">Deployment time</dt>
+        <dd>{{query.deploymentTime | date:dateFormat}}</dd>
+        <dt translate="ATTRIBUTES">Attributes</dt>
         <dd>
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -25,7 +25,7 @@
 
 <div class="row">
     <div class="col-md-9">
-        <h3>Visualisation of query executions</h3>
+        <h3 translate="EXECUTIONS_VISUALIZATION_HEADER">Visualisation of query executions</h3>
         <div class="panel panel-default">
             <div class="panel-body">
             </div>
@@ -33,16 +33,17 @@
     </div>
 
     <div class="col-md-3">
-        <h3>Executions</h3>
-        <p>Total amount: {{queryExecutionPagination.totalItems}}</p>
+        <h3 translate="EXECUTIONS">Executions</h3>
+        <p>{{'TOTAL_AMOUNT' | translate}}: {{queryExecutionPagination.totalItems}}</p>
         <ul class="list-group">
             <div ng-repeat="queryExecution in queryExecutions">
-                <li class="list-group-item">{{queryExecution.executionTime | date:'dd/MM/yyyy HH:mm:ss.sss'}}</li>
+                <li class="list-group-item">{{queryExecution.executionTime | date:dateFormat}}</li>
             </div>
         </ul>
         <div class="text-center" ng-show="queryExecutionPagination.totalItems > queryExecutionPagination.pageSize">
             <pagination total-items="queryExecutionPagination.totalItems" ng-model="queryExecutionPagination.currentPage"
-                        items-per-page="queryExecutionPagination.pageSize" max-size="3" ng-change="getQueryExecutionsData(query)">
+                        items-per-page="queryExecutionPagination.pageSize" max-size="3" previous-text="{{'PREVIOUS' | translate}}"
+                        next-text="{{'NEXT' | translate}}" ng-change="getQueryExecutionsData(query)">
             </pagination>
         </div>
     </div>

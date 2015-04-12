@@ -1,38 +1,38 @@
 <div class="row well">
     <div class="col-md-6">
-        <h1>Experiment</h1>
+        <h1 translate="EXPERIMENT">Experiment</h1>
         <dl class="dl-horizontal">
-            <dt>Name</dt>
+            <dt translate="NAME">Name</dt>
             <dd>{{parentExperiment.name}}</dd>
-            <dt>Description</dt>
+            <dt translate="DESCRIPTION">Description</dt>
             <dd>{{parentExperiment.description}}</dd>
-            <dt>Start time</dt>
-            <dd>{{parentExperiment.start | date:'dd/MM/yyyy HH:mm:ss.sss'}}</dd>
-            <dt>End time</dt>
-            <dd>{{parentExperiment.end | date:'dd/MM/yyyy HH:mm:ss.sss'}}</dd>
+            <dt translate="START_TIME">Start time</dt>
+            <dd>{{parentExperiment.start | date:dateFormat}}</dd>
+            <dt translate="END_TIME">End time</dt>
+            <dd>{{parentExperiment.end | date:dateFormat}}</dd>
         </dl>
     </div>
     <div class="col-md-6">
-        <h1>Node</h1>
+        <h1 translate="NODE">Node</h1>
         <dl class="dl-horizontal">
-            <dt>External ID</dt>
+            <dt>ID</dt>
             <dd>{{parentNode.embeddedNode.externalId}}</dd>
-            <dt>Name</dt>
+            <dt translate="NAME">Name</dt>
             <dd>{{parentNode.embeddedNode.name}}</dd>
-            <dt>Description</dt>
+            <dt translate="DESCRIPTION">Description</dt>
             <dd>{{parentNode.embeddedNode.description}}</dd>
         </dl>
     </div>
 </div>
 
-<h3>Queries</h3>
+<h3 translate="QUERIES">Queries</h3>
 <div class="panel panel-default">
     <form novalidate class="panel-body" class="form-horizontal" role="form">
         <div class="col-md-6 form-group">
-            <cepv-date-time-form title="Deployment time min" search-filter-field="searchFilter.gtDeployment"></cepv-date-time-form>
+            <cepv-date-time-form title="DEPLOYMENT_TIME_FROM" search-filter-field="searchFilter.gtDeployment"></cepv-date-time-form>
         </div>
         <div class="col-md-6 form-group">
-            <cepv-date-time-form title="Deployment time max" search-filter-field="searchFilter.ltDeployment"></cepv-date-time-form>
+            <cepv-date-time-form title="DEPLOYMENT_TIME_TO" search-filter-field="searchFilter.ltDeployment"></cepv-date-time-form>
         </div>
     </form>
 </div>
@@ -42,19 +42,19 @@
 <div class="list-group list">
     <div ng-repeat="query in queries" class="list-group-item">
         <dl class="dl-horizontal">
-            <dt>Content</dt>
+            <dt translate="CONTENT">Content</dt>
             <dd>
                 <pre>{{query.content}}</pre>
             </dd>
-            <dt>Deployment time</dt>
-            <dd>{{query.deploymentTime | date:'dd/MM/yyyy HH:mm:ss.sss'}}</dd>
+            <dt translate="DEPLOYMENT_TIME">Deployment time</dt>
+            <dd>{{query.deploymentTime | date:dateFormat}}</dd>
         </dl>
         <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a href="#" ng-click="isAttrPanelCollapsed = !isAttrPanelCollapsed">Query Attributes</a>
+                            <a href="#" ng-click="isAttrPanelCollapsed = !isAttrPanelCollapsed">{{'ATTRIBUTES' | translate}}</a>
                         </h4>
                     </div>
                     <div collapse="isAttrPanelCollapsed">
@@ -75,7 +75,7 @@
         </div>
         <a ui-sref="queryDetail">
             <button type="button" class="btn btn-default" aria-label="true" ng-click="setParentQuery(query)">
-                <i class="fa fa-search"></i> Detail
+                <i class="fa fa-search"></i> {{'DETAIL' | translate}}
             </button>
         </a>
     </div>
@@ -83,7 +83,8 @@
 
 <div class="text-center" ng-show="pagination.totalItems > pagination.pageSize">
     <pagination total-items="pagination.totalItems" ng-model="pagination.currentPage"
-                items-per-page="pagination.pageSize" max-size="10" ng-change="getFilteredQueries()">
+                items-per-page="pagination.pageSize" max-size="10" previous-text="{{'PREVIOUS' | translate}}"
+                next-text="{{'NEXT' | translate}}" ng-change="getFilteredQueries()">
     </pagination>
 </div>
 

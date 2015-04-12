@@ -1,5 +1,5 @@
 <div ng-form="dateTimeForm">
-    <label class="col-md-4 control-label">{{title}}</label>
+    <label class="col-md-4 control-label">{{title | translate}}</label>
     <div class="col-md-4" ng-class='{"has-error":dateTimeForm.date.$invalid}'>
         <p class="input-group">
             <input name="date" class="form-control" type="text" datepicker-popup="dd/MM/yyyy" ng-model="dateTime.date"

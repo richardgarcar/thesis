@@ -1,5 +1,7 @@
-app.controller('QueryController', ['$scope', 'DataService', 'Queries', 'SpringDataRestAdapter',
-    function ($scope, DataService, Queries, SpringDataRestAdapter) {
+app.controller('QueryController', ['$scope', 'DataService', 'Queries', 'SpringDataRestAdapter', 'DATE_FORMAT',
+    function ($scope, DataService, Queries, SpringDataRestAdapter, DATE_FORMAT) {
+
+        $scope.dateFormat = DATE_FORMAT;
 
         $scope.searchFilter = {
             gtDeployment: null,

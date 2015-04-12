@@ -9,7 +9,6 @@ import cz.muni.fi.cepv.web.resoureceassambler.ExperimentResourceAssembler;
 import cz.muni.fi.cepv.web.to.ExperimentTO;
 import cz.muni.fi.cepv.web.to.NewExperimentTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -21,12 +20,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;

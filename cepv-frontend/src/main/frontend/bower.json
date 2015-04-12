@@ -10,6 +10,7 @@
     "angular-resource": "~1.3.0",
     "angular-spring-data-rest": "~0.4.0",
     "angular-bootstrap": "~0.12.0",
+    "angular-translate": "~2.6.1",
     "bootstrap-css-only": "~3.3.2",
     "components-font-awesome": "~4.3.0",
     "d3": "~3.5.5"

@@ -1,7 +1,9 @@
 'use strict';
 
-app.controller('NodeController', ['$scope', 'DataService', 'Nodes',
-    function ($scope, DataService, Nodes) {
+app.controller('NodeController', ['$scope', 'DataService', 'Nodes', 'DATE_FORMAT',
+    function ($scope, DataService, Nodes, DATE_FORMAT) {
+
+        $scope.dateFormat = DATE_FORMAT;
 
         $scope.parentExperiment = DataService.getParentExperiment();
 

@@ -1,5 +1,7 @@
-app.controller('QueryDetailController', ['$scope', '$interval', 'DataService', 'Queries',
-    function ($scope, $interval, DataService, Queries) {
+app.controller('QueryDetailController', ['$scope', '$interval', 'DataService', 'Queries', 'DATE_FORMAT',
+    function ($scope, $interval, DataService, Queries, DATE_FORMAT) {
+
+        $scope.dateFormat = DATE_FORMAT;
 
         $scope.queryExecutionPagination = {
             currentPage: 1,

@@ -25,8 +25,8 @@ public class ServletInitializer extends AbstractAnnotationConfigDispatcherServle
         return new String[]{"/api/*"};
     }
 
-    @Override
-    protected Filter[] getServletFilters() {
-        return new Filter[] {new SimpleCORSFilter()};
-    }
+//    @Override
+//    protected Filter[] getServletFilters() {
+//        return new Filter[] {new SimpleCORSFilter()};
+//    }
 }

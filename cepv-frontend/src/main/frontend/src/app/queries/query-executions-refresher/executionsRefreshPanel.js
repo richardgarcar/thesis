@@ -1,6 +1,7 @@
 'use strict';
 
-app.directive('cepvExecutionsRefreshPanel', ['$interval', 'Queries', function ($interval, Queries) {
+app.directive('cepvExecutionsRefreshPanel', ['$interval', 'Queries', 'DATE_FORMAT',
+    function ($interval, Queries, DATE_FORMAT) {
     return {
         restrict: "E",
         templateUrl: 'app/queries/query-executions-refresher/executionsRefreshPanel.html',
@@ -8,6 +9,8 @@ app.directive('cepvExecutionsRefreshPanel', ['$interval', 'Queries', function ($
             query: '='
         },
         link: function (scope, element, attrs) {
+
+            scope.dateFormat = DATE_FORMAT;
 
             var queryExecRefresher;
 

@@ -1,54 +1,52 @@
 <div class="well">
-    <h1>Experiment</h1>
+    <h1 translate="EXPERIMENT">Experiment</h1>
     <dl class="dl-horizontal">
-        <dt>Name</dt>
+        <dt translate="NAME">Name</dt>
         <dd>{{parentExperiment.name}}</dd>
-        <dt>Description</dt>
+        <dt translate="DESCRIPTION">Description</dt>
         <dd>{{parentExperiment.description}}</dd>
-        <dt>Start time</dt>
-        <dd>{{parentExperiment.start | date:'dd/MM/yyyy HH:mm:ss.sss'}}</dd>
-        <dt>End time</dt>
-        <dd>{{parentExperiment.end | date:'dd/MM/yyyy HH:mm:ss.sss'}}</dd>
+        <dt translate="START_TIME">Start time</dt>
+        <dd>{{parentExperiment.start | date:dateFormat}}</dd>
+        <dt translate="END_TIME">End time</dt>
+        <dd>{{parentExperiment.end | date:dateFormat}}</dd>
     </dl>
 </div>
 
 <tabset justified="true">
-    <tab heading="Nodes">
-        <h3>Nodes related to selected experiment</h3>
-
+    <tab heading="{{'NODES'| translate}}">
         <div class="panel panel-default">
             <form novalidate class="panel-body form-horizontal" role="form">
                 <div class="form-group">
                     <div class="col-md-3 form-group">
                         <label for="externalId">ID</label>
-                        <input id="externalId" class="form-control" type="text" placeholder="External node ID filter"
+                        <input id="externalId" class="form-control" type="text"
                                ng-model="nodesSearchFilter.externalId" ng-model-options="{debounce: 300}"/>
                     </div>
                     <div class="col-md-3 form-group">
-                        <label for="name">Name</label>
-                        <input id="name" class="form-control" type="text" placeholder="Name filter"
+                        <label for="name" translate="NAME">Name</label>
+                        <input id="name" class="form-control" type="text"
                                ng-model="nodesSearchFilter.name" ng-model-options="{debounce: 300}"/>
                     </div>
                     <div class="col-md-6 form-group">
-                        <label for="description">Description</label>
-                        <input id="description" class="form-control" type="text" placeholder="Description filter"
+                        <label for="description" translate="DESCRIPTION">Description</label>
+                        <input id="description" class="form-control" type="text"
                                ng-model="nodesSearchFilter.description" ng-model-options="{debounce: 300}"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Addition Time min" search-filter-field="nodesSearchFilter.gtAdditionTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="ADDITION_TIME_FROM" search-filter-field="nodesSearchFilter.gtAdditionTime"></cepv-date-time-form>
                     </div>
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Addition Time max" search-filter-field="nodesSearchFilter.ltAdditionTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="ADDITION_TIME_TO" search-filter-field="nodesSearchFilter.ltAdditionTime"></cepv-date-time-form>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Removal Time min" search-filter-field="nodesSearchFilter.gtRemovalTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="REMOVAL_TIME_FROM" search-filter-field="nodesSearchFilter.gtRemovalTime"></cepv-date-time-form>
                     </div>
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Removal Time max" search-filter-field="nodesSearchFilter.ltRemovalTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="REMOVAL_TIME_TO" search-filter-field="nodesSearchFilter.ltRemovalTime"></cepv-date-time-form>
                     </div>
                 </div>
             </form>
@@ -64,42 +62,42 @@
                         </cepv-sorting-header>
                     </th>
                     <th class="col-md-2">
-                        <cepv-sorting-header header="nodeName" title="Name"
+                        <cepv-sorting-header header="nodeName" title="NAME"
                                              column="nodesSorting.column"
                                              is-desc="nodesSorting.isDesc">
                         </cepv-sorting-header>
                     </th>
                     <th class="col-md-4">
-                        <cepv-sorting-header header="nodeDescription" title="Description"
+                        <cepv-sorting-header header="nodeDescription" title="DESCRIPTION"
                                              column="nodesSorting.column"
                                              is-desc="nodesSorting.isDesc">
                         </cepv-sorting-header>
                     </th>
                     <th class="col-md-2">
-                        <cepv-sorting-header header="additionTime" title="Addition Time"
+                        <cepv-sorting-header header="additionTime" title="ADDITION_TIME"
                                              column="nodesSorting.column"
                                              is-desc="nodesSorting.isDesc">
                         </cepv-sorting-header>
                     </th>
                     <th class="col-md-2">
-                        <cepv-sorting-header header="removalTime" title="Removal Time"
+                        <cepv-sorting-header header="removalTime" title="REMOVAL_TIME"
                                              column="nodesSorting.column"
                                              is-desc="nodesSorting.isDesc">
                         </cepv-sorting-header>
                     </th>
-                    <th class="col-md-1">Action</th>
+                    <th class="col-md-1" translate="ACTION">Action</th>
                 </thead>
                 <tbody>
                 <tr ng-repeat="experiment2Node in experiment2Nodes">
                     <td ng-bind="experiment2Node.embeddedNode.externalId"></td>
                     <td ng-bind="experiment2Node.embeddedNode.name"></td>
                     <td ng-bind="experiment2Node.embeddedNode.description"></td>
-                    <td>{{experiment2Node.additionTime | date:'dd/MM/yyyy HH:mm:ss.sss'}}</td>
-                    <td>{{experiment2Node.removalTime | date:'dd/MM/yyyy HH:mm:ss.sss'}}</td>
+                    <td>{{experiment2Node.additionTime | date:dateFormat}}</td>
+                    <td>{{experiment2Node.removalTime | date:dateFormat}}</td>
                     <td>
                         <a ui-sref="queries">
                             <button type="button" class="btn btn-default" aria-label="true" ng-click="setParentNode(experiment2Node)">
-                                <i class="fa fa-code"></i> Queries
+                                <i class="fa fa-code"></i> {{'QUERIES' | translate}}
                             </button>
                         </a>
                     </td>
@@ -109,36 +107,35 @@
         </div>
         <div class="text-center" ng-show="nodesPagination.totalItems > nodesPagination.pageSize">
             <pagination total-items="nodesPagination.totalItems" ng-model="nodesPagination.currentPage"
-                        items-per-page="nodesPagination.pageSize" max-size="10" ng-change="getFilteredExperiment2NodeRelations()">
+                        items-per-page="nodesPagination.pageSize" max-size="10" previous-text="{{'PREVIOUS' | translate}}"
+                        next-text="{{'NEXT' | translate}}" ng-change="getFilteredExperiment2NodeRelations()">
             </pagination>
         </div>
     </tab>
-    <tab heading="Node connections">
-        <h3>Connections between nodes related to selected experiment</h3>
-
+    <tab heading="{{'NODE_CONNECTIONS'| translate}}">
         <div class="panel panel-default">
             <form novalidate class="panel-body form-horizontal" role="form">
                 <div class="form-group">
                     <div class="col-md-2 form-group">
-                        <label for="firstNodeExternalId">First Node ID</label>
+                        <label for="firstNodeExternalId" translate="FIRST_NODE_ID">First Node ID</label>
                         <input id="firstNodeExternalId" class="form-control" type="text"
                                ng-model="nodeConnectionsSearchFilter.firstNodeExternalId"
                                ng-model-options="{debounce: 300}"/>
                     </div>
                     <div class="col-md-4 form-group">
-                        <label for="firstNodeName">First Node Name</label>
+                        <label for="firstNodeName" translate="FIRST_NODE_NAME">First Node Name</label>
                         <input id="firstNodeName" class="form-control" type="text"
                                ng-model="nodeConnectionsSearchFilter.firstNodeName"
                                ng-model-options="{debounce: 300}"/>
                     </div>
                     <div class="col-md-2 form-group">
-                        <label for="secondNodeExternalId">Second Node ID</label>
+                        <label for="secondNodeExternalId" translate="SECOND_NODE_ID">Second Node ID</label>
                         <input id="secondNodeExternalId" class="form-control" type="text"
                                ng-model="nodeConnectionsSearchFilter.secondNodeExternalId"
                                ng-model-options="{debounce: 300}"/>
                     </div>
                     <div class="col-md-4 form-group">
-                        <label for="secondNodeName">Second Node Name</label>
+                        <label for="secondNodeName" translate="SECOND_NODE_NAME">Second Node Name</label>
                         <input id="secondNodeName" class="form-control" type="text"
                                ng-model="nodeConnectionsSearchFilter.secondNodeName"
                                ng-model-options="{debounce: 300}"/>
@@ -146,18 +143,18 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Connection Time min" search-filter-field="nodeConnectionsSearchFilter.gtConnectionTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="CONNECTION_TIME_FROM" search-filter-field="nodeConnectionsSearchFilter.gtConnectionTime"></cepv-date-time-form>
                     </div>
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Connection Time max" search-filter-field="nodeConnectionsSearchFilter.ltConnectionTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="CONNECTION_TIME_TO" search-filter-field="nodeConnectionsSearchFilter.ltConnectionTime"></cepv-date-time-form>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Disconnection Time min" search-filter-field="nodeConnectionsSearchFilter.gtDisconnectionTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="DISCONNECTION_TIME_FROM" search-filter-field="nodeConnectionsSearchFilter.gtDisconnectionTime"></cepv-date-time-form>
                     </div>
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Disconnection Time max" search-filter-field="nodeConnectionsSearchFilter.ltDisconnectionTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="DISCONNECTION_TIME_TO" search-filter-field="nodeConnectionsSearchFilter.ltDisconnectionTime"></cepv-date-time-form>
                     </div>
                 </div>
             </form>
@@ -167,37 +164,37 @@
                 <thead>
                 <tr>
                     <th class="col-md-2">
-                        <cepv-sorting-header header="firstNodeExternalId" title="First Node ID"
+                        <cepv-sorting-header header="firstNodeExternalId" title="FIRST_NODE_ID"
                                              column="nodeConnectionsSorting.column"
                                              is-desc="nodeConnectionsSorting.isDesc">
                         </cepv-sorting-header>
                     </th>
                     <th class="col-md-2">
-                        <cepv-sorting-header header="firstNodeName" title="First Node Name"
+                        <cepv-sorting-header header="firstNodeName" title="FIRST_NODE_NAME"
                                              column="nodeConnectionsSorting.column"
                                              is-desc="nodeConnectionsSorting.isDesc">
                         </cepv-sorting-header>
                     </th>
                     <th class="col-md-2">
-                        <cepv-sorting-header header="secondNodeExternalId" title="Second Node ID"
+                        <cepv-sorting-header header="secondNodeExternalId" title="SECOND_NODE_ID"
                                              column="nodeConnectionsSorting.column"
                                              is-desc="nodeConnectionsSorting.isDesc">
                         </cepv-sorting-header>
                     </th>
                     <th class="col-md-2">
-                        <cepv-sorting-header header="secondNodeName" title="Second Node Name"
+                        <cepv-sorting-header header="secondNodeName" title="SECOND_NODE_NAME"
                                              column="nodeConnectionsSorting.column"
                                              is-desc="nodeConnectionsSorting.isDesc">
                         </cepv-sorting-header>
                     </th>
                     <th class="col-md-2">
-                        <cepv-sorting-header header="connectionTime" title="Connection Time"
+                        <cepv-sorting-header header="connectionTime" title="CONNECTION_TIME"
                                              column="nodeConnectionsSorting.column"
                                              is-desc="nodeConnectionsSorting.isDesc">
                         </cepv-sorting-header>
                     </th>
                     <th class="col-md-2">
-                        <cepv-sorting-header header="disconnectionTime" title="Disconnection Time"
+                        <cepv-sorting-header header="disconnectionTime" title="DISCONNECTION_TIME"
                                              column="nodeConnectionsSorting.column"
                                              is-desc="nodeConnectionsSorting.isDesc">
                         </cepv-sorting-header>
@@ -209,37 +206,37 @@
                     <td ng-bind="node2Node.embeddedFirstNode.name"></td>
                     <td ng-bind="node2Node.embeddedSecondNode.externalId"></td>
                     <td ng-bind="node2Node.embeddedSecondNode.name"></td>
-                    <td>{{node2Node.connectionTime | date:'dd/MM/yyyy HH:mm:ss.sss'}}</td>
-                    <td>{{node2Node.disconnectionTime | date:'dd/MM/yyyy HH:mm:ss.sss'}}</td>
+                    <td>{{node2Node.connectionTime | date:dateFormat}}</td>
+                    <td>{{node2Node.disconnectionTime | date:dateFormat}}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="text-center" ng-show="nodeConnectionsPagination.totalItems > nodeConnectionsPagination.pageSize">
             <pagination total-items="nodeConnectionsPagination.totalItems" ng-model="nodeConnectionsPagination.currentPage"
-                        items-per-page="nodeConnectionsPagination.pageSize" max-size="10" ng-change="getFilteredNodeConnections()">
+                        items-per-page="nodeConnectionsPagination.pageSize" max-size="10" previous-text="{{'PREVIOUS' | translate}}"
+                        next-text="{{'NEXT' | translate}}" ng-change="getFilteredNodeConnections()">
             </pagination>
         </div>
     </tab>
-    <tab heading="Node connections visualisation">
-        <h3>Visualisation of connections between nodes related to selected experiment</h3>
+    <tab heading="{{'NODE_CONNECTIONS_VISUALISATION'| translate}}">
 
         <div class="panel panel-default">
             <form novalidate class="panel-body form-horizontal" role="form">
                 <div class="form-group">
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Connection Time min" search-filter-field="nodeConnectionsGraphSearchFilter.gtConnectionTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="CONNECTION_TIME_FROM" search-filter-field="nodeConnectionsGraphSearchFilter.gtConnectionTime"></cepv-date-time-form>
                     </div>
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Connection Time max" search-filter-field="nodeConnectionsGraphSearchFilter.ltConnectionTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="CONNECTION_TIME_TO" search-filter-field="nodeConnectionsGraphSearchFilter.ltConnectionTime"></cepv-date-time-form>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Disconnection Time min" search-filter-field="nodeConnectionsGraphSearchFilter.gtDisconnectionTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="DISCONNECTION_TIME_FROM" search-filter-field="nodeConnectionsGraphSearchFilter.gtDisconnectionTime"></cepv-date-time-form>
                     </div>
                     <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="Disconnection Time max" search-filter-field="nodeConnectionsGraphSearchFilter.ltDisconnectionTime"></cepv-date-time-form>
+                        <cepv-date-time-form title="DISCONNECTION_TIME_TO" search-filter-field="nodeConnectionsGraphSearchFilter.ltDisconnectionTime"></cepv-date-time-form>
                     </div>
                 </div>
             </form>

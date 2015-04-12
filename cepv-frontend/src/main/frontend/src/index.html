@@ -6,15 +6,21 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>
     <link rel="stylesheet" type="text/css" href="css/vendor.css"/>
 </head>
-<body>
+<body ng-controller="TranslationController">
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" ui-sref="experiments">CEP Visualiser</a>
         </div>
-        <ul class="nav navbar-nav">
-            <li ng-class='{"active":isActive}' ng-click="!isActive"><a ui-sref="about">About</a></li>
-        </ul>
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a ui-sref="about" translate="ABOUT">About</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a ng-click="changeLanguage('en')" href="#">EN</a></li>
+                <li><a ng-click="changeLanguage('cz')" href="#">CZ</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 <div class="container">

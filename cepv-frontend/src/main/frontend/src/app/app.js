@@ -1,5 +1,7 @@
 'use strict';
-var app = angular.module('cepVisualiser', ['visualiserServices', 'ui.bootstrap', 'ui.router', 'ngResource', 'spring-data-rest']);
+
+var app = angular.module('cepVisualiser', ['visualiserServices', 'ui.bootstrap', 'ui.router', 'pascalprecht.translate',
+    'config']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     $stateProvider
@@ -28,4 +30,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             templateUrl: 'app/about/about.html'
         });
     $urlRouterProvider.otherwise('/');
+}]);
+
+app.config(['$translateProvider', 'TRANSLATIONS_EN', 'TRANSLATIONS_CZ',
+    function ($translateProvider, TRANSLATIONS_EN, TRANSLATIONS_CZ) {
+    $translateProvider.translations('en', TRANSLATIONS_EN);
+    $translateProvider.translations('cz', TRANSLATIONS_CZ);
+    $translateProvider.determinePreferredLanguage();
 }]);
