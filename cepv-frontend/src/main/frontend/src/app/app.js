@@ -36,5 +36,5 @@ app.config(['$translateProvider', 'TRANSLATIONS_EN', 'TRANSLATIONS_CZ',
     function ($translateProvider, TRANSLATIONS_EN, TRANSLATIONS_CZ) {
     $translateProvider.translations('en', TRANSLATIONS_EN);
     $translateProvider.translations('cz', TRANSLATIONS_CZ);
-    $translateProvider.determinePreferredLanguage();
+    $translateProvider.preferredLanguage('en');
 }]);

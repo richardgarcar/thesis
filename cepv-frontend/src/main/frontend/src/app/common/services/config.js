@@ -67,7 +67,7 @@ config.constant('TRANSLATIONS_CZ', {
     NODE_CONNECTIONS: 'Přepojení uzlů',
     NODE_CONNECTIONS_VISUALISATION: 'Vizualizace přepojení uzlů',
     NEXT: 'Další',
-    PREVIOUS: 'Předchodzí',
+    PREVIOUS: 'Předchozí',
     ADDITION_TIME: 'Čas přidání',
     ADDITION_TIME_FROM: 'Čas přidání od',
     ADDITION_TIME_TO: 'Čas přidání do',

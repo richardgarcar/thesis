@@ -8,6 +8,8 @@ var mainBowerFiles = require('main-bower-files');
 var templateCache = require('gulp-angular-templatecache');
 var plumber = require('gulp-plumber');
 var livereload = require('gulp-livereload');
+var protractor = require("gulp-protractor").protractor;
+var webdriverUpdate = require('gulp-protractor').webdriver_update;
 
 gulp.task('connect', function () {
     var connect = require('connect');
@@ -106,4 +108,16 @@ gulp.task('build', ['build-js', 'build-css', 'build-fonts', 'build-index'], func
 });
 
 gulp.task('dev', ['build', 'watch'], function () {
+});
+
+gulp.task('webdriver-update', webdriverUpdate);
+
+gulp.task('protractor', ['webdriver-update'], function () {
+    return gulp.src(["./src/test/e2e/*Spec.js"])
+        .pipe(protractor({
+            configFile: "src/test/protractor.config.js"
+        }))
+        .on('error', function (e) {
+            throw e
+        })
 });
