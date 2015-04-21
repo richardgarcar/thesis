@@ -45,8 +45,8 @@ public class ExperimentControllerIntegrationTest extends BaseIntegrationTest {
                 .param("description", "Test experiment description 1")
                 .param("gtStart", "201510100800000069")
                 .param("ltStart", "201510100800000071")
-                .param("gtEnd", "20151010082000122")
-                .param("ltEnd", "201510100820000124"))
+                .param("gtEnd", "20151010092000122")
+                .param("ltEnd", "201510100920000124"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.size", is(20)))
                 .andExpect(jsonPath("$.page.totalElements", is(1)))
@@ -64,7 +64,7 @@ public class ExperimentControllerIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.name", is("Test experiment 1")))
                 .andExpect(jsonPath("$.description", is("Test experiment description 1")))
                 .andExpect(jsonPath("$.start", is("2015-10-10T08:00:00.070")))
-                .andExpect(jsonPath("$.end", is("2015-10-10T08:20:00.123")));
+                .andExpect(jsonPath("$.end", is("2015-10-10T09:20:00.123")));
     }
 
     @Test

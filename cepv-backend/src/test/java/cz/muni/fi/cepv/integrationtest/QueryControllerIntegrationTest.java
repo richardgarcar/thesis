@@ -8,6 +8,7 @@ import org.junit.runners.MethodSorters;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -198,8 +199,8 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.size", is(20)))
-                .andExpect(jsonPath("$.page.totalElements", is(35)))
-                .andExpect(jsonPath("$.page.totalPages", is(2)))
+                .andExpect(jsonPath("$.page.totalElements", is(54)))
+                .andExpect(jsonPath("$.page.totalPages", is(3)))
                 .andExpect(jsonPath("$.page.number", is(0)));
     }
 
@@ -211,7 +212,7 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password"))))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", is(LinkUtil.getQueryExecutionResourceLink(51L))));
+                .andExpect(header().string("Location", is(LinkUtil.getQueryExecutionResourceLink(81L))));
     }
 
     @Test
@@ -222,5 +223,38 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
                 .with(httpBasic(environment.getProperty("spring.security.user"),
                         environment.getProperty("spring.security.password") + "1")))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void test19_findQueryExecutionsInMinuteInterval() throws Exception {
+        mockMvc.perform(get(LinkUtil.QUERY_QUERY_EXECUTIONS_STATISTICS, 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password")))
+                .param("interval", "MINUTE"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._embedded.queryExecutionsIntervalList", hasSize(36)));
+    }
+
+    @Test
+    public void test20_findQueryExecutionsInHourInterval() throws Exception {
+        mockMvc.perform(get(LinkUtil.QUERY_QUERY_EXECUTIONS_STATISTICS, 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password")))
+                .param("interval", "HOUR"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._embedded.queryExecutionsIntervalList", hasSize(7)));
+    }
+
+    @Test
+    public void test21_findQueryExecutionsInDayInterval() throws Exception {
+        mockMvc.perform(get(LinkUtil.QUERY_QUERY_EXECUTIONS_STATISTICS, 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic(environment.getProperty("spring.security.user"),
+                        environment.getProperty("spring.security.password")))
+                .param("interval", "DAY"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._embedded.queryExecutionsIntervalList", hasSize(2)));
     }
 }

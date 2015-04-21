@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('nodeConnectionsGraph', function () {
+app.directive('cepvNodeConnectionsGraph', function () {
     return {
         restrict: "E",
         replace: false,

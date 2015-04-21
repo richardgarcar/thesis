@@ -1,4 +1,4 @@
-package cz.muni.fi.cepv.repository.querydsl;
+package cz.muni.fi.cepv.querydsl;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import cz.muni.fi.cepv.model.QNode2Node;

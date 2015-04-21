@@ -26,8 +26,19 @@
 <div class="row">
     <div class="col-md-9">
         <h3 translate="EXECUTIONS_VISUALIZATION_HEADER">Visualisation of query executions</h3>
+        <div class="form-group">
+            <label for="queryExecutionsStatisticsInterval" translate="INTERVAL">Interval</label>
+            <select id="queryExecutionsStatisticsInterval" class="form-control" ng-model="selectedInterval"
+                    ng-change="getQueryExecutionsStatistics()"
+                    ng-options="interval | translate for interval in intervals"></select>
+        </div>
         <div class="panel panel-default">
             <div class="panel-body">
+                <cepv-query-executions-graph data="queryExecutionsGraphData"
+                                             interval="{{selectedInterval}}"
+                                             interval-tooltip-text="{{'INTERVAL' | translate}}"
+                                             executions-tooltip-text="{{'EXECUTIONS' | translate}}">
+                </cepv-query-executions-graph>
             </div>
         </div>
     </div>

@@ -100,7 +100,7 @@ CREATE INDEX fki_fk3_node_2_node
 CREATE TABLE cepv.query
 (
   id bigint NOT NULL,
-  version integer NOT NULL DEFAULT 0,
+  version integer NOT NULL,
   experiment_id bigint,
   node_id bigint,
   deployment_time timestamp without time zone NOT NULL,

@@ -2,7 +2,7 @@ package cz.muni.fi.cepv.web.controller;
 
 import cz.muni.fi.cepv.model.Experiment;
 import cz.muni.fi.cepv.repository.ExperimentRepository;
-import cz.muni.fi.cepv.repository.querydsl.ExperimentQueryDsl;
+import cz.muni.fi.cepv.querydsl.ExperimentQueryDsl;
 import cz.muni.fi.cepv.web.LinkUtil;
 import cz.muni.fi.cepv.web.exception.ResourceNotFoundException;
 import cz.muni.fi.cepv.web.resoureceassambler.ExperimentResourceAssembler;

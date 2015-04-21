@@ -6,7 +6,7 @@ import cz.muni.fi.cepv.model.Node2Node;
 import cz.muni.fi.cepv.repository.ExperimentRepository;
 import cz.muni.fi.cepv.repository.Node2NodeRepository;
 import cz.muni.fi.cepv.repository.NodeRepository;
-import cz.muni.fi.cepv.repository.querydsl.Node2NodeQueryDsl;
+import cz.muni.fi.cepv.querydsl.Node2NodeQueryDsl;
 import cz.muni.fi.cepv.web.LinkUtil;
 import cz.muni.fi.cepv.web.exception.ResourceNotFoundException;
 import cz.muni.fi.cepv.web.resoureceassambler.Node2NodeResourceAssembler;

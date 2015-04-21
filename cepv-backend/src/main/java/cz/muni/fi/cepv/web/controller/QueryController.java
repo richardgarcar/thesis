@@ -1,8 +1,13 @@
 package cz.muni.fi.cepv.web.controller;
 
+import cz.muni.fi.cepv.enums.QueryExecutionsIntervalEnum;
 import cz.muni.fi.cepv.model.*;
-import cz.muni.fi.cepv.repository.*;
-import cz.muni.fi.cepv.repository.querydsl.QueryQueryDsl;
+import cz.muni.fi.cepv.querydsl.QueryQueryDsl;
+import cz.muni.fi.cepv.repository.ExperimentRepository;
+import cz.muni.fi.cepv.repository.NodeRepository;
+import cz.muni.fi.cepv.repository.QueryAttributeRepository;
+import cz.muni.fi.cepv.repository.QueryRepository;
+import cz.muni.fi.cepv.repository.queryexecution.QueryExecutionRepository;
 import cz.muni.fi.cepv.web.LinkUtil;
 import cz.muni.fi.cepv.web.exception.ResourceNotFoundException;
 import cz.muni.fi.cepv.web.resoureceassambler.QueryAttributeResourceAssembler;
@@ -13,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.UriTemplate;
+import org.springframework.hateoas.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Date;
+import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -297,5 +300,18 @@ public class QueryController {
         httpHeaders.setLocation(URI.create(resource.getLink("self").getHref()));
 
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = LinkUtil.QUERY_QUERY_EXECUTIONS_STATISTICS, method = RequestMethod.GET)
+    public HttpEntity<Resources<QueryExecutionsInterval>> getQueryExecutionStatistics(@PathVariable final Long queryId,
+                                                                                 @RequestParam final String interval) {
+
+        final Link link = linkTo(methodOn(QueryController.class).
+                getQueryExecutionStatistics(queryId, interval)).withSelfRel();
+
+        final List<QueryExecutionsInterval> executionsIntervals = queryExecutionRepository.
+                findQueryExecutionsInTimeInterval(queryId, QueryExecutionsIntervalEnum.valueOf(interval));
+
+        return new ResponseEntity<>(new Resources<>(executionsIntervals, link), HttpStatus.OK);
     }
 }

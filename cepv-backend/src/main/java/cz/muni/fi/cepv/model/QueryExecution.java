@@ -5,11 +5,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.hateoas.core.Relation;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
  * @author xgarcar
  */
+@SqlResultSetMapping(name="queryExecutionInterval",
+        classes={
+                @ConstructorResult(targetClass=QueryExecutionsInterval.class, columns={
+                        @ColumnResult(name="interval_endpoint", type=Date.class),
+                        @ColumnResult(name="amount", type= BigInteger.class),
+                })
+        }
+)
 @Entity
 @Table(name = "QUERY_EXECUTION")
 @Relation(collectionRelation = "queryExecutions")

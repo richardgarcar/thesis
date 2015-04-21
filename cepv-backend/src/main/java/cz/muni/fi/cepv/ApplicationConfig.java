@@ -1,5 +1,8 @@
 package cz.muni.fi.cepv;
 
+import cz.muni.fi.cepv.dao.HSQLDBQueryExecutionDAO;
+import cz.muni.fi.cepv.dao.QueryExecutionDAO;
+import cz.muni.fi.cepv.dao.PostgresQueryExecutionDAO;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +45,7 @@ public class ApplicationConfig {
         public DataSource dataSource() {
             final EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
             return builder
-                    .setType(EmbeddedDatabaseType.H2)
+                    .setType(EmbeddedDatabaseType.HSQL)
                     .addScript("classpath:/sql/sample_data.sql").build();
         }
 
@@ -51,7 +54,7 @@ public class ApplicationConfig {
 
             final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
             vendorAdapter.setShowSql(true);
-            vendorAdapter.setDatabase(Database.H2);
+            vendorAdapter.setDatabase(Database.HSQL);
 
             final LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
             factory.setJpaVendorAdapter(vendorAdapter);
@@ -60,6 +63,11 @@ public class ApplicationConfig {
             factory.setDataSource(dataSource());
 
             return factory;
+        }
+
+        @Bean
+        public QueryExecutionDAO queryExecutionDAO(){
+            return new HSQLDBQueryExecutionDAO();
         }
     }
 
@@ -102,6 +110,11 @@ public class ApplicationConfig {
             properties.setProperty("hibernate.default_schema", environment.getProperty("hibernate.default_schema"));
 
             return properties;
+        }
+
+        @Bean
+        public QueryExecutionDAO queryExecutionDAO(){
+            return new PostgresQueryExecutionDAO();
         }
     }
 

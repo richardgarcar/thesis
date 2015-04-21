@@ -93,6 +93,16 @@ services.factory('Queries', ['$http', function QueriesFactory($http) {
             };
 
             return query._resources(queryExecutionsResourceObject);
+        },
+
+        'getQueryExecutionsStatistics': function(query, interval) {
+            var queryExecutionsStatisticsResourceObject = {
+                "name": "queryExecutionsStatistics",
+                "parameters": {
+                    interval: interval
+                }
+            };
+            return query._resources(queryExecutionsStatisticsResourceObject);
         }
     };
 }]);

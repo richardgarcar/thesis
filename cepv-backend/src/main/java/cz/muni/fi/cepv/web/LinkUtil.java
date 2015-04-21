@@ -42,7 +42,7 @@ public class LinkUtil {
     public static final String QUERY_QUERY_ATTRIBUTES = QUERY + "/queryAttributes";
     public static final String QUERY_QUERY_EXECUTIONS = QUERY + "/queryExecutions";
     public static final String QUERY_EXECUTION = "/queryExecutions/{queryExecutionId}";
-
+    public static final String QUERY_QUERY_EXECUTIONS_STATISTICS = QUERY + "/queryExecutionsStatistics";
 
 
     private LinkUtil() {
@@ -104,6 +104,10 @@ public class LinkUtil {
         return (BASE + QUERY_EXECUTION).replace("{queryExecutionId}", queryExecutionId.toString());
     }
 
+    public static String getQueryResourceQueryExecutionsStatisticsLink(final Long queryId) {
+        return (BASE + QUERY_QUERY_EXECUTIONS_STATISTICS).replace("{queryId}", queryId.toString());
+    }
+
     public static TemplateVariables getFilteredExperiment2NodeRelationsTemplateVariables() {
         return new TemplateVariables(
                 new TemplateVariable("nodeExternalId", TemplateVariable.VariableType.REQUEST_PARAM),
@@ -151,5 +155,9 @@ public class LinkUtil {
                 new TemplateVariable("page", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM));
+    }
+
+    public static TemplateVariables getQueryExecutionsStatisticsTemplateVariables() {
+        return new TemplateVariables(new TemplateVariable("interval", TemplateVariable.VariableType.REQUEST_PARAM));
     }
 }

@@ -1,7 +1,7 @@
 CREATE TABLE experiment
 (
-  id bigint PRIMARY KEY auto_increment,
-  version int NOT NULL DEFAULT 0,
+  id BIGINT PRIMARY KEY IDENTITY,
+  version integer DEFAULT 0 NOT NULL,
   name varchar(255),
   description varchar(255),
   start_time TIMESTAMP,
@@ -10,8 +10,8 @@ CREATE TABLE experiment
 
 CREATE TABLE node
 (
-  id bigint PRIMARY KEY auto_increment,
-  version int NOT NULL DEFAULT 0,
+  id BIGINT PRIMARY KEY IDENTITY,
+  version integer DEFAULT 0 NOT NULL,
   external_id varchar(255) UNIQUE,
   name varchar(255),
   description varchar(255),
@@ -19,10 +19,10 @@ CREATE TABLE node
 
 CREATE TABLE experiment_2_node
 (
-  id bigint PRIMARY KEY auto_increment,
-  version int NOT NULL DEFAULT 0,
-  experiment_id bigint,
-  node_id bigint,
+  id BIGINT PRIMARY KEY IDENTITY,
+  version integer DEFAULT 0 NOT NULL,
+  experiment_id BIGINT,
+  node_id BIGINT,
   addition_time TIMESTAMP NOT NULL,
   removal_time TIMESTAMP,
   FOREIGN KEY (experiment_id) REFERENCES experiment(id),
@@ -31,11 +31,11 @@ CREATE TABLE experiment_2_node
 
 CREATE TABLE node_2_node
 (
-  id bigint PRIMARY KEY auto_increment,
-  version int NOT NULL DEFAULT 0,
-  first_node_id bigint,
-  second_node_id bigint,
-  experiment_id bigint,
+  id BIGINT PRIMARY KEY IDENTITY,
+  version integer DEFAULT 0 NOT NULL,
+  first_node_id BIGINT,
+  second_node_id BIGINT,
+  experiment_id BIGINT,
   connection_time TIMESTAMP NOT NULL,
   disconnection_time TIMESTAMP,
   FOREIGN KEY (first_node_id) REFERENCES node(id),
@@ -45,10 +45,10 @@ CREATE TABLE node_2_node
 
 CREATE TABLE query
 (
-  id bigint PRIMARY KEY auto_increment,
-  version int NOT NULL DEFAULT 0,
-  experiment_id bigint,
-  node_id bigint,
+  id BIGINT PRIMARY KEY IDENTITY,
+  version integer DEFAULT 0 NOT NULL,
+  experiment_id BIGINT,
+  node_id BIGINT,
   deployment_time TIMESTAMP NOT NULL,
   content VARCHAR(255) NOT NULL,
   FOREIGN KEY (experiment_id) REFERENCES experiment(id),
@@ -57,8 +57,8 @@ CREATE TABLE query
 
 CREATE TABLE query_attribute
 (
-  id bigint PRIMARY KEY auto_increment,
-  version int NOT NULL DEFAULT 0,
+  id BIGINT PRIMARY KEY IDENTITY,
+  version integer DEFAULT 0 NOT NULL,
   query_id BIGINT,
   key varchar(255) NOT NULL,
   value varchar(255) NOT NULL,
@@ -67,8 +67,8 @@ CREATE TABLE query_attribute
 
 CREATE TABLE query_execution
 (
-  id bigint PRIMARY KEY auto_increment,
-  version int NOT NULL DEFAULT 0,
+  id BIGINT PRIMARY KEY IDENTITY,
+  version integer DEFAULT 0 NOT NULL,
   query_id BIGINT,
   execution_time TIMESTAMP,
   FOREIGN KEY (query_id) REFERENCES query(id)
@@ -77,7 +77,7 @@ CREATE TABLE query_execution
 -------------------------------------------------------------------------------------
 --- Sample data for H2 in-memory DB used for integration test and for development ---
 -------------------------------------------------------------------------------------
-insert into experiment (id, name, description, start_time, end_time) values (1 , 'Test experiment 1', 'Test experiment description 1', '2015-10-10 08:00:00.070', '2015-10-10 08:20:00.123');
+insert into experiment (id, name, description, start_time, end_time) values (1 , 'Test experiment 1', 'Test experiment description 1', '2015-10-10 08:00:00.070', '2015-10-10 09:20:00.123');
 insert into experiment (id, name, description, start_time, end_time) values (2 , 'Test experiment 2', 'Test experiment description 2', '2014-10-10 14:20:00.070', '2014-10-10 14:23:14.078');
 insert into experiment (id, name, description, start_time, end_time) values (3 , 'Test experiment 3', 'Test experiment description 3', '2014-10-12 14:20:00.070', '2014-10-12 14:23:14.078');
 insert into experiment (id, name, description, start_time, end_time) values (4 , 'Test experiment 4', 'Test experiment description 4', '2014-04-07 14:20:00.070', '2014-04-07 14:23:14.078');
@@ -238,6 +238,25 @@ insert into query_execution (id, query_id, execution_time) values (44, 1, '2014-
 insert into query_execution (id, query_id, execution_time) values (45, 1, '2014-10-10 08:05:00.178');
 insert into query_execution (id, query_id, execution_time) values (46, 1, '2014-10-10 08:05:01.178');
 insert into query_execution (id, query_id, execution_time) values (47, 1, '2014-10-10 08:05:02.178');
-insert into query_execution (id, query_id, execution_time) values (48, 1, '2014-10-10 08:05:03.178');
-insert into query_execution (id, query_id, execution_time) values (49, 1, '2014-10-10 08:05:04.178');
-insert into query_execution (id, query_id, execution_time) values (50, 1, '2014-10-10 08:05:05.178');
+insert into query_execution (id, query_id, execution_time) values (48, 1, '2014-10-10 08:05:02.256');
+insert into query_execution (id, query_id, execution_time) values (49, 1, '2014-10-10 08:05:02.512');
+insert into query_execution (id, query_id, execution_time) values (50, 1, '2014-10-10 08:05:02.750');
+insert into query_execution (id, query_id, execution_time) values (52, 1, '2014-10-10 09:00:58.750');
+insert into query_execution (id, query_id, execution_time) values (53, 1, '2014-10-10 09:00:58.900');
+insert into query_execution (id, query_id, execution_time) values (54, 1, '2014-10-10 09:00:59.100');
+insert into query_execution (id, query_id, execution_time) values (55, 1, '2014-10-10 09:00:59.750');
+insert into query_execution (id, query_id, execution_time) values (56, 1, '2014-10-10 09:01:01.100');
+insert into query_execution (id, query_id, execution_time) values (57, 1, '2014-10-10 09:01:01.500');
+insert into query_execution (id, query_id, execution_time) values (58, 1, '2014-10-10 09:01:01.750');
+insert into query_execution (id, query_id, execution_time) values (59, 1, '2014-10-10 09:01:02.100');
+insert into query_execution (id, query_id, execution_time) values (60, 1, '2014-10-10 09:01:02.500');
+insert into query_execution (id, query_id, execution_time) values (71, 1, '2014-10-10 09:01:02.750');
+insert into query_execution (id, query_id, execution_time) values (72, 1, '2014-10-10 09:01:02.999');
+insert into query_execution (id, query_id, execution_time) values (73, 1, '2014-10-10 09:01:03.000');
+insert into query_execution (id, query_id, execution_time) values (74, 1, '2014-10-10 09:01:03.045');
+insert into query_execution (id, query_id, execution_time) values (75, 1, '2014-10-10 09:01:03.120');
+insert into query_execution (id, query_id, execution_time) values (76, 1, '2014-10-10 09:01:03.200');
+insert into query_execution (id, query_id, execution_time) values (77, 1, '2014-10-10 09:01:03.450');
+insert into query_execution (id, query_id, execution_time) values (78, 1, '2014-10-10 09:01:03.700');
+insert into query_execution (id, query_id, execution_time) values (79, 1, '2014-10-10 09:01:03.800');
+insert into query_execution (id, query_id, execution_time) values (80, 1, '2014-10-10 09:01:03.999');

@@ -47,7 +47,11 @@ config.constant('TRANSLATIONS_EN', {
     EXECUTIONS: 'Executions',
     DETAIL: 'Detail',
     EXECUTIONS_VISUALIZATION_HEADER: 'Visualisation of query executions',
-    TOTAL_AMOUNT: 'Total amount'
+    TOTAL_AMOUNT: 'Total amount',
+    INTERVAL: 'Interval',
+    DAY: 'Day',
+    HOUR: 'Hour',
+    MINUTE: 'Minute'
 });
 config.constant('TRANSLATIONS_CZ', {
     ABOUT: 'O aplikaci',
@@ -94,6 +98,10 @@ config.constant('TRANSLATIONS_CZ', {
     EXECUTIONS: 'Spuštění',
     DETAIL: 'Detail',
     EXECUTIONS_VISUALIZATION_HEADER: 'Vizualizace spuštění dotazu',
-    TOTAL_AMOUNT: 'Celkový počet'
+    TOTAL_AMOUNT: 'Celkový počet',
+    INTERVAL: 'Interval',
+    DAY: 'Den',
+    HOUR: 'Hodina',
+    MINUTE: 'Minuta'
 });
 config.constant('DATE_FORMAT', 'dd/MM/yyyy HH:mm:ss.sss');

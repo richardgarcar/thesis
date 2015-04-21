@@ -9,6 +9,13 @@ app.controller('QueryDetailController', ['$scope', '$interval', 'DataService', '
             totalItems: 0
         };
 
+        $scope.intervals = [
+            'HOUR',
+            'MINUTE'
+        ];
+
+        $scope.selectedInterval = $scope.intervals[0];
+
         $scope.query = DataService.getParentQuery();
 
         $scope.getQueryExecutions = function () {
@@ -22,7 +29,17 @@ app.controller('QueryDetailController', ['$scope', '$interval', 'DataService', '
             })
         };
 
+        $scope.getQueryExecutionsStatistics = function () {
+
+            var resource = Queries.getQueryExecutionsStatistics($scope.query, $scope.selectedInterval);
+
+            resource.get(function (result) {
+                $scope.queryExecutionsGraphData = (result._embedded === undefined ? result._embedded : result._embedded.queryExecutionsIntervalList);
+            })
+        };
+
         $scope.getQueryExecutions();
+        $scope.getQueryExecutionsStatistics();
 
         var queryExecRefresh = $interval(function () {
             $scope.getQueryExecutions()

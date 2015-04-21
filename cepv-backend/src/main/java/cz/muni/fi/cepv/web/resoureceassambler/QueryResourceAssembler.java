@@ -21,11 +21,14 @@ public class QueryResourceAssembler implements ResourceAssembler<Query, Resource
         final Link selfLink = new Link(LinkUtil.getQueryResourceLink(entity.getId())).withSelfRel();
         final Link queryExecutionsLink = new Link(new UriTemplate(LinkUtil.getQueryResourceQueryExecutionsLink(entity.getId()),
                         LinkUtil.getPageTemplateVariables()), "queryExecutions");
+        final Link queryExecutionsStatisticsLink = new Link(new UriTemplate(LinkUtil.getQueryResourceQueryExecutionsStatisticsLink(entity.getId()),
+                LinkUtil.getQueryExecutionsStatisticsTemplateVariables()), "queryExecutionsStatistics");
         final Link experimentLink = new Link(LinkUtil.getExperimentResourceLink(entity.getExperiment().getId())).withRel("experiment");
         final Link nodeLink = new Link(LinkUtil.getNodeResourceLink(entity.getNode().getExternalId())).withRel("node");
 
         queryResource.add(selfLink);
         queryResource.add(queryExecutionsLink);
+        queryResource.add(queryExecutionsStatisticsLink);
         queryResource.add(experimentLink);
         queryResource.add(nodeLink);
 
