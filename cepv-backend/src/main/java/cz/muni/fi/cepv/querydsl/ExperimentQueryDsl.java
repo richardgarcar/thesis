@@ -45,8 +45,8 @@ public class ExperimentQueryDsl {
     }
 
     private static BooleanExpression isEndInInterval(final Date gtEnd, final Date ltEnd) {
-        BooleanExpression afterCondition = gtEnd != null ? QExperiment.experiment.end.after(gtEnd).or(QExperiment.experiment.end.isNull()) : null;
-        BooleanExpression beforeCondition = ltEnd != null ? QExperiment.experiment.end.before(ltEnd).or(QExperiment.experiment.end.isNull()) : null;
+        BooleanExpression afterCondition = gtEnd != null ? QExperiment.experiment.end.after(gtEnd) : null;
+        BooleanExpression beforeCondition = ltEnd != null ? QExperiment.experiment.end.before(ltEnd) : null;
         return afterCondition != null ? afterCondition.and(beforeCondition) : beforeCondition;
     }
 }

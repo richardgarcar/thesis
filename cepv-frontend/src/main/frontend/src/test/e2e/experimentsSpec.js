@@ -4,37 +4,37 @@ var ExperimentsPage = require('./page-objects/experimentsPageObj.js');
 
 var experimentsPage = new ExperimentsPage();
 
-beforeEach(function() {
-    experimentsPage.getPageWithExperiments();
-});
+describe('Experiments page', function() {
+    beforeEach(function() {
+        experimentsPage.getPageWithExperiments();
+    });
 
-describe('experiments page with filter', function() {
-    it('should find single result filtering by name', function() {
+    it('should find single result when filtering by name', function() {
         experimentsPage.setToNameFilter('experiment 30');
         expect(experimentsPage.getFilteredExperiments().count()).toEqual(1);
         expect(experimentsPage.getNameOfFirstFilteredExperiment()).toEqual('Test experiment 30');
     });
 
-    it('should find single result filtering by description', function() {
+    it('should display single result when filtering by description', function() {
         experimentsPage.setToDescriptionFilter('description 30');
         expect(experimentsPage.getFilteredExperiments().count()).toEqual(1);
         expect(experimentsPage.getNameOfFirstFilteredExperiment()).toEqual('Test experiment 30');
     });
 
-    it('should find single result filtering by name and description', function() {
+    it('should display single result when filtering by name and description', function() {
         experimentsPage.setToNameFilter('experiment');
         experimentsPage.setToDescriptionFilter('30');
         expect(experimentsPage.getFilteredExperiments().count()).toEqual(1);
         expect(experimentsPage.getNameOfFirstFilteredExperiment()).toEqual('Test experiment 30');
     });
 
-    it('should find single result filtering by start time interval', function() {
+    it('should display single result when filtering by start time interval', function() {
         experimentsPage.setStartTimeIntervalToFilter('10/10/2008', '14:20:00.077', '10/10/2008', '14:20:00.079');
         expect(experimentsPage.getFilteredExperiments().count()).toEqual(1);
         expect(experimentsPage.getNameOfFirstFilteredExperiment()).toEqual('Test experiment 30');
     });
 
-    it('should find single result filtering by end time interval', function() {
+    it('should display single result when filtering by end time interval', function() {
         experimentsPage.setEndTimeIntervalToFilter('10/10/2015', '09:20:00.122', '10/10/2015', '09:20:00.124');
         expect(experimentsPage.getFilteredExperiments().count()).toEqual(1);
         expect(experimentsPage.getNameOfFirstFilteredExperiment()).toEqual('Test experiment 1');

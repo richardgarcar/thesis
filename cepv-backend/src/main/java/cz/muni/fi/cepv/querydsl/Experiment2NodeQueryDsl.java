@@ -61,8 +61,8 @@ public class Experiment2NodeQueryDsl {
     }
 
     private static BooleanExpression isRemovalTimeInInterval(final Date gtRemovalTime, final Date ltRemovalTime) {
-        BooleanExpression afterCondition = gtRemovalTime != null ? experiment2Node.removalTime.after(gtRemovalTime).or(experiment2Node.removalTime.isNull()) : null;
-        BooleanExpression beforeCondition = ltRemovalTime != null ? experiment2Node.removalTime.before(ltRemovalTime).or(experiment2Node.removalTime.isNull()) : null;
+        BooleanExpression afterCondition = gtRemovalTime != null ? experiment2Node.removalTime.after(gtRemovalTime) : null;
+        BooleanExpression beforeCondition = ltRemovalTime != null ? experiment2Node.removalTime.before(ltRemovalTime) : null;
         return afterCondition != null ? afterCondition.and(beforeCondition) : beforeCondition;
     }
 }

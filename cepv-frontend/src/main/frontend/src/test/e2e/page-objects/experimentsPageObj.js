@@ -17,9 +17,10 @@ var ExperimentsPage = function() {
     this.endSortingHeader = element(by.css('[header="end"]')).element(by.tagName('a'));
     this.filteredExperiments = element.all(by.repeater('experiment in experiments'));
     this.nameOfFirstFilteredExperiment = element(by.repeater('experiment in experiments').row(0).column('experiment.name'));
+    this.nodesButtonOfFirstFitleredExperiment = element(by.repeater('experiment in experiments').row(0)).element(by.tagName('button'));
 
     this.getPageWithExperiments = function() {
-        browser.get('http://localhost:8080/cepv/');
+        browser.get('http://user:password@localhost:8080/cepv/');
     };
 
     this.setToNameFilter = function(value) {
@@ -83,6 +84,10 @@ var ExperimentsPage = function() {
     this.sortExperimentsByEnd = function() {
         this.endSortingHeader.click();
     };
+
+    this.clickOnNodesButton = function(){
+        this.nodesButtonOfFirstFitleredExperiment.click();
+    }
 };
 
 module.exports = ExperimentsPage;

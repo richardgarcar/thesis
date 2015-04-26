@@ -54,7 +54,7 @@
         <div class="text-center" ng-show="queryExecutionPagination.totalItems > queryExecutionPagination.pageSize">
             <pagination total-items="queryExecutionPagination.totalItems" ng-model="queryExecutionPagination.currentPage"
                         items-per-page="queryExecutionPagination.pageSize" max-size="3" previous-text="{{'PREVIOUS' | translate}}"
-                        next-text="{{'NEXT' | translate}}" ng-change="getQueryExecutionsData(query)">
+                        next-text="{{'NEXT' | translate}}" ng-change="getQueryExecutions()">
             </pagination>
         </div>
     </div>

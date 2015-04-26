@@ -67,8 +67,8 @@ public class Node2NodeQueryDsl {
     }
 
     private static BooleanExpression isDisconnectionTimeInInterval(final Date gtDisconnectionTime, final Date ltDisconnectionTime) {
-        BooleanExpression afterCondition = gtDisconnectionTime != null ? (QNode2Node.node2Node.disconnectionTime.after(gtDisconnectionTime)).or(QNode2Node.node2Node.disconnectionTime.isNull()) : null;
-        BooleanExpression beforeCondition = ltDisconnectionTime != null ? (QNode2Node.node2Node.disconnectionTime.before(ltDisconnectionTime)).or(QNode2Node.node2Node.disconnectionTime.isNull()) : null;
+        BooleanExpression afterCondition = gtDisconnectionTime != null ? (QNode2Node.node2Node.disconnectionTime.after(gtDisconnectionTime)) : null;
+        BooleanExpression beforeCondition = ltDisconnectionTime != null ? (QNode2Node.node2Node.disconnectionTime.before(ltDisconnectionTime)) : null;
         return afterCondition != null ? afterCondition.and(beforeCondition) : beforeCondition;
     }
 }
