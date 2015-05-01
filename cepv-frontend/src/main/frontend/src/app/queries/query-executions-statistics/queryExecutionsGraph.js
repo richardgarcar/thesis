@@ -75,16 +75,16 @@ app.directive('cepvQueryExecutionsGraph', function () {
 
                 if (angular.isDefined(newValue)) {
 
-                    var maxDate = getTimeInterval().offset(new Date(newValue[0].intervalEndpoint), 1);
-                    var minDate = getMinDate(new Date(newValue[0].intervalEndpoint));
+                    var maxDate = getTimeInterval().offset(moment(newValue[0].intervalEndpoint), 1);
+                    var minDate = getMinDate(moment(newValue[0].intervalEndpoint));
 
                     var tip = d3.tip()
                         .attr('class', 'd3-tip')
                         .offset([-10, 0])
                         .html(function(d) {
                             var dateFormat = d3.time.format(getTimeFormat());
-                            var a = dateFormat(new Date(d.intervalEndpoint));
-                            var b = dateFormat(getTimeInterval().offset(new Date(d.intervalEndpoint), 1));
+                            var a = dateFormat(moment(d.intervalEndpoint).toDate());
+                            var b = dateFormat(getTimeInterval().offset(moment(d.intervalEndpoint).toDate(), 1));
                             return '<strong>' + scope.intervalTooltipText + ' : </strong>' + a + ' - ' + b + '<br/>' +
                                    '<strong>' + scope.executionsTooltipText + ' : </strong>' + d.amount;
                         });
@@ -120,7 +120,7 @@ app.directive('cepvQueryExecutionsGraph', function () {
                         .enter().append('rect')
                             .attr('class', 'bar')
                             .attr('x', function (d) {
-                                return x(new Date(d.intervalEndpoint));
+                                return x(moment(d.intervalEndpoint));
                             })
                             .attr('y', function (d) {
                                 return height - margin.top - margin.bottom -

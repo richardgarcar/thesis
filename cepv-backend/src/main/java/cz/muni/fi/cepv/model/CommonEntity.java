@@ -12,7 +12,6 @@ import java.io.Serializable;
 public abstract class CommonEntity implements Serializable {
 
     private static final long serialVersionUID = -3850076678537160578L;
-    protected static final String JSON_FORMAT_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
     private Long id;
     private Integer version;

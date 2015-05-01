@@ -14,7 +14,8 @@
     "bootstrap-css-only": "~3.3.2",
     "components-font-awesome": "~4.3.0",
     "d3": "~3.5.5",
-    "d3-tip": "~0.6.6"
+    "d3-tip": "~0.6.6",
+    "moment": "~2.10.2"
   },
   "resolutions":{
     "angular": "1.3.*",

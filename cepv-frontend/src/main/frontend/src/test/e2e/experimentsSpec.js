@@ -67,4 +67,14 @@ describe('Experiments page', function() {
         experimentsPage.sortExperimentsByEnd();
         expect(experimentsPage.getNameOfFirstFilteredExperiment()).toEqual('Test experiment 30');
     });
+
+    it('should display next page with filtered experiments', function() {
+        experimentsPage.clickOnNextButton();
+        expect(experimentsPage.getFilteredExperiments().count()).toEqual(10);
+    });
+
+    it('should display first page with filtered experiments', function() {
+        experimentsPage.clickOnPreviousButton();
+        expect(experimentsPage.getFilteredExperiments().count()).toEqual(20);
+    });
 });

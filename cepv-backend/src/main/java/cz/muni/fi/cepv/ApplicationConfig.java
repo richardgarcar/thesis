@@ -46,7 +46,7 @@ public class ApplicationConfig {
             final EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
             return builder
                     .setType(EmbeddedDatabaseType.HSQL)
-                    .addScript("classpath:/sql/sample_data.sql").build();
+                    .addScript("classpath:/sql/inmemorydb.sql").build();
         }
 
         @Bean

@@ -17,7 +17,7 @@ CREATE TABLE cepv.node
 (
   id bigint NOT NULL,
   version integer NOT NULL DEFAULT 0,
-  extternal_id character varying(255) NOT NULL UNIQUE,
+  external_id character varying(255) NOT NULL UNIQUE,
   name character varying(255),
   description character varying(255),
   CONSTRAINT pk_node PRIMARY KEY (id)

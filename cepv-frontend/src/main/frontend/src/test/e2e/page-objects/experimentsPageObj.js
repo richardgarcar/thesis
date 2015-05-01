@@ -17,6 +17,8 @@ var ExperimentsPage = function() {
     this.endSortingHeader = element(by.css('[header="end"]')).element(by.tagName('a'));
     this.filteredExperiments = element.all(by.repeater('experiment in experiments'));
     this.nameOfFirstFilteredExperiment = element(by.repeater('experiment in experiments').row(0).column('experiment.name'));
+    this.previousButton = element(by.css('[ng-click="selectPage(page - 1)"]'));
+    this.nextButton = element(by.css('[ng-click="selectPage(page + 1)"]'));
     this.nodesButtonOfFirstFitleredExperiment = element(by.repeater('experiment in experiments').row(0)).element(by.tagName('button'));
 
     this.getPageWithExperiments = function() {
@@ -83,6 +85,14 @@ var ExperimentsPage = function() {
 
     this.sortExperimentsByEnd = function() {
         this.endSortingHeader.click();
+    };
+
+    this.clickOnPreviousButton = function() {
+        this.previousButton.click();
+    };
+
+    this.clickOnNextButton = function() {
+        this.nextButton.click();
     };
 
     this.clickOnNodesButton = function(){

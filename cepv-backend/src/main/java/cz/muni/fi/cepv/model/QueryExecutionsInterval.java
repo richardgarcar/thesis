@@ -1,5 +1,7 @@
 package cz.muni.fi.cepv.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import cz.muni.fi.cepv.web.CustomDateSerializer;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.math.BigInteger;
@@ -21,6 +23,7 @@ public class QueryExecutionsInterval extends ResourceSupport {
         this.amount = amount;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getIntervalEndpoint() {
         return intervalEndpoint;
     }

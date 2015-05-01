@@ -1,6 +1,7 @@
 package cz.muni.fi.cepv.web.to;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import cz.muni.fi.cepv.web.CustomDateDeserializer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class QueryTO implements Serializable {
 
     private final List<QueryUpdatableField> updatedFields = new ArrayList<>();
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "CET")
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     public Date getDeploymentTime() {
         return deploymentTime;
     }

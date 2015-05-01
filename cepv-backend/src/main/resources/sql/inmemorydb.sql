@@ -12,9 +12,9 @@ CREATE TABLE node
 (
   id BIGINT PRIMARY KEY IDENTITY,
   version integer DEFAULT 0 NOT NULL,
-  external_id varchar(255) UNIQUE,
+  external_id varchar(255) NOT NULL UNIQUE,
   name varchar(255),
-  description varchar(255),
+  description varchar(255)
 );
 
 CREATE TABLE experiment_2_node

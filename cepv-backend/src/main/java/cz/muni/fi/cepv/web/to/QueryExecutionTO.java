@@ -1,6 +1,7 @@
 package cz.muni.fi.cepv.web.to;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import cz.muni.fi.cepv.web.CustomDateDeserializer;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +15,7 @@ public class QueryExecutionTO implements Serializable{
 
     private Date executionTime;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "CET")
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     public Date getExecutionTime() {
         return executionTime;
     }

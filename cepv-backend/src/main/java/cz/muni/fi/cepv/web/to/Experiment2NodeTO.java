@@ -1,6 +1,7 @@
 package cz.muni.fi.cepv.web.to;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import cz.muni.fi.cepv.web.CustomDateDeserializer;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class Experiment2NodeTO implements Serializable {
         this.node = node;
     }
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "CET")
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     public Date getAdditionTime() {
         return additionTime;
     }
@@ -34,7 +35,7 @@ public class Experiment2NodeTO implements Serializable {
         this.additionTime = additionTime;
     }
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "CET")
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     public Date getRemovalTime() {
         return removalTime;
     }

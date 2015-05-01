@@ -1,8 +1,9 @@
 package cz.muni.fi.cepv.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import cz.muni.fi.cepv.web.CustomDateSerializer;
 import org.springframework.hateoas.core.Relation;
 
 import javax.persistence.*;
@@ -67,7 +68,7 @@ public class Node2Node extends CommonEntity {
     }
 
     @Column(name = "CONNECTION_TIME", nullable = false)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=CommonEntity.JSON_FORMAT_DATE_PATTERN, timezone = "CET")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getConnectionTime() {
         return connectionTime;
     }
@@ -77,7 +78,7 @@ public class Node2Node extends CommonEntity {
     }
 
     @Column(name = "DISCONNECTION_TIME")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=CommonEntity.JSON_FORMAT_DATE_PATTERN, timezone = "CET")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getDisconnectionTime() {
         return disconnectionTime;
     }
