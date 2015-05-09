@@ -1,6 +1,6 @@
 package cz.muni.fi.cepv.repository;
 
-import cz.muni.fi.cepv.model.QueryAttribute;
+import cz.muni.fi.cepv.domain.QueryAttribute;
 import org.springframework.data.repository.CrudRepository;
 
 /**

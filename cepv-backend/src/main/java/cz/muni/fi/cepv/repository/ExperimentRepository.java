@@ -1,6 +1,6 @@
 package cz.muni.fi.cepv.repository;
 
-import cz.muni.fi.cepv.model.Experiment;
+import cz.muni.fi.cepv.domain.Experiment;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

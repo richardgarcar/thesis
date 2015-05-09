@@ -1,4 +1,5 @@
 CEPV
 ======
-Sample application based on [Spring Data Rest](http://projects.spring.io/spring-data-rest/) and
-[Angular] (https://angularjs.org/).
+An application developed as visualiser for complex events processing environment. 
+[Spring Data](http://projects.spring.io/spring-data/) and [Angular] (https://angularjs.org/).
+

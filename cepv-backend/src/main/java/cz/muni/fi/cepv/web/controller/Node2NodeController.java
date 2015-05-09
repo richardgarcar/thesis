@@ -1,8 +1,8 @@
 package cz.muni.fi.cepv.web.controller;
 
-import cz.muni.fi.cepv.model.Experiment;
-import cz.muni.fi.cepv.model.Node;
-import cz.muni.fi.cepv.model.Node2Node;
+import cz.muni.fi.cepv.domain.Experiment;
+import cz.muni.fi.cepv.domain.Node;
+import cz.muni.fi.cepv.domain.Node2Node;
 import cz.muni.fi.cepv.repository.ExperimentRepository;
 import cz.muni.fi.cepv.repository.Node2NodeRepository;
 import cz.muni.fi.cepv.repository.NodeRepository;

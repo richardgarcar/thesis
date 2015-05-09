@@ -1,6 +1,6 @@
 package cz.muni.fi.cepv.web.controller;
 
-import cz.muni.fi.cepv.model.Node;
+import cz.muni.fi.cepv.domain.Node;
 import cz.muni.fi.cepv.repository.NodeRepository;
 import cz.muni.fi.cepv.web.LinkUtil;
 import cz.muni.fi.cepv.web.exception.ResourceNotFoundException;

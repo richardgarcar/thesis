@@ -1,6 +1,6 @@
 package cz.muni.fi.cepv.web.resoureceassambler;
 
-import cz.muni.fi.cepv.model.Experiment2Node;
+import cz.muni.fi.cepv.domain.Experiment2Node;
 import cz.muni.fi.cepv.web.LinkUtil;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;

@@ -1,7 +1,7 @@
 package cz.muni.fi.cepv.web.controller;
 
-import cz.muni.fi.cepv.enums.QueryExecutionsIntervalEnum;
-import cz.muni.fi.cepv.model.*;
+import cz.muni.fi.cepv.enumeration.QueryExecutionsIntervalEnum;
+import cz.muni.fi.cepv.domain.*;
 import cz.muni.fi.cepv.querydsl.QueryQueryDsl;
 import cz.muni.fi.cepv.repository.ExperimentRepository;
 import cz.muni.fi.cepv.repository.NodeRepository;

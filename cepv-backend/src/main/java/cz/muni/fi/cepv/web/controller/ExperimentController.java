@@ -1,6 +1,6 @@
 package cz.muni.fi.cepv.web.controller;
 
-import cz.muni.fi.cepv.model.Experiment;
+import cz.muni.fi.cepv.domain.Experiment;
 import cz.muni.fi.cepv.repository.ExperimentRepository;
 import cz.muni.fi.cepv.querydsl.ExperimentQueryDsl;
 import cz.muni.fi.cepv.web.LinkUtil;

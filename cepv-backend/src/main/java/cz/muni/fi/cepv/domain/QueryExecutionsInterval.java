@@ -1,4 +1,4 @@
-package cz.muni.fi.cepv.model;
+package cz.muni.fi.cepv.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import cz.muni.fi.cepv.web.CustomDateSerializer;

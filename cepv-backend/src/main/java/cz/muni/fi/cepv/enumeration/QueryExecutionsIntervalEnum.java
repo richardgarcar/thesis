@@ -1,4 +1,4 @@
-package cz.muni.fi.cepv.enums;
+package cz.muni.fi.cepv.enumeration;
 
 /**
  * @author xgarcar

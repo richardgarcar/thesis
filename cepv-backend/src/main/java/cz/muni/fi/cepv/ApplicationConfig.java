@@ -32,7 +32,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class ApplicationConfig {
 
-    public static final String PACKAGE_WITH_ENTITIES = "cz.muni.fi.cepv.model";
+    public static final String PACKAGE_WITH_ENTITIES = "cz.muni.fi.cepv.domain";
 
     @Autowired
     private LocalContainerEntityManagerFactoryBean entityManagerFactoryBean;

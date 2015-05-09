@@ -1,7 +1,7 @@
 package cz.muni.fi.cepv.repository.queryexecution;
 
-import cz.muni.fi.cepv.enums.QueryExecutionsIntervalEnum;
-import cz.muni.fi.cepv.model.QueryExecutionsInterval;
+import cz.muni.fi.cepv.enumeration.QueryExecutionsIntervalEnum;
+import cz.muni.fi.cepv.domain.QueryExecutionsInterval;
 import cz.muni.fi.cepv.dao.QueryExecutionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 

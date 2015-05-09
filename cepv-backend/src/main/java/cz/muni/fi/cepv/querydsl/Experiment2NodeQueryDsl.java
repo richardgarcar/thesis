@@ -1,7 +1,7 @@
 package cz.muni.fi.cepv.querydsl;
 
 import com.mysema.query.types.expr.BooleanExpression;
-import cz.muni.fi.cepv.model.QExperiment2Node;
+import cz.muni.fi.cepv.domain.QExperiment2Node;
 
 import java.util.Date;
 

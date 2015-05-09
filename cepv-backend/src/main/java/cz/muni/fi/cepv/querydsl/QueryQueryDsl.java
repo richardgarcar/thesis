@@ -1,7 +1,7 @@
 package cz.muni.fi.cepv.querydsl;
 
 import com.mysema.query.types.expr.BooleanExpression;
-import cz.muni.fi.cepv.model.QQuery;
+import cz.muni.fi.cepv.domain.QQuery;
 
 import java.util.Date;
 
