@@ -28,7 +28,7 @@ import java.util.Properties;
 * @author xgarcar
 */
 @Configuration
-@EnableJpaRepositories
+@EnableJpaRepositories("cz.muni.fi.cepv.repository")
 @EnableTransactionManagement
 public class ApplicationConfig {
 
@@ -46,6 +46,7 @@ public class ApplicationConfig {
             final EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
             return builder
                     .setType(EmbeddedDatabaseType.HSQL)
+                    .setName("inmemorydb")
                     .addScript("classpath:/sql/inmemorydb.sql").build();
         }
 
