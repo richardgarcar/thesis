@@ -77,8 +77,8 @@
         <tr ng-repeat="experiment in experiments">
             <td ng-bind="experiment.name"></td>
             <td ng-bind="experiment.description"></td>
-            <td>{{experiment.start | date:dateFormat}}</td>
-            <td>{{experiment.end | date:dateFormat}}</td>
+            <td ng-bind="(experiment.start | date:dateFormat)"></td>
+            <td ng-bind="(experiment.end | date:dateFormat)"></td>
             <td>
                 <a ui-sref="nodes">
                     <button type="button" class="btn btn-default" aria-label="true"

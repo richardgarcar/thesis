@@ -2,13 +2,13 @@
     <h1 translate="EXPERIMENT">Experiment</h1>
     <dl class="dl-horizontal">
         <dt translate="NAME">Name</dt>
-        <dd>{{parentExperiment.name}}</dd>
+        <dd ng-bind="parentExperiment.name"></dd>
         <dt translate="DESCRIPTION">Description</dt>
-        <dd>{{parentExperiment.description}}</dd>
+        <dd ng-bind="parentExperiment.description"></dd>
         <dt translate="START_TIME">Start time</dt>
-        <dd>{{parentExperiment.start | date:dateFormat}}</dd>
+        <dd ng-bind="(parentExperiment.start | date:dateFormat)"></dd>
         <dt translate="END_TIME">End time</dt>
-        <dd>{{parentExperiment.end | date:dateFormat}}</dd>
+        <dd ng-bind="(parentExperiment.end | date:dateFormat)"></dd>
     </dl>
 </div>
 
@@ -102,8 +102,8 @@
                     <td ng-bind="experiment2Node.embeddedNode.externalId"></td>
                     <td ng-bind="experiment2Node.embeddedNode.name"></td>
                     <td ng-bind="experiment2Node.embeddedNode.description"></td>
-                    <td>{{experiment2Node.additionTime | date:dateFormat}}</td>
-                    <td>{{experiment2Node.removalTime | date:dateFormat}}</td>
+                    <td ng-bind="(experiment2Node.additionTime | date:dateFormat)"></td>
+                    <td ng-bind="(experiment2Node.removalTime | date:dateFormat)"></td>
                     <td>
                         <a ui-sref="queries">
                             <button type="button" class="btn btn-default" aria-label="true"
@@ -228,8 +228,8 @@
                     <td ng-bind="node2Node.embeddedFirstNode.name"></td>
                     <td ng-bind="node2Node.embeddedSecondNode.externalId"></td>
                     <td ng-bind="node2Node.embeddedSecondNode.name"></td>
-                    <td>{{node2Node.connectionTime | date:dateFormat}}</td>
-                    <td>{{node2Node.disconnectionTime | date:dateFormat}}</td>
+                    <td ng-bind="(node2Node.connectionTime | date:dateFormat)"></td>
+                    <td ng-bind="(node2Node.disconnectionTime | date:dateFormat)"></td>
                 </tr>
                 </tbody>
             </table>

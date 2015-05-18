@@ -3,24 +3,24 @@
         <h1 translate="EXPERIMENT">Experiment</h1>
         <dl class="dl-horizontal">
             <dt translate="NAME">Name</dt>
-            <dd>{{parentExperiment.name}}</dd>
+            <dd ng-bind="parentExperiment.name"></dd>
             <dt translate="DESCRIPTION">Description</dt>
-            <dd>{{parentExperiment.description}}</dd>
+            <dd ng-bind="parentExperiment.description"></dd>
             <dt translate="START_TIME">Start time</dt>
-            <dd>{{parentExperiment.start | date:dateFormat}}</dd>
+            <dd ng-bind="(parentExperiment.start | date:dateFormat)"></dd>
             <dt translate="END_TIME">End time</dt>
-            <dd>{{parentExperiment.end | date:dateFormat}}</dd>
+            <dd ng-bind="(parentExperiment.end | date:dateFormat)"></dd>
         </dl>
     </div>
     <div class="col-md-6">
         <h1 translate="NODE">Node</h1>
         <dl class="dl-horizontal">
             <dt>ID</dt>
-            <dd>{{parentNode.embeddedNode.externalId}}</dd>
+            <dd ng-bind="parentNode.embeddedNode.externalId"></dd>
             <dt translate="NAME">Name</dt>
-            <dd>{{parentNode.embeddedNode.name}}</dd>
+            <dd ng-bind="parentNode.embeddedNode.name"></dd>
             <dt translate="DESCRIPTION">Description</dt>
-            <dd>{{parentNode.embeddedNode.description}}</dd>
+            <dd ng-bind="parentNode.embeddedNode.description"></dd>
         </dl>
     </div>
 </div>
@@ -46,10 +46,10 @@
         <dl class="dl-horizontal">
             <dt translate="CONTENT">Content</dt>
             <dd>
-                <pre>{{query.content}}</pre>
+                <pre ng-bind="query.content"></pre>
             </dd>
             <dt translate="DEPLOYMENT_TIME">Deployment time</dt>
-            <dd>{{query.deploymentTime | date:dateFormat}}</dd>
+            <dd ng-bind="(query.deploymentTime | date:dateFormat)"></dd>
         </dl>
         <div class="row">
             <div class="col-md-6">
@@ -64,8 +64,8 @@
                         <div class="panel-body">
                             <dl class="dl-horizontal">
                                 <div ng-repeat="queryAttribute in query.queryAttributes">
-                                    <dt>{{queryAttribute.key}}</dt>
-                                    <dd>{{queryAttribute.value}}</dd>
+                                    <dt ng-bind="queryAttribute.key"></dt>
+                                    <dd ng-bind="queryAttribute.value"></dd>
                                 </div>
                             </dl>
                         </div>
