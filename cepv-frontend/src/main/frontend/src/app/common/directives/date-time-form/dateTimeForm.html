@@ -1,4 +1,4 @@
-<div ng-form="dateTimeForm">
+<div class="row form-horizontal" ng-form="dateTimeForm">
     <label class="col-md-4 control-label">{{title | translate}}</label>
     <div class="col-md-4" ng-class='{"has-error":dateTimeForm.date.$invalid}'>
         <p class="input-group">
@@ -7,7 +7,7 @@
                    cepv-datepicker-pattern="^(0[1-9]|[12]\d|3[01])\/(0?[1-9]|1[012])\/((19|20)\d{2})$"
                    placeholder="dd/MM/yyyy" ng-change="mergeValidInputs(dateTimeForm)"/>
             <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)">
+                <button type="button" class="btn btn-default calendar" ng-click="open($event)">
                     <i class="fa fa-calendar"></i>
                 </button>
             </span>

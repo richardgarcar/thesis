@@ -1,7 +1,102 @@
+body {
+    color: #666666;
+}
+
+footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 100px;
+    color: #767676;
+    text-align: center;
+    border-top: 1px solid #E5E5E5;
+}
+
+.form-horizontal .control-label {
+    padding-top: 12px;
+    margin-bottom: 0;
+    text-align: left;
+}
+
+.button-detail {
+    float: right;
+}
+
+.query-list-item {
+    margin-bottom: 30px;
+}
+
 .d3-tip {
     line-height: 1;
     padding: 12px;
     background: #f5f5f5;
     color: #000;
     border-radius: 2px;
+}
+
+.tab-pane .panel:first-child {
+    border-top: none;
+    -webkit-border-radius: 0 4px 4px 4px;
+    -moz-border-radius: 0 4px 4px 4px;
+    border-radius: 0 4px 4px 4px;
+}
+
+.form-control {
+    height: 44px;
+    border-width: 3px;
+    border-color: #dde1e2;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.form-control:focus {
+    border-color: #34495e;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.calendar {
+    height: 44px;
+    border-top: 3px solid #dde1e2;
+    border-right: 3px solid #dde1e2;
+    border-bottom: 3px solid #dde1e2;
+    border-left: none;
+}
+
+.calendar:hover,
+.calendar:active,
+.calendar:focus {
+    outline: none;
+    background-color: #e6e6e6;
+    border-color: #dde1e2;
+}
+
+.form-control::-webkit-input-placeholder {
+    color: #cdd1d2;
+}
+.form-control:-moz-placeholder {
+    color: #cdd1d2;
+}
+.form-control::-moz-placeholder {
+    color: #cdd1d2;
+}
+.form-control:-ms-input-placeholder {
+    color: #cdd1d2;
+}
+
+.form-control:focus::-webkit-input-placeholder {
+    color: #34495e;
+}
+.form-control:focus:-moz-placeholder {
+    color: #34495e;
+}
+.form-control:focus::-moz-placeholder {
+    color: #34495e;
+}
+.form-control:focus:-ms-input-placeholder {
+    color: #34495e;
 }

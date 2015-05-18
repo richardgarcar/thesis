@@ -15,8 +15,8 @@
 <tabset justified="true">
     <tab heading="{{'NODES'| translate}}">
         <div class="panel panel-default">
-            <form novalidate class="panel-body form-horizontal" role="form">
-                <div class="form-group">
+            <form novalidate class="panel-body" role="form">
+                <div class="row">
                     <div class="col-md-3 form-group">
                         <label for="externalId">ID</label>
                         <input id="externalId" class="form-control" type="text"
@@ -33,26 +33,36 @@
                                ng-model="nodesSearchFilter.description" ng-model-options="{debounce: 300}"/>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="ADDITION_TIME_FROM" search-filter-field="nodesSearchFilter.gtAdditionTime"></cepv-date-time-form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="ADDITION_TIME_FROM"
+                                                     search-filter-field="nodesSearchFilter.gtAdditionTime"></cepv-date-time-form>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="ADDITION_TIME_TO"
+                                                     search-filter-field="nodesSearchFilter.ltAdditionTime"></cepv-date-time-form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="ADDITION_TIME_TO" search-filter-field="nodesSearchFilter.ltAdditionTime"></cepv-date-time-form>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="REMOVAL_TIME_FROM" search-filter-field="nodesSearchFilter.gtRemovalTime"></cepv-date-time-form>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="REMOVAL_TIME_TO" search-filter-field="nodesSearchFilter.ltRemovalTime"></cepv-date-time-form>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="REMOVAL_TIME_FROM"
+                                                     search-filter-field="nodesSearchFilter.gtRemovalTime"></cepv-date-time-form>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="REMOVAL_TIME_TO"
+                                                     search-filter-field="nodesSearchFilter.ltRemovalTime"></cepv-date-time-form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
         <div>
-            <table class="table table-hover">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th class="col-md-1">
@@ -96,7 +106,8 @@
                     <td>{{experiment2Node.removalTime | date:dateFormat}}</td>
                     <td>
                         <a ui-sref="queries">
-                            <button type="button" class="btn btn-default" aria-label="true" ng-click="setParentNode(experiment2Node)">
+                            <button type="button" class="btn btn-default" aria-label="true"
+                                    ng-click="setParentNode(experiment2Node)">
                                 <i class="fa fa-code"></i> {{'QUERIES' | translate}}
                             </button>
                         </a>
@@ -107,15 +118,16 @@
         </div>
         <div class="text-center" ng-show="nodesPagination.totalItems > nodesPagination.pageSize">
             <pagination total-items="nodesPagination.totalItems" ng-model="nodesPagination.currentPage"
-                        items-per-page="nodesPagination.pageSize" max-size="10" previous-text="{{'PREVIOUS' | translate}}"
+                        items-per-page="nodesPagination.pageSize" max-size="10"
+                        previous-text="{{'PREVIOUS' | translate}}"
                         next-text="{{'NEXT' | translate}}" ng-change="getFilteredExperiment2NodeRelations()">
             </pagination>
         </div>
     </tab>
     <tab heading="{{'NODE_CONNECTIONS'| translate}}">
         <div class="panel panel-default">
-            <form novalidate class="panel-body form-horizontal" role="form">
-                <div class="form-group">
+            <form novalidate class="panel-body" role="form">
+                <div class="row">
                     <div class="col-md-2 form-group">
                         <label for="firstNodeExternalId" translate="FIRST_NODE_ID">First Node ID</label>
                         <input id="firstNodeExternalId" class="form-control" type="text"
@@ -141,26 +153,36 @@
                                ng-model-options="{debounce: 300}"/>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="CONNECTION_TIME_FROM" search-filter-field="nodeConnectionsSearchFilter.gtConnectionTime"></cepv-date-time-form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="CONNECTION_TIME_FROM"
+                                                     search-filter-field="nodeConnectionsSearchFilter.gtConnectionTime"></cepv-date-time-form>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="CONNECTION_TIME_TO"
+                                                     search-filter-field="nodeConnectionsSearchFilter.ltConnectionTime"></cepv-date-time-form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="CONNECTION_TIME_TO" search-filter-field="nodeConnectionsSearchFilter.ltConnectionTime"></cepv-date-time-form>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="DISCONNECTION_TIME_FROM" search-filter-field="nodeConnectionsSearchFilter.gtDisconnectionTime"></cepv-date-time-form>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="DISCONNECTION_TIME_TO" search-filter-field="nodeConnectionsSearchFilter.ltDisconnectionTime"></cepv-date-time-form>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="DISCONNECTION_TIME_FROM"
+                                                     search-filter-field="nodeConnectionsSearchFilter.gtDisconnectionTime"></cepv-date-time-form>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="DISCONNECTION_TIME_TO"
+                                                     search-filter-field="nodeConnectionsSearchFilter.ltDisconnectionTime"></cepv-date-time-form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
         <div>
-            <table class="table table-hover">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th class="col-md-2">
@@ -213,8 +235,10 @@
             </table>
         </div>
         <div class="text-center" ng-show="nodeConnectionsPagination.totalItems > nodeConnectionsPagination.pageSize">
-            <pagination total-items="nodeConnectionsPagination.totalItems" ng-model="nodeConnectionsPagination.currentPage"
-                        items-per-page="nodeConnectionsPagination.pageSize" max-size="10" previous-text="{{'PREVIOUS' | translate}}"
+            <pagination total-items="nodeConnectionsPagination.totalItems"
+                        ng-model="nodeConnectionsPagination.currentPage"
+                        items-per-page="nodeConnectionsPagination.pageSize" max-size="10"
+                        previous-text="{{'PREVIOUS' | translate}}"
                         next-text="{{'NEXT' | translate}}" ng-change="getFilteredNodeConnections()">
             </pagination>
         </div>
@@ -222,21 +246,31 @@
     <tab heading="{{'NODE_CONNECTIONS_VISUALISATION'| translate}}">
 
         <div class="panel panel-default">
-            <form novalidate class="panel-body form-horizontal" role="form">
-                <div class="form-group">
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="CONNECTION_TIME_FROM" search-filter-field="nodeConnectionsGraphSearchFilter.gtConnectionTime"></cepv-date-time-form>
+            <form novalidate class="panel-body" role="form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="CONNECTION_TIME_FROM"
+                                                     search-filter-field="nodeConnectionsGraphSearchFilter.gtConnectionTime"></cepv-date-time-form>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="CONNECTION_TIME_TO"
+                                                     search-filter-field="nodeConnectionsGraphSearchFilter.ltConnectionTime"></cepv-date-time-form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="CONNECTION_TIME_TO" search-filter-field="nodeConnectionsGraphSearchFilter.ltConnectionTime"></cepv-date-time-form>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="DISCONNECTION_TIME_FROM" search-filter-field="nodeConnectionsGraphSearchFilter.gtDisconnectionTime"></cepv-date-time-form>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <cepv-date-time-form title="DISCONNECTION_TIME_TO" search-filter-field="nodeConnectionsGraphSearchFilter.ltDisconnectionTime"></cepv-date-time-form>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="DISCONNECTION_TIME_FROM"
+                                                     search-filter-field="nodeConnectionsGraphSearchFilter.gtDisconnectionTime"></cepv-date-time-form>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <cepv-date-time-form title="DISCONNECTION_TIME_TO"
+                                                     search-filter-field="nodeConnectionsGraphSearchFilter.ltDisconnectionTime"></cepv-date-time-form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>

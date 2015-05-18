@@ -29,10 +29,12 @@
 <div class="panel panel-default">
     <form novalidate class="panel-body" class="form-horizontal" role="form">
         <div class="col-md-6 form-group">
-            <cepv-date-time-form title="DEPLOYMENT_TIME_FROM" search-filter-field="searchFilter.gtDeployment"></cepv-date-time-form>
+            <cepv-date-time-form title="DEPLOYMENT_TIME_FROM"
+                                 search-filter-field="searchFilter.gtDeployment"></cepv-date-time-form>
         </div>
         <div class="col-md-6 form-group">
-            <cepv-date-time-form title="DEPLOYMENT_TIME_TO" search-filter-field="searchFilter.ltDeployment"></cepv-date-time-form>
+            <cepv-date-time-form title="DEPLOYMENT_TIME_TO"
+                                 search-filter-field="searchFilter.ltDeployment"></cepv-date-time-form>
         </div>
     </form>
 </div>
@@ -40,7 +42,7 @@
 <hr/>
 
 <div class="list-group list">
-    <div ng-repeat="query in queries" class="list-group-item">
+    <div ng-repeat="query in queries" class="list-group-item query-list-item">
         <dl class="dl-horizontal">
             <dt translate="CONTENT">Content</dt>
             <dd>
@@ -54,7 +56,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a href="" ng-click="isAttrPanelCollapsed = !isAttrPanelCollapsed">{{'ATTRIBUTES' | translate}}</a>
+                            <a href="" ng-click="isAttrPanelCollapsed = !isAttrPanelCollapsed">{{'ATTRIBUTES' |
+                                translate}}</a>
                         </h4>
                     </div>
                     <div collapse="isAttrPanelCollapsed">
@@ -73,11 +76,15 @@
                 <cepv-executions-refresh-panel query="query"></cepv-executions-refresh-panel>
             </div>
         </div>
-        <a ui-sref="queryDetail">
-            <button type="button" class="btn btn-default" aria-label="true" ng-click="setParentQuery(query)">
-                <i class="fa fa-search"></i> {{'DETAIL' | translate}}
-            </button>
-        </a>
+        <div class="row">
+            <div class="col-md-12">
+                <a class="button-detail" ui-sref="queryDetail">
+                    <button type="button" class="btn btn-default" aria-label="true" ng-click="setParentQuery(query)">
+                        <i class="fa fa-search"></i> {{'DETAIL' | translate}}
+                    </button>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 

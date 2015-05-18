@@ -51,7 +51,8 @@ config.constant('TRANSLATIONS_EN', {
     INTERVAL: 'Interval',
     DAY: 'Day',
     HOUR: 'Hour',
-    MINUTE: 'Minute'
+    MINUTE: 'Minute',
+    FIMUNI: '© 2015 Faculty of Informatics MU'
 });
 config.constant('TRANSLATIONS_CZ', {
     ABOUT: 'O aplikaci',
@@ -102,6 +103,7 @@ config.constant('TRANSLATIONS_CZ', {
     INTERVAL: 'Interval',
     DAY: 'Den',
     HOUR: 'Hodina',
-    MINUTE: 'Minuta'
+    MINUTE: 'Minuta',
+    FIMUNI: '© 2015 Fakulta informatiky MU'
 });
 config.constant('DATE_FORMAT', 'dd/MM/yyyy HH:mm:ss.sss');
