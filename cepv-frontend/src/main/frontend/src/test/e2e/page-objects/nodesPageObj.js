@@ -23,6 +23,7 @@ var NodesPage = function() {
     this.filteredNodes = element.all(by.repeater('experiment2Node in experiment2Nodes'));
     this.idOfFirstFilteredNode = element(by.repeater('experiment2Node in experiment2Nodes').row(0).column('experiment2Node.embeddedNode.externalId'));
     this.additionTimeOfFirstFilteredNode = element(by.repeater('experiment2Node in experiment2Nodes').row(0).column('experiment2Node.additionTime'));
+    this.queriesButtonOf10thFitleredNode = element(by.repeater('experiment2Node in experiment2Nodes').row(9)).element(by.tagName('button'));
 
     this.getPageWithNodesOfParentExperiment = function() {
         experimentsPage.getPageWithExperiments();
@@ -97,6 +98,10 @@ var NodesPage = function() {
 
     this.sortNodesByAdditionTime = function() {
         this.additionTimeSortingHeader.click();
+    };
+
+    this.clickOnQueriesButton = function() {
+        this.queriesButtonOf10thFitleredNode.click();
     };
 };
 

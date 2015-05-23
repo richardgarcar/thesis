@@ -10,14 +10,22 @@ var NodeConnectionsPage = function() {
     this.secondNodeIdFilter = element(by.model('nodeConnectionsSearchFilter.secondNodeExternalId'));
     this.firstNodeNameFilter = element(by.model('nodeConnectionsSearchFilter.firstNodeName'));
     this.secondNodeNameFilter = element(by.model('nodeConnectionsSearchFilter.secondNodeName'));
-    this.connectionTimeDateFromFilter = element(by.css('[title="CONNECTION_TIME_FROM"]')).element(by.model('dateTime.date'));
-    this.connectionTimeTimeFromFilter = element(by.css('[title="CONNECTION_TIME_FROM"]')).element(by.model('dateTime.time'));
-    this.connectionTimeDateToFilter = element(by.css('[title="CONNECTION_TIME_TO"]')).element(by.model('dateTime.date'));
-    this.connectionTimeTimeToFilter = element(by.css('[title="CONNECTION_TIME_TO"]')).element(by.model('dateTime.time'));
-    this.disconnectionTimeDateFromFilter = element(by.css('[title="DISCONNECTION_TIME_FROM"]')).element(by.model('dateTime.date'));
-    this.disconnectionTimeTimeFromFilter = element(by.css('[title="DISCONNECTION_TIME_FROM"]')).element(by.model('dateTime.time'));
-    this.disconnectionTimeDateToFilter = element(by.css('[title="DISCONNECTION_TIME_TO"]')).element(by.model('dateTime.date'));
-    this.disconnectionTimeTimeToFilter = element(by.css('[title="DISCONNECTION_TIME_TO"]')).element(by.model('dateTime.time'));
+    this.connectionTimeDateFromFilter = element(by.css('[search-filter-field="nodeConnectionsSearchFilter.gtConnectionTime"]')).
+                                                    element(by.model('dateTime.date'));
+    this.connectionTimeTimeFromFilter = element(by.css('[search-filter-field="nodeConnectionsSearchFilter.gtConnectionTime"]')).
+                                                    element(by.model('dateTime.time'));
+    this.connectionTimeDateToFilter = element(by.css('[search-filter-field="nodeConnectionsSearchFilter.ltConnectionTime"]')).
+                                                    element(by.model('dateTime.date'));
+    this.connectionTimeTimeToFilter = element(by.css('[search-filter-field="nodeConnectionsSearchFilter.ltConnectionTime"]')).
+                                                    element(by.model('dateTime.time'));
+    this.disconnectionTimeDateFromFilter = element(by.css('[search-filter-field="nodeConnectionsSearchFilter.gtDisconnectionTime"]')).
+                                                    element(by.model('dateTime.date'));
+    this.disconnectionTimeTimeFromFilter = element(by.css('[search-filter-field="nodeConnectionsSearchFilter.gtDisconnectionTime"]')).
+                                                    element(by.model('dateTime.time'));
+    this.disconnectionTimeDateToFilter = element(by.css('[search-filter-field="nodeConnectionsSearchFilter.ltDisconnectionTime"]')).
+                                                    element(by.model('dateTime.date'));
+    this.disconnectionTimeTimeToFilter = element(by.css('[search-filter-field="nodeConnectionsSearchFilter.ltDisconnectionTime"]')).
+                                                    element(by.model('dateTime.time'));
     this.firstNodeIdSortingHeader = element(by.css('[header="firstNodeExternalId"]')).element(by.tagName('a'));
     this.secondNodeIdSortingHeader = element(by.css('[header="secondNodeExternalId"]')).element(by.tagName('a'));
     this.firstNodeNameSortingHeader = element(by.css('[header="firstNodeName"]')).element(by.tagName('a'));
