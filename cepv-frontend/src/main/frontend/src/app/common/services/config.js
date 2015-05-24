@@ -4,6 +4,7 @@ var config = angular.module('config', []);
 
 config.constant('TRANSLATIONS_EN', {
     ABOUT: 'About',
+    ABOUT_CONTENT: 'CEP Visualiser application is a tool for experiment monitoring in distributed system environment.',
     EXPERIMENTS: 'Experiments',
     EXPERIMENT: 'Experiment',
     NAME: 'Name',
@@ -56,6 +57,7 @@ config.constant('TRANSLATIONS_EN', {
 });
 config.constant('TRANSLATIONS_CZ', {
     ABOUT: 'O aplikaci',
+    ABOUT_CONTENT: 'Aplikace CEP Visualiser slouží jako nástroj pro monitorování experimentu v prostředí distribuovaného systému.',
     EXPERIMENTS: 'Experimenty',
     EXPERIMENT: 'Experiment',
     NAME: 'Název',

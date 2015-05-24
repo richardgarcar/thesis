@@ -51,11 +51,6 @@ app.directive('cepvDateTimeForm', function () {
                 return expression.length == 1 ? '0' + expression : expression;
             }
 
-            scope.dateOptions = {
-                startingDay: 1,
-                showWeeks:'false'
-            };
-
             scope.cepvDateTimePatterns = {
                 date: /^(0[1-9]|[12]\d|3[01])\/(0?[1-9]|1[012])\/((19|20)\d{2})$/,
                 time: /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})$/
