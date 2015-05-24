@@ -233,7 +233,7 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
                         environment.getProperty("spring.security.password")))
                 .param("interval", "MINUTE"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.queryExecutionsIntervalList", hasSize(36)));
+                .andExpect(jsonPath("$._embedded.queryExecutionsIntervalList", hasSize(5)));
     }
 
     @Test
@@ -244,7 +244,7 @@ public class QueryControllerIntegrationTest extends BaseIntegrationTest {
                         environment.getProperty("spring.security.password")))
                 .param("interval", "HOUR"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.queryExecutionsIntervalList", hasSize(7)));
+                .andExpect(jsonPath("$._embedded.queryExecutionsIntervalList", hasSize(6)));
     }
 
     @Test
