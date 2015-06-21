@@ -11,7 +11,7 @@ var QueriesPage = function() {
     this.deploymentTimeTimeToFilter = element(by.css('[title="DEPLOYMENT_TIME_TO"]')).element(by.model('dateTime.time'));
     this.filteredQueries = element.all(by.repeater('query in queries'));
     this.attributesPanelOfFirstFilteredQuery = element.all(by.repeater('query in queries')).get(0).
-                                                        element(by.css('[translate="ATTRIBUTES"]'));
+                                                        element(by.cssContainingText('.ng-binding', 'Attributes'));
     this.attributesOfFirstFilteredQuery = element.all(by.repeater('query in queries')).get(0).
                                                         all(by.repeater('queryAttribute in query.queryAttributes'));
 
